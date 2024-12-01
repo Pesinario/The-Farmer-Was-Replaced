@@ -7,3 +7,5 @@ Can't use Update # For dictionaries
 # TODO: add polyfarming to the grinding modes
 
 Testing stuff
+
+At this point i'm just commiting stuff here to be honest
