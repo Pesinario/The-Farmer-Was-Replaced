@@ -27,7 +27,9 @@ def carrots_trusting(carrot_target, precalc):
     seeds_to_buy = ((carrot_target - num_items(Items.Carrot)) // num_unlocked(Unlocks.Carrots) + WORLD_TILE_COUNT)
     # I got some scary errors trying to split the variable definition
     # This should buy enough seeds to reach our intended amount of carrots, plus a full farmland's worth
-    acquire_seeds(Items.Carrot_Seed, seeds_to_buy, precalc)
+    if not acquire_seeds(Items.Carrot_Seed, seeds_to_buy):
+        print("Seed issue at acquire_seeds() -> carrots_trusting(), not my fault boss")
+        return False
 
     for next_move in precalc: # Initial setting up
         smart_harv(False)
