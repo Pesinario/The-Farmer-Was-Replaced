@@ -28,4 +28,6 @@ def poly_farm(priority_as_item, target_amount):
         if num_items(priority_as_item) > target_amount: 
             return True
 
-poly_farm(Entities.Grass, 1000, precalc_world) # Default for testing
+# if you wish to run this standalone instead of via timed_run.py, remove the "# "
+# precalc = precalc_world()
+# poly_farm(Entities.Grass, 1000, precalc_world) # Default for testing

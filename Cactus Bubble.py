@@ -78,4 +78,6 @@ def cactus_bubble(cactus_target):
         if num_items(Items.Cactus) > cactus_target:
             break
 
-cactus_bubble(num_items(Items.Cactus) + 10000)
+# if you wish to run this standalone instead of via timed_run.py, remove the "# "
+# precalc = precalc_world()
+# cactus_bubble(num_items(Items.Cactus) + 10000)

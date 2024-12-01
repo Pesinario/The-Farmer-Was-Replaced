@@ -63,4 +63,6 @@ def do_power_run(power_target=0):
         new_method_sunflower()
         reset_sunflowers()
 
-do_power_run(num_items(Items.Power) + 10000)
+# if you wish to run this standalone instead of via timed_run.py, remove the "# "
+# precalc = precalc_world()
+# do_power_run(num_items(Items.Power) + 10000)

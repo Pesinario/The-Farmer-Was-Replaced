@@ -49,4 +49,6 @@ def carrots_trusting(carrot_target):
         if num_items(Items.Carrot) > carrot_target:
             break
 
-carrots_trusting(num_items(Items.Carrot) + 10000, precalc_world())
+# if you wish to run this standalone instead of via timed_run.py, remove the "# "
+# precalc = precalc_world()
+# carrots_trusting(num_items(Items.Carrot) + 10000)

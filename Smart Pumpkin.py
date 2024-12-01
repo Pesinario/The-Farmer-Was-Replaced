@@ -74,5 +74,6 @@ def pumpkin_smart(pumpkin_target):
             print("We farmed ", expected_yield - actual_yield, " less pumpkins than expected")
         if num_items(Items.Pumpkin) > pumpkin_target:
             break
-
-pumpkin_smart(num_items(Items.Pumpkin) + 10000)
+# if you wish to run this standalone instead of via timed_run.py, remove the "# "
+# precalc = precalc_world()
+# pumpkin_smart(num_items(Items.Pumpkin) + 10000)
