@@ -33,6 +33,7 @@ def log_this_unlock(unlock, precalc): # adds to the dictionary the unlock and ho
     return milestone_counter + 1
 
 precalc = [] # initializing the variable, as a side note, precalc is always the last parameter in a function
+# Apparently i can just read this from anywhere? TODO: Test that theory
 
 for current_milestone_chased in GAME_PLAN:
     if num_unlocked(Unlocks.Sunflowers) != 0 and num_items(Items.Power) < 50:

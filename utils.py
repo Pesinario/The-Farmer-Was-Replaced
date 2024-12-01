@@ -17,21 +17,22 @@ def till_this_many_tiles(how_many, debate=True): # TODO: this should be the LAST
             till()
         walk_the_grid()
 
-def acquire_seeds(type_of_seed, how_many):
+def acquire_seeds(type_of_seed, how_many, precalc):
     mustbuy = how_many - num_items(type_of_seed)
     if mustbuy < 0:
         return True
 
-    if not trade(type_of_seed, mustbuy):
+    if not trade(type_of_seed, mustbuy, precalc):
         # Farm the price of the seeds
         requirements = get_cost(type_of_seed)
+        quick_print("Couldn't afford", mustbuy, type_of_seed, "Starting to grind", requirements)
         for seed_req in requirements:
             amount_required = requirements[seed_req]
             amount_required *= mustbuy
             if num_items(seed_req) < amount_required:
-                grind_method(seed_req, amount_required)
+                grind_method(seed_req, amount_required, precalc)
         if not trade(type_of_seed, mustbuy):
-            print("something went really wrong with seed acquisition")
+            print("Something went really wrong with seed acquisition, even after trying to grind them.")
             return False
     return True
 
