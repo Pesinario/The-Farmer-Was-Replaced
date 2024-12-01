@@ -34,6 +34,7 @@ def log_this_unlock(unlock): # adds to the dictionary the unlock and how long it
     return milestone_counter + 1
 
 precalc = [] # This is global!
+OPTIMAL_PUMPKIN_SEEDS = {2:17, 3:27, 4:40, 5:55, 6:72, 7:92, 8:115, 9:140} # Do not even ask where these numbers came from
 
 for current_milestone_chased in GAME_PLAN:
     if current_milestone_chased in KINDS_OF_UNLOCKS:

@@ -33,6 +33,10 @@ def grind_method(what, target_amount):
             poly_farm(what, target_amount)
     
     elif what == Items.Pumpkin:
+        cost_per_run = OPTIMAL_PUMPKIN_SEEDS[num_unlocked(Unlocks.Expand)]
+        expected_yield_per_run = (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins)
+        needed_runs = (target_amount // expected_yield_per_run)
+        acquire_seeds(Items.Pumpkin_Seed, needed_runs * cost_per_run)
         pumpkin_smart(target_amount)
     
     elif what == Items.Gold:

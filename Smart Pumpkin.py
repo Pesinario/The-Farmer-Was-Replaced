@@ -46,7 +46,9 @@ def fert_dead(suspects):
 def pumpkin_smart(pumpkin_target):
     # initial setup:
     while True: # Loop for everything
-        acquire_seeds(Items.Pumpkin_Seed,(get_world_size()**2 * 1.25) // 1) # we buy 25% extra seeds floored TODO: this is fucked up and should be part of CEO methinks
+        if num_items(Items.Pumpkin_Seed < get_world_size()):
+            print("Seed issue @ pumpkin_smart")
+            return False
         # first planting and watering once run:
         for next_move in precalc: # This is kinda hardcoded, initial run setup
             harvest()
