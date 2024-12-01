@@ -1,4 +1,4 @@
-/python tests.py
+/python*
 /save.json
 /__builtins__.py
 /f*.py
