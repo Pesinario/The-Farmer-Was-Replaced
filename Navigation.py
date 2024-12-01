@@ -56,3 +56,12 @@ def navigate_smart(target): # There was a TODO here but it seems to work just fi
         move_helper(North, moves_y)
     else:
         move_helper(South, moves_y * -1)
+
+def precalc_world():
+    moves = []
+    size = get_world_size()
+    for i in range(size):
+        for j in range(size):
+            moves.append(North)
+        moves.append(East)
+    return moves
