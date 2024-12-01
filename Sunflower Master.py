@@ -31,11 +31,11 @@ def old_method_sunflower():
         reset_sunflowers()
 
 
-def new_method_sunflower():
-    WORLD_TILE_COUNT = get_world_size()**2
+def new_method_sunflower(precalc):
     my_record = {}
-    acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT*1.5)
-    for i in range(WORLD_TILE_COUNT): # Initial setting up
+    acquire_seeds(Items.Sunflower_Seed, (get_world_size()**2) *1.5)
+
+    for i in range(len(precalc)): # Initial setting up
         harvest()
         if get_ground_type() != Grounds.Soil:
             till()
@@ -47,20 +47,20 @@ def new_method_sunflower():
             my_record[petals] = petal_siblings
         else:
             my_record[petals] = [[get_pos_x(), get_pos_y()]]
-        walk_the_grid()
+        move(precalc[i])
 
-    for i in range(5):
+    for i in range(5): # harvest
         offset_petal = 15-i
         if offset_petal in my_record:
             siblings = my_record[offset_petal]
             for sunflower in siblings:
                 navigate_smart(sunflower)
                 wait_harv()
-    reset_sunflowers()
     
 def do_power_run(power_target=0):
     MINIMUM_POWER = 50
     while power_target + MINIMUM_POWER > num_items(Items.Power):
         new_method_sunflower()
+        reset_sunflowers()
 
 do_power_run(num_items(Items.Power) + 10000)
