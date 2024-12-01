@@ -4,14 +4,14 @@
 
 def find_suspects(precalc):
     starting_suspects = []
-    for i in range(len(precalc)):
+    for next_move in precalc:
         if get_entity_type() != Entities.Pumpkin:
             plant(Entities.Pumpkin)
             starting_suspects.append([get_pos_x(), get_pos_y()])
         elif not can_harvest():
             do_a_flip() # wait for growth kinda
         debate_watering(0.25)
-        move(precalc[i])
+        move(next_move)
     return starting_suspects
 
 # def water_dead(suspects): # TODO: implement this again eventually
@@ -48,13 +48,13 @@ def pumpkin_smart(pumpkin_target, precalc):
     while True: # Loop for everything
         acquire_seeds(Items.Pumpkin_Seed,(get_world_size()**2 * 1.25) // 1) # we buy 25% extra seeds floored TODO: this is fucked up and should be part of CEO methinks
         # first planting and watering once run:
-        for i in range(len(precalc)): # This is kinda hardcoded, initial run setup
+        for next_move in precalc: # This is kinda hardcoded, initial run setup
             harvest()
             if get_ground_type() != Grounds.Soil:
                 till()
             plant(Entities.Pumpkin)
             debate_watering(0.25)
-            move(precalc[i])
+            move(next_move)
         # now we try to do mid-run stuff
         suspects = find_suspects(precalc)
         # while len(suspects) > 2:

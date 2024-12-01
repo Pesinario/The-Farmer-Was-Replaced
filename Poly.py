@@ -6,7 +6,7 @@ def poly_farm(priority_as_entity, target_amount, precalc): # TODO: this needs so
     while True: # Repeating logic
         acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT)
 
-        for i in range(len(precalc)): # Visit every tile once
+        for next_move in precalc: # Visit every tile once
             current_pos = (get_pos_x(),get_pos_y())
             if current_pos in companion_requests:
                 harvest()
@@ -20,7 +20,7 @@ def poly_farm(priority_as_entity, target_amount, precalc): # TODO: this needs so
                 new_comp = get_companion()
                 companion_requests[(new_comp[1], new_comp[2])] = new_comp[0] # I think this is neccesary since we want the key to be a combination of x and y, not the type of plant
                 # print("no request")
-            move(precalc[i])
+            move(next_move)
         if num_items(ent_to_item[priority_as_entity]) > target_amount: 
             return True
     return False # this is for debugging

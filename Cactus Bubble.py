@@ -16,12 +16,12 @@ def do_1_pass_sort(dir_fw, dir_bw):
     return did_swaps
 
 def check_work(precalc):
-    for i in range(get_world_size()**2):
+    for next_move in precalc:
         if get_pos_x() != 0 and get_pos_y() != 0:
             if get_pos_x() != get_world_size()-1 and get_pos_y() != get_world_size()-1:
                 if measure() > measure(North) or measure() > measure(East):
                     print("ERROR!!!")
-        move(precalc[i])
+        move(next_move)
 
 def cactus_bubble(cactus_target, precalc):
     WORLD_TILE_COUNT = get_world_size()**2
@@ -30,12 +30,12 @@ def cactus_bubble(cactus_target, precalc):
     for_goal = (cactus_target / expected_yield) * WORLD_TILE_COUNT
     acquire_seeds(Items.Cactus_Seed, for_goal)
     multi_run = False
-    for i in range(len(precalc)):
+    for next_move in precalc:
         harvest()
         if get_ground_type() != Grounds.Soil:
             till()
         plant(Entities.Cactus)
-        move(precalc[i])
+        move(next_move)
 
     while True: # Main script loop
         # plant the cactus

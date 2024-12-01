@@ -33,18 +33,18 @@ def one_by_three_bush(wood_target):
 
 def three_by_three_bush(wood_target, precalc):
     # initial setup:
-    for i in range(len(precalc)):
+    for next_move in precalc:
         harvest()
         plant(Entities.Bush)
-        move(precalc[i])
+        move(next_move)
 
     while True:
         if num_items(Items.Wood) > wood_target:
             break
-        for i in range(len(precalc)):
+        for next_move in precalc:
             wait_harv()
             plant(Entities.Bush)
-            move(precalc[i])
+            move(next_move)
 
 
 

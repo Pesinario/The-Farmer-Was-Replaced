@@ -57,11 +57,11 @@ def navigate_smart(target): # There was a TODO here but it seems to work just fi
     else:
         move_helper(South, moves_y * -1)
 
-def precalc_world(): # TODO: check if we can iterate directly by doing move(i), saving 2 operations
+def precalc_world(): # TODO: this can be further sped up by making a list with num_unlocked (Unlocks.Expand), but for ease of understanding will remain as is
     moves = []
     size = get_world_size()
     for i in range(size):
-        for j in range(size):
+        for j in range(size-1):
             moves.append(North)
         moves.append(East)
     return moves

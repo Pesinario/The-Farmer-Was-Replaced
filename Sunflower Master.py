@@ -35,7 +35,7 @@ def new_method_sunflower(precalc):
     my_record = {}
     acquire_seeds(Items.Sunflower_Seed, (get_world_size()**2) *1.5)
 
-    for i in range(len(precalc)): # Initial setting up
+    for next_move in precalc: # Initial setting up
         harvest()
         if get_ground_type() != Grounds.Soil:
             till()
@@ -47,7 +47,7 @@ def new_method_sunflower(precalc):
             my_record[petals] = petal_siblings
         else:
             my_record[petals] = [[get_pos_x(), get_pos_y()]]
-        move(precalc[i])
+        move(next_move)
 
     for i in range(5): # harvest
         offset_petal = 15-i
