@@ -8,7 +8,7 @@ def poly_farm(priority_as_item, target_amount, precalc):
     companion_requests = {}
     till_this_many_tiles(WORLD_TILE_COUNT)
     while True: # Repeating logic
-        acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT)
+        acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT, precalc)
 
         for next_move in precalc: # Visit every tile once
             current_pos = (get_pos_x(),get_pos_y())

@@ -24,8 +24,10 @@ def carrots_ensure_seeds(carrot_target, precalc):
 def carrots_trusting(carrot_target, precalc):
     WORLD_TILE_COUNT = get_world_size()**2
 
-    seeds_to_buy = ((carrot_target - num_items(Items.Carrot) + WORLD_TILE_COUNT) // num_unlocked(Unlocks.Carrots)) + 1
-    acquire_seeds(Items.Carrot_Seed, seeds_to_buy)
+    seeds_to_buy = ((carrot_target - num_items(Items.Carrot)) // num_unlocked(Unlocks.Carrots) + WORLD_TILE_COUNT)
+    # I got some scary errors trying to split the variable definition
+    # This should buy enough seeds to reach our intended amount of carrots, plus a full farmland's worth
+    acquire_seeds(Items.Carrot_Seed, seeds_to_buy, precalc)
 
     for next_move in precalc: # Initial setting up
         smart_harv(False)
@@ -38,9 +40,6 @@ def carrots_trusting(carrot_target, precalc):
         if num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
             print("Seed issue @ carrots_trusting")
             return False
-        #if not acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT):
-        #    print("Cant afford seeds, why?!?")
-        #    return False
         for next_move in precalc:
             smart_harv()
             plant(Entities.Carrots)

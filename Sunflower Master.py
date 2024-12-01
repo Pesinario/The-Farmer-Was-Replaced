@@ -9,7 +9,7 @@ def old_method_sunflower():
     till_this_many_tiles(WORLD_TILE_COUNT)
     while True:
         biggest = 0
-        acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT)
+        acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT, precalc)
         for i in range(WORLD_TILE_COUNT):
             plant(Entities.Sunflower)
             debate_watering(0.75)
@@ -33,7 +33,7 @@ def old_method_sunflower():
 
 def new_method_sunflower(precalc):
     my_record = {}
-    acquire_seeds(Items.Sunflower_Seed, (get_world_size()**2) *1.5)
+    acquire_seeds(Items.Sunflower_Seed, (get_world_size()**2) *1.5, precalc)
 
     for next_move in precalc: # Initial setting up
         harvest()
