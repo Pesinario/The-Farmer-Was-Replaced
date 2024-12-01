@@ -10,7 +10,7 @@ def smart_harv(debate=True):
     elif debate:
         debate_watering()
 
-def till_this_many_tiles(how_many, debate=True):
+def till_this_many_tiles(how_many, debate=True): # TODO: this should be the LAST thing we swap to precalc
     for i in range(how_many):
         smart_harv(debate)
         if get_ground_type() != Grounds.Soil:

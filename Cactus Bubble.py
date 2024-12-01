@@ -1,6 +1,7 @@
 def do_1_pass_sort(dir_fw, dir_bw):
     # TODO: this can be optimized by remembering whether or not we had to sort 
     # at a certain spot(therefore diminishing the wasted travel over sorted tiles)
+    # i think that's known as cocktail sort instead of bubble sort
     did_swaps = 0
     for i in range(get_world_size()):
         if measure() > measure(dir_fw):
@@ -14,32 +15,32 @@ def do_1_pass_sort(dir_fw, dir_bw):
         move(dir_fw)
     return did_swaps
 
-def check_work():
+def check_work(precalc):
     for i in range(get_world_size()**2):
         if get_pos_x() != 0 and get_pos_y() != 0:
             if get_pos_x() != get_world_size()-1 and get_pos_y() != get_world_size()-1:
                 if measure() > measure(North) or measure() > measure(East):
                     print("ERROR!!!")
-        walk_the_grid()
+        move(precalc[i])
 
-def cactus_bubble(cactus_target):
+def cactus_bubble(cactus_target, precalc):
     WORLD_TILE_COUNT = get_world_size()**2
     navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
     expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**2 * get_world_size()
     for_goal = (cactus_target / expected_yield) * WORLD_TILE_COUNT
     acquire_seeds(Items.Cactus_Seed, for_goal)
     multi_run = False
-    for i in range(WORLD_TILE_COUNT):
+    for i in range(len(precalc)):
         harvest()
         if get_ground_type() != Grounds.Soil:
             till()
         plant(Entities.Cactus)
-        walk_the_grid()
+        move(precalc[i])
 
     while True: # Main script loop
         # plant the cactus
-        if num_items(Items.Cactus_Seed) < WORLD_TILE_COUNT:
-            acquire_seeds(Items.Cactus_Seed, WORLD_TILE_COUNT)
+        acquire_seeds(Items.Cactus_Seed, WORLD_TILE_COUNT)
+
         if multi_run:
             for i in range(WORLD_TILE_COUNT):
                 plant(Entities.Cactus)
@@ -63,7 +64,7 @@ def cactus_bubble(cactus_target):
             move(East)
         
         # print("Done sorting, i think")
-        # check_work() this has been disabled cuz it worked
+        # check_work(precalc) this has been disabled cuz it worked
         old_cactus = num_items(Items.Cactus)
         harvest()
         new_cactus = num_items(Items.Cactus)

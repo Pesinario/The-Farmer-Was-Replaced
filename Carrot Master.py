@@ -1,4 +1,4 @@
-def carrots_ensure_seeds(carrot_target):
+def carrots_ensure_seeds(carrot_target, precalc):
     WORLD_TILE_COUNT = get_world_size()**2
     hay_tiles_per_carrot_tile = get_cost(Items.Carrot_Seed)[Items.Hay] / (num_unlocked(Unlocks.Grass) + 1)
     is_tilled = (WORLD_TILE_COUNT / (1 + hay_tiles_per_carrot_tile) // 1) # Thanks chatGPT for the help with the math lol
@@ -12,16 +12,16 @@ def carrots_ensure_seeds(carrot_target):
         walk_the_grid()
     while True:
         trade(Items.Carrot_Seed, is_tilled) # we do NOT use acquire_seeds() because this farming method should farm it's own wood and hay
-        for i in range(WORLD_TILE_COUNT):
+        for i in range(len(precalc)):
             smart_harv(False)
             if get_ground_type() == Grounds.Soil:
                 if not plant(Entities.Carrots):
                     plant(Entities.Bush)
-            walk_the_grid()
+            move(precalc[i])
         if num_items(Items.Carrot) > carrot_target:
             break
 
-def carrots_trusting(carrot_target):
+def carrots_trusting(carrot_target, precalc):
     WORLD_TILE_COUNT = get_world_size()**2
 
     seeds_to_buy = ((carrot_target - num_items(Items.Carrot) + WORLD_TILE_COUNT) // num_unlocked(Unlocks.Carrots)) + 1
@@ -32,7 +32,7 @@ def carrots_trusting(carrot_target):
         if get_ground_type() != Grounds.Soil:
             till()
         plant(Entities.Carrots)
-        walk_the_grid()
+        move(precalc[i])
 
     while True:
         if num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
@@ -41,10 +41,10 @@ def carrots_trusting(carrot_target):
         #if not acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT):
         #    print("Cant afford seeds, why?!?")
         #    return False
-        for i in range(WORLD_TILE_COUNT):
+        for i in range(len(precalc)):
             smart_harv()
             plant(Entities.Carrots)
-            walk_the_grid()
+            move(precalc[i])
         if num_items(Items.Carrot) > carrot_target:
             break
 

@@ -1,4 +1,4 @@
-def ultra_dumb_dyno(bones_target):
+def ultra_dumb_dyno(bones_target): # TODO: this should be nuked and redone
     WORLD_TILE_COUNT = get_world_size()**2
     while True:
         if num_items(Items.Egg) < WORLD_TILE_COUNT:
