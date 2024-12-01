@@ -49,4 +49,5 @@ def get_me_unlock(what_unlock): # TODO: time each of the farming steps maybe?
         print("We fucked up somewhere")
         get_me_unlock(what_unlock)
 
-pass
+while True:
+    print("This file should never be run by itself")

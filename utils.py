@@ -53,3 +53,6 @@ def try_fert():
         return True
     else:
         return False
+    
+while True:
+    print("This file should never be run by itself")

@@ -1,3 +1,10 @@
+def walk_the_grid():
+    if get_pos_y() != get_world_size()-1:
+        move(North)
+    else:
+        move(North)
+        move(East)
+
 def navigate_to(x, y): # effectively a wrapper for navigate_smart()
     # print("Navigating to", x, y)
     # navigate_dumb(x, y)
@@ -65,3 +72,6 @@ def precalc_world(): # TODO: this can be further sped up by making a list with n
             moves.append(North)
         moves.append(East)
     return moves
+
+while True:
+    print("This file should never be run by itself")

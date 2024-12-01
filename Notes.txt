@@ -3,7 +3,6 @@ Can't use <Match:> # For cases
 Can't use .sort or sorted() # For lists
 Can't use Update # For dictionaries
 
-# TODO: for regular operation (where we walk_the_grid()) implement precalculated movement
 # TODO: add polyfarming to the grinding modes
 
 Testing stuff

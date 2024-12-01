@@ -46,5 +46,5 @@ def three_by_three_bush(wood_target, precalc):
             plant(Entities.Bush)
             move(next_move)
 
-
-
+while True:
+    print("This file should never be run by itself")
