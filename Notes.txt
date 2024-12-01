@@ -2,9 +2,3 @@ Can't use sets
 Can't use <Match:> # For cases
 Can't use .sort or sorted() # For lists
 Can't use Update # For dictionaries
-
-# TODO: add polyfarming to the grinding modes
-
-Testing stuff again
-
-At this point i'm just commiting stuff here to be honest

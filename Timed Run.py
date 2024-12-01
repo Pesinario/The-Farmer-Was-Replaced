@@ -1,8 +1,3 @@
-# Some notes about the whole thing:
-# Should probably try to WORLD_TILE_COUNT = get_world_size()**2 here if it can be read from functions outside of this file called by this file
-
-
-
 timed_reset()
 START_TIME = get_time()
 
@@ -29,24 +24,27 @@ def hard_coded_milestone(milestone_name, started_at_time):
     took_this_long = get_time() - started_at_time
     log_of_milestones[milestone_name] = took_this_long
 
-def log_this_unlock(unlock): # adds to the dictionary the unlock and how long it took
+def log_this_unlock(unlock, precalc): # adds to the dictionary the unlock and how long it took
     started_unlocking = get_time()
-    get_me_unlock(unlock)
+    get_me_unlock(unlock, precalc)
     took_this_long = (unlock,get_time() - started_unlocking)
     log_of_milestones[milestone_counter] = took_this_long
     quick_print(current_milestone_chased, "started @", started_unlocking-START_TIME, "ended @", get_time()-START_TIME, "and took", took_this_long)
     return milestone_counter + 1
 
+precalc = [] # initializing the variable, as a side note, precalc is always the last parameter in a function
 
 for current_milestone_chased in GAME_PLAN:
     if num_unlocked(Unlocks.Sunflowers) != 0 and num_items(Items.Power) < 50:
         do_power_run()
 
     if current_milestone_chased in KINDS_OF_UNLOCKS:
-        milestone_counter = log_this_unlock(current_milestone_chased)
+        milestone_counter = log_this_unlock(current_milestone_chased, precalc)
     else:
         while True:
             print(current_milestone_chased)
+    if current_milestone_chased == Unlocks.Expand:
+        precalc = precalc_world() # I don't think we should need this before we get to at least 4x4 farm size, but we define it as soon as we get 1x3
 
 
 quick_print(log_of_milestones)

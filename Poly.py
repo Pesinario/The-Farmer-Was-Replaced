@@ -1,6 +1,10 @@
-def poly_farm(priority_as_entity, target_amount, precalc): # TODO: this needs some cleaning up
+def poly_farm(priority_as_item, target_amount, precalc):
     WORLD_TILE_COUNT = get_world_size()**2
-    ent_to_item = {Entities.Grass:Items.Hay, Entities.Carrots:Items.Carrot, Entities.Tree:Items.Wood} # We do not place bushes here since we know we have trees unlocked, also sunflowers or pumpkins cant be companions
+    # ent_to_item = {Entities.Grass:Items.Hay, Entities.Carrots:Items.Carrot, Entities.Tree:Items.Wood}
+    item_to_ent = {Items.Hay:Entities.Grass,      # We do not place bushes here since we know we have
+                   Items.Carrot:Entities.Carrots, # trees unlocked, also neither sunflowers
+                   Items.Wood:Entities.Tree}      # nor pumpkins can be companions
+    priority_as_entity = item_to_ent[priority_as_item]
     companion_requests = {}
     till_this_many_tiles(WORLD_TILE_COUNT)
     while True: # Repeating logic
@@ -21,10 +25,7 @@ def poly_farm(priority_as_entity, target_amount, precalc): # TODO: this needs so
                 companion_requests[(new_comp[1], new_comp[2])] = new_comp[0] # I think this is neccesary since we want the key to be a combination of x and y, not the type of plant
                 # print("no request")
             move(next_move)
-        if num_items(ent_to_item[priority_as_entity]) > target_amount: 
+        if num_items(priority_as_item) > target_amount: 
             return True
-    return False # this is for debugging
 
-# below this line is stuff for debugging kidna
-
-poly_farm(Entities.Grass, 1000)
+poly_farm(Entities.Grass, 1000, precalc_world) # Default for testing
