@@ -6,4 +6,4 @@ Can't use Update # For dictionaries
 # TODO: for regular operation (where we walk_the_grid()) implement precalculated movement
 # TODO: add polyfarming to the grinding modes
 
-Testing stuff
+This branch will get only this one commit and stay frozen forever.
