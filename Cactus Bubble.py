@@ -23,12 +23,12 @@ def check_work(precalc):
                     print("ERROR!!!")
         move(next_move)
 
-def cactus_bubble(cactus_target, precalc):
+def cactus_bubble(cactus_target):
     WORLD_TILE_COUNT = get_world_size()**2
     navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
     expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**2 * get_world_size()
     for_goal = (cactus_target / expected_yield) * WORLD_TILE_COUNT
-    acquire_seeds(Items.Cactus_Seed, for_goal, precalc)
+    acquire_seeds(Items.Cactus_Seed, for_goal)
     multi_run = False
     for next_move in precalc:
         harvest()
@@ -39,7 +39,7 @@ def cactus_bubble(cactus_target, precalc):
 
     while True: # Main script loop
         # plant the cactus
-        acquire_seeds(Items.Cactus_Seed, WORLD_TILE_COUNT, precalc)
+        acquire_seeds(Items.Cactus_Seed, WORLD_TILE_COUNT)
 
         if multi_run:
             for i in range(WORLD_TILE_COUNT):

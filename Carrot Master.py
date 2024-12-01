@@ -1,4 +1,4 @@
-def carrots_ensure_seeds(carrot_target, precalc):
+def carrots_ensure_seeds(carrot_target):
     WORLD_TILE_COUNT = get_world_size()**2
     hay_tiles_per_carrot_tile = get_cost(Items.Carrot_Seed)[Items.Hay] / (num_unlocked(Unlocks.Grass) + 1)
     is_tilled = (WORLD_TILE_COUNT / (1 + hay_tiles_per_carrot_tile) // 1) # Thanks chatGPT for the help with the math lol
@@ -21,7 +21,7 @@ def carrots_ensure_seeds(carrot_target, precalc):
         if num_items(Items.Carrot) > carrot_target:
             break
 
-def carrots_trusting(carrot_target, precalc):
+def carrots_trusting(carrot_target):
     WORLD_TILE_COUNT = get_world_size()**2
 
     seeds_to_buy = ((carrot_target - num_items(Items.Carrot)) // num_unlocked(Unlocks.Carrots) + WORLD_TILE_COUNT)

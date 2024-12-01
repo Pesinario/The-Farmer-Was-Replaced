@@ -22,7 +22,7 @@ def find_suspects(precalc):
 #         if not can_harvest():
 #             new_sus.append([current_target[0],current_target[1]])
 #             if not plant(Entities.Pumpkin):
-#                 acquire_seeds(Items.Pumpkin_Seed, (world_tile_count*5 // 1), precalc)
+#                 acquire_seeds(Items.Pumpkin_Seed, (world_tile_count*5 // 1))
 #                 plant(Entities.Pumpkin)
 #             while get_water() < 0.75:
 #                 debate_watering(0.75)
@@ -37,16 +37,16 @@ def fert_dead(suspects):
         while not can_harvest():
             if get_entity_type() != Entities.Pumpkin:
                 if not plant(Entities.Pumpkin):
-                    acquire_seeds(Items.Pumpkin_Seed, ((get_world_size()**2 *5) // 1), precalc)
+                    acquire_seeds(Items.Pumpkin_Seed, ((get_world_size()**2 *5) // 1))
                     plant(Entities.Pumpkin)
             if not try_fert():
                 print("Can't fert dude!, will wait")
 
 
-def pumpkin_smart(pumpkin_target, precalc):
+def pumpkin_smart(pumpkin_target):
     # initial setup:
     while True: # Loop for everything
-        acquire_seeds(Items.Pumpkin_Seed,(get_world_size()**2 * 1.25) // 1, precalc) # we buy 25% extra seeds floored TODO: this is fucked up and should be part of CEO methinks
+        acquire_seeds(Items.Pumpkin_Seed,(get_world_size()**2 * 1.25) // 1) # we buy 25% extra seeds floored TODO: this is fucked up and should be part of CEO methinks
         # first planting and watering once run:
         for next_move in precalc: # This is kinda hardcoded, initial run setup
             harvest()

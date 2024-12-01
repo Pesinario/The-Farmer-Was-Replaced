@@ -31,7 +31,7 @@ def one_by_three_bush(wood_target):
             plant(Entities.Bush)
         move(North)
 
-def three_by_three_bush(wood_target, precalc):
+def three_by_three_bush(wood_target):
     # initial setup:
     for next_move in precalc:
         harvest()

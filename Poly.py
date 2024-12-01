@@ -1,4 +1,4 @@
-def poly_farm(priority_as_item, target_amount, precalc):
+def poly_farm(priority_as_item, target_amount):
     WORLD_TILE_COUNT = get_world_size()**2
     # ent_to_item = {Entities.Grass:Items.Hay, Entities.Carrots:Items.Carrot, Entities.Tree:Items.Wood}
     item_to_ent = {Items.Hay:Entities.Grass,      # We do not place bushes here since we know we have
@@ -8,7 +8,7 @@ def poly_farm(priority_as_item, target_amount, precalc):
     companion_requests = {}
     till_this_many_tiles(WORLD_TILE_COUNT)
     while True: # Repeating logic
-        acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT, precalc)
+        acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT)
 
         for next_move in precalc: # Visit every tile once
             current_pos = (get_pos_x(),get_pos_y())
