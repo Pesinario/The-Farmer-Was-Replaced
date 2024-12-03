@@ -1,10 +1,12 @@
-def grind_method(what, target_amount, ignore_power = False):
-    quick_print("Now grinding: ", what, " required: ", target_amount)
+def grind_method(what, target_amount, boost = True):
+    quick_print("Now grinding: ", what, " required: ", target_amount, "boost active:", boost)
     if what == Items.Power:
         get_power(target_amount)
-    elif num_unlocked(Unlocks.Sunflowers) > 0 and num_items(Items.Power) < 50:
+    elif num_unlocked(Unlocks.Sunflowers) > 0 and num_items(Items.Power) < 50 and boost:
+        quick_print("Getting power before getting", what)
         if num_items(Items.Carrot) < get_world_size() **2:
-            grind_method(Items.Carrot, get_world_size()**2)
+            quick_print("Not enough carrots to farm power even once. Attempting to grind carrots for sunflower seeds without boost")
+            grind_method(Items.Carrot, get_world_size()**2, False)
         get_power(0) # There's a buffer of 50 implemented
 
     if what in [Items.Hay, Items.Wood, Items.Carrot]:
@@ -13,8 +15,10 @@ def grind_method(what, target_amount, ignore_power = False):
                 if num_unlocked(Unlocks.Expand) < 1:
                     for i in range(target_amount):
                         wait_harv()
-                else:
+                elif num_unlocked(Unlocks.Sunflowers) < 1:
                     harv_hay_dumb(target_amount)
+                else:
+                    hay_full_field(target_amount)
 
             elif what == Items.Wood:
                 if num_unlocked(Unlocks.Expand) == 1:
@@ -43,13 +47,29 @@ def grind_method(what, target_amount, ignore_power = False):
         pumpkin_smart(target_amount)
     
     elif what == Items.Gold:
+        gold_per_maze = num_unlocked(Unlocks.Mazes) * (get_world_size()**2)
+        remaining_gold_to_farm = target_amount - num_items(Items.Gold)
+        mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
+        expected_fert_usage = mazes_for_goal * 100
+        must_get_fert = expected_fert_usage - num_items(Items.Fertilizer)
+        quick_print("$$$ We are about to buy", expected_fert_usage, "Fertilizer for farming gold")
+        if num_items(Items.Fertilizer) < expected_fert_usage:
+            if not trade(Items.Fertilizer, must_get_fert):
+                grind_method(Items.Pumpkin, must_get_fert * 10)
+            if not trade(Items.Fertilizer, must_get_fert):
+                while True:
+                    print("FUCKFUCKFUCKFUCK")
         do_simple_maze_run(target_amount)
+        quick_print("$$$ We finished grinding gold, we have", num_items(Items.Fertilizer), "Fertilizer leftover.")
 
     elif what == Items.Cactus:
         cactus_bubble(target_amount)
 
     elif what == Items.Bones:
-        ultra_dumb_dyno(target_amount)
+        expected_bones_per_chicken = 4 * num_unlocked(Unlocks.Dinosaurs)
+        needed_eggs_safe = ((2000 - num_items(Items.Egg)) // expected_bones_per_chicken ) + get_world_size()**2
+        acquire_seeds(Items.Egg, needed_eggs_safe)
+        dyno_slightly_smarter(target_amount)
 
 
 def get_me_unlock(what_unlock): 

@@ -1,6 +1,6 @@
 timed_reset()
 START_TIME = get_time()
-
+quick_print("$$$", "Start time is", START_TIME)
 KINDS_OF_UNLOCKS = [Unlocks.Speed, Unlocks.Expand, Unlocks.Plant, Unlocks.Grass, 
                      Unlocks.Trees, Unlocks.Carrots, Unlocks.Sunflowers, 
                      Unlocks.Pumpkins, Unlocks.Polyculture, Unlocks.Fertilizer, 
@@ -25,13 +25,13 @@ def log_this_unlock(unlock): # adds to the dictionary the unlock and how long it
     quick_print(current_milestone_chased, "started @", started_unlocking-START_TIME)
     get_me_unlock(unlock)
     took_this_long = (get_time() - started_unlocking)
-    quick_print("ended @", get_time()-START_TIME, "and took", took_this_long)
+    quick_print(current_milestone_chased, "ended @", get_time()-START_TIME, "and took", took_this_long)
     return True
 
 # Some useful globals:
 precalc = []
 OPTIMAL_PUMPKIN_SEEDS = {2:17, 3:27, 4:40, 5:55, 6:72, 7:92, 8:115, 9:140} # Do not even ask where these numbers came from
-ORDER_OF_GRIND = [Items.Egg, Items.Cactus, Items.Gold, Items.Pumpkin, Items.Pumpkin, Items.Power, Items.Carrot, Items.Wood, Items.Hay]
+ORDER_OF_GRIND = [Items.Bones, Items.Cactus, Items.Gold, Items.Pumpkin, Items.Pumpkin, Items.Power, Items.Carrot, Items.Wood, Items.Hay]
 EXPECTED_POWER = {2:18.31, 3:46.97, 4:73.63, 5:126.14, 6:191.86, 7:281.47, 8:397.77, 9:544.71}
 
 for current_milestone_chased in GAME_PLAN:
@@ -43,5 +43,5 @@ for current_milestone_chased in GAME_PLAN:
     if current_milestone_chased == Unlocks.Expand:
         precalc = precalc_world() # I don't think we should need this before we get to at least 4x4 farm size, but we define it as soon as we get 1x3
 
-
+quick_print("$$$", "End time is", get_time())
 timed_reset()

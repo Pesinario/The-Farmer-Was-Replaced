@@ -8,8 +8,11 @@ precalc = precalc_world()
 WANTED_AMOUNT = 10000 # This is how much MORE than you currently have you want
 default_poly = Items.Carrot
 
+grind_method(Items.Bones, num_items(Items.Bones) + 2000)
+
 # Hay:
 #harv_hay_dumb(num_items(Items.Hay) + WANTED_AMOUNT)
+#hay_full_field(num_items(Items.Hay) + WANTED_AMOUNT)
 
 # Wood:
 #one_by_three_bush_hay_wait(num_items(Items.Wood) + WANTED_AMOUNT)
@@ -38,3 +41,4 @@ default_poly = Items.Carrot
 
 # Bones:
 #ultra_dumb_dyno(num_items(Items.Bones) + WANTED_AMOUNT)
+#dyno_slightly_smarter(num_items(Items.Bones) + WANTED_AMOUNT)
