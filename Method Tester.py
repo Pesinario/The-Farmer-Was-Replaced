@@ -8,11 +8,12 @@ precalc = precalc_world()
 WANTED_AMOUNT = 10000 # This is how much MORE than you currently have you want
 default_poly = Items.Carrot
 
-grind_method(Items.Pumpkin, 2500000)
+grind_method(Items.Bones, num_items(Items.Bones) + 2000)
 
 # Hay:
 #harv_hay_dumb(num_items(Items.Hay) + WANTED_AMOUNT)
 #hay_full_field(num_items(Items.Hay) + WANTED_AMOUNT)
+
 # Wood:
 #one_by_three_bush_hay_wait(num_items(Items.Wood) + WANTED_AMOUNT)
 #three_by_three_bush(num_items(Items.Wood) + WANTED_AMOUNT)
@@ -26,7 +27,7 @@ grind_method(Items.Pumpkin, 2500000)
 #poly_farm(default_poly, num_items(default_poly) + WANTED_AMOUNT)
 
 # Pumpkins:
-pumpkin_smart(num_items(Items.Pumpkin) + WANTED_AMOUNT)
+#pumpkin_smart(num_items(Items.Pumpkin) + WANTED_AMOUNT)
 
 # Power:
 #old_method_sunflower(num_items(Items.Power) + WANTED_AMOUNT)
@@ -40,3 +41,4 @@ pumpkin_smart(num_items(Items.Pumpkin) + WANTED_AMOUNT)
 
 # Bones:
 #ultra_dumb_dyno(num_items(Items.Bones) + WANTED_AMOUNT)
+#dyno_slightly_smarter(num_items(Items.Bones) + WANTED_AMOUNT)

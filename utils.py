@@ -31,7 +31,7 @@ def acquire_seeds(type_of_seed, how_many):
                 amount_required = requirements[seed_req]
                 amount_required *= mustbuy
                 if num_items(seed_req) < amount_required:
-                    grind_method(seed_req, amount_required, seed_req == Items.Carrot)
+                    grind_method(seed_req, amount_required, seed_req == Items.Sunflower_Seed)
         if not trade(type_of_seed, mustbuy):
             print("Something went really wrong with seed acquisition, even after trying to grind them.")
             return False
