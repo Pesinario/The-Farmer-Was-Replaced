@@ -27,6 +27,7 @@ default_poly = Items.Carrot
 #pumpkin_smart(num_items(Items.Pumpkin) + WANTED_AMOUNT)
 
 # Power:
+#old_method_sunflower(num_items(Items.Power) + WANTED_AMOUNT)
 #get_power(num_items(Items.Power) + WANTED_AMOUNT)
 
 # Gold:

@@ -3,6 +3,34 @@ def reset_sunflowers():
     plant(Entities.Sunflower)
     harvest()
 
+def old_method_sunflower(power_target):
+    WORLD_TILE_COUNT = get_world_size()**2
+    till_this_many_tiles(WORLD_TILE_COUNT)
+    while True:
+        biggest = 0
+        acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT)
+        for i in range(WORLD_TILE_COUNT):
+            plant(Entities.Sunflower)
+            debate_watering(0.75)
+            a = measure()
+            if a == None:
+                a = 0
+            if a > biggest:
+                biggest = a
+            walk_the_grid()
+        # print("biggest:", biggest)
+        biggestThresh = biggest -3
+
+        while biggest > biggestThresh: # harvest
+            for i in range(WORLD_TILE_COUNT):
+                if measure() == biggest:
+                    smart_harv()
+                walk_the_grid()
+            biggest = biggest - 1
+        reset_sunflowers()
+        if num_items(Items.Power) > power_target:
+            return True
+
 def sunflower_no_replanting(should_setup):
     my_record = {}
 
