@@ -14,7 +14,6 @@ PUMPKIN_RELATED = [Unlocks.Pumpkins, Unlocks.Fertilizer, Unlocks.Expand, Unlocks
 POLY_TIME = [Unlocks.Speed, Unlocks.Polyculture, Unlocks.Grass, Unlocks.Trees, Unlocks.Carrots, Unlocks.Pumpkins, Unlocks.Expand, Unlocks.Expand, Unlocks.Mazes]
 STORY_END = [Unlocks.Mazes, Unlocks.Cactus, Unlocks.Dinosaurs, Unlocks.Leaderboard]
 
-
 GAME_PLAN = BEFORE_CARROTS + BEFORE_TREES + BEFORE_SUNFLOWERS + PUMPKIN_RELATED + POLY_TIME + STORY_END
 # Since this is now public: please read: the route is TERRIBLE! it looks like that for ease of tweaking
 
@@ -33,8 +32,10 @@ def log_this_unlock(unlock): # adds to the dictionary the unlock and how long it
     quick_print(current_milestone_chased, "started @", started_unlocking-START_TIME, "ended @", get_time()-START_TIME, "and took", took_this_long)
     return milestone_counter + 1
 
-precalc = [] # This is global!
+# Some useful globals:
+precalc = []
 OPTIMAL_PUMPKIN_SEEDS = {2:17, 3:27, 4:40, 5:55, 6:72, 7:92, 8:115, 9:140} # Do not even ask where these numbers came from
+ORDER_OF_GRIND = [Items.Egg, Items.Cactus, Items.Gold, Items.Pumpkin, Items.Power, Items.Carrot, Items.Wood, Items.Hay]
 
 for current_milestone_chased in GAME_PLAN:
     if current_milestone_chased in KINDS_OF_UNLOCKS:

@@ -1,9 +1,10 @@
 def grind_method(what, target_amount):
+    quick_print("Now grinding: ", resource, " required: ", all_costs[resource])
     if what == Items.Power:
         while num_items(Items.Power) < target_amount:
             do_power_run(target_amount)
     elif num_unlocked(Unlocks.Sunflowers) > 0 and num_items(Items.Power) < 50:
-        do_power_run(0 )
+        do_power_run(0)
 
     if what in [Items.Hay, Items.Wood, Items.Carrot]:
         if num_unlocked(Unlocks.Polyculture) == 0:
@@ -23,6 +24,7 @@ def grind_method(what, target_amount):
                     three_by_three_bush(target_amount)
 
             elif what == Items.Carrot: # TODO: add a better method for 3x3 stage
+                # TODO: frontload seed acquistion here, as previously done with pumpkin seeds
                 if num_unlocked(Unlocks.Trees) == 0:
                     carrots_ensure_seeds(target_amount)
                 else:
@@ -49,12 +51,13 @@ def grind_method(what, target_amount):
         ultra_dumb_dyno(target_amount)
 
 
-def get_me_unlock(what_unlock): # TODO: time each of the farming steps maybe?
+def get_me_unlock(what_unlock): 
     all_costs = get_cost(what_unlock)
     quick_print(what_unlock,"(", num_unlocked(what_unlock) + 1, ")", "requires:", all_costs)
-    for resource in all_costs: # i cant use reversed() :'(
-        if num_items(resource) < all_costs[resource]:
-            grind_method(resource, all_costs[resource])
+    for resource in ORDER_OF_GRIND: # Grind in order of most expensive to cheapest
+        if resource in all_costs:
+            if num_items(resource) < all_costs[resource]:
+                grind_method(resource, all_costs[resource])
 
     if not unlock(what_unlock): # Safety check
         print("We fucked up somewhere")

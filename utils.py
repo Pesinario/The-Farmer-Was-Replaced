@@ -10,7 +10,7 @@ def smart_harv(debate=True):
     elif debate:
         debate_watering()
 
-def till_this_many_tiles(how_many, debate=True): # TODO: this should be the LAST thing we swap to precalc
+def till_this_many_tiles(how_many, debate=True):
     for i in range(how_many):
         smart_harv(debate)
         if get_ground_type() != Grounds.Soil:
@@ -26,11 +26,12 @@ def acquire_seeds(type_of_seed, how_many):
         # Farm the price of the seeds
         requirements = get_cost(type_of_seed)
         quick_print("Couldn't afford", mustbuy, type_of_seed, "Starting to grind", requirements)
-        for seed_req in requirements:
-            amount_required = requirements[seed_req]
-            amount_required *= mustbuy
-            if num_items(seed_req) < amount_required:
-                grind_method(seed_req, amount_required)
+        for seed_req in ORDER_OF_GRIND:
+            if seed_req in requirements:
+                amount_required = requirements[seed_req]
+                amount_required *= mustbuy
+                if num_items(seed_req) < amount_required:
+                    grind_method(seed_req, amount_required)
         if not trade(type_of_seed, mustbuy):
             print("Something went really wrong with seed acquisition, even after trying to grind them.")
             return False
