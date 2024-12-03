@@ -47,7 +47,7 @@ def cactus_bubble(cactus_target):
                 walk_the_grid()
         else:
             multi_run = True
-
+        navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
         # sort the rows
         for x in range(get_world_size()):
             while True:

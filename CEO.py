@@ -51,11 +51,12 @@ def grind_method(what, target_amount, boost = True):
         remaining_gold_to_farm = target_amount - num_items(Items.Gold)
         mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
         expected_fert_usage = mazes_for_goal * 100
+        must_get_fert = expected_fert_usage - num_items(Items.Fertilizer)
         quick_print("$$$ We are about to buy", expected_fert_usage, "Fertilizer for farming gold")
         if num_items(Items.Fertilizer) < expected_fert_usage:
-            if not trade(Items.Fertilizer, expected_fert_usage):
-                grind_method(Items.Pumpkin, expected_fert_usage * 10)
-            if not trade(Items.Fertilizer, expected_fert_usage):
+            if not trade(Items.Fertilizer, must_get_fert):
+                grind_method(Items.Pumpkin, must_get_fert * 10)
+            if not trade(Items.Fertilizer, must_get_fert):
                 while True:
                     print("FUCKFUCKFUCKFUCK")
         do_simple_maze_run(target_amount)
@@ -65,7 +66,10 @@ def grind_method(what, target_amount, boost = True):
         cactus_bubble(target_amount)
 
     elif what == Items.Bones:
-        ultra_dumb_dyno(target_amount)
+        expected_bones_per_chicken = 4 * num_unlocked(Unlocks.Dinosaurs)
+        needed_eggs_safe = ((2000 - num_items(Items.Egg)) // expected_bones_per_chicken ) + get_world_size()**2
+        acquire_seeds(Items.Egg, needed_eggs_safe)
+        dyno_slightly_smarter(target_amount)
 
 
 def get_me_unlock(what_unlock): 

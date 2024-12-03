@@ -14,5 +14,41 @@ def ultra_dumb_dyno(bones_target): # TODO: this should be nuked and done properl
         if num_items(Items.Bones) > bones_target:
             return True
         
+def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much better.
+    while num_items(Items.Bones) < bones_target and num_items(Items.Egg) > 0:
+        for next_move in precalc:
+            if get_entity_type() != Entities.Dinosaur:
+                use_item(Items.Egg)
+            count = 0
+            here = measure()
+            west = measure(West)
+            east = measure(East)
+            north = measure(North)
+            south = measure(South)
+
+            if here != None and west != None and here == west:
+                count += 1
+            if here != None and north != None and here == north:
+                count += 1
+            if here != None and east != None and here == east:
+                count += 1
+            if here != None and south != None and here == south:
+                count += 1
+
+            if count > 3:
+                harvest()
+                use_item(Items.Egg)
+
+            if here != None and west != None and here < west:
+                swap(West)
+            # if here != None and north != None and here < north:
+            #     swap(North)
+            if here != None and east != None and here > east:
+                swap(East)
+            # if here != None and south != None and here > south:
+            #     swap(South)
+            
+            move(next_move)
+
 while True:
     print("This file should be run from Method Tester.py")
