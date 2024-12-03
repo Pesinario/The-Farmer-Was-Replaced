@@ -1,4 +1,4 @@
-def ultra_dumb_dyno(bones_target): # TODO: this should be nuked and redone
+def ultra_dumb_dyno(bones_target): # TODO: this should be nuked and done properly
     WORLD_TILE_COUNT = get_world_size()**2
     while True:
         if num_items(Items.Egg) < WORLD_TILE_COUNT:
@@ -13,3 +13,6 @@ def ultra_dumb_dyno(bones_target): # TODO: this should be nuked and redone
             walk_the_grid()
         if num_items(Items.Bones) > bones_target:
             return True
+        
+while True:
+    print("This file should be run from Method Tester.py")

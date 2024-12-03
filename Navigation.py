@@ -6,8 +6,6 @@ def walk_the_grid():
         move(East)
 
 def navigate_to(x, y): # effectively a wrapper for navigate_smart()
-    # print("Navigating to", x, y)
-    # navigate_dumb(x, y)
     navigate_smart([x, y])
 
 def move_helper(direction, duration):
@@ -28,7 +26,7 @@ def navigate_dumb(target_x,target_y): # This has no wrapping but also doesnt use
 
 def return_moves_1d(me, target):
     # This should return negative for west/south and positive for north/east
-    bound = get_world_size() # i do not know if this makes sense or not
+    bound = get_world_size()
     no_wrap = target - me
     if me > target: # if i'm more east/north than target is
         wrap = bound - me + target
@@ -51,7 +49,7 @@ def return_closest_target(array_of_targets): # TODO: check if this works and the
             current_closest = target
     return current_closest
 
-def navigate_smart(target): # There was a TODO here but it seems to work just fine.
+def navigate_smart(target):
     moves_x = return_moves_1d(get_pos_x(),target[0])
     if moves_x > 0:
         move_helper(East, moves_x)
@@ -64,7 +62,9 @@ def navigate_smart(target): # There was a TODO here but it seems to work just fi
     else:
         move_helper(South, moves_y * -1)
 
-def precalc_world(): # TODO: this can be further sped up by making a list with num_unlocked (Unlocks.Expand), but for ease of understanding will remain as is
+def precalc_world():
+    # This can be further sped up by precalculating the precalculations using
+    # a list with num_unlocked (Unlocks.Expand), but this solution is clearer.
     moves = []
     size = get_world_size()
     for i in range(size):

@@ -18,7 +18,7 @@ def grind_method(what, target_amount, ignore_power = False):
 
             elif what == Items.Wood:
                 if num_unlocked(Unlocks.Expand) == 1:
-                    one_by_three_bush(target_amount)
+                    one_by_three_bush_hay_wait(target_amount)
                 elif num_unlocked(Unlocks.Trees) > 0: # TODO: probably can make hay and trees instead of tree and bush
                     tree_and_bush(target_amount)
                 else:
