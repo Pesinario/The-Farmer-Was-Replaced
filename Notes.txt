@@ -1,4 +1,0 @@
-Can't use sets
-Can't use <Match:> # For cases
-Can't use .sort or sorted() # For lists
-Can't use Update # For dictionaries

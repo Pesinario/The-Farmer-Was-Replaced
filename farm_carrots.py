@@ -11,7 +11,8 @@ def carrots_ensure_seeds(carrot_target):
             till()
         walk_the_grid()
     while True:
-        trade(Items.Carrot_Seed, is_tilled) # we do NOT use acquire_seeds() because this farming method should farm it's own wood and hay
+        trade(Items.Carrot_Seed, is_tilled) # we do NOT use acquire_seeds() 
+        # because this farming method should farm its own wood and hay
         for next_move in precalc:
             smart_harv(False)
             if get_ground_type() == Grounds.Soil:
@@ -49,6 +50,5 @@ def carrots_trusting(carrot_target):
         if num_items(Items.Carrot) > carrot_target:
             return True
 
-# if you wish to run this standalone instead of via timed_run.py, remove the "# "
-# precalc = precalc_world()
-# carrots_trusting(num_items(Items.Carrot) + 10000)
+while True:
+    print("This file should be run from Method Tester.py")
