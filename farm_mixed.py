@@ -22,7 +22,7 @@ def one_by_three_bush_hay_wait(wood_target):
             plant(Entities.Bush)
         move(North)
 
-def poly_farm(priority_as_item, target_amount):
+def poly_farm(priority_as_item, target_amount, exclusive = True):
     # Initial setup:
     WORLD_TILE_COUNT = get_world_size()**2
     item_to_ent = {Items.Hay:Entities.Grass, Items.Carrot:Entities.Carrots,
@@ -39,14 +39,17 @@ def poly_farm(priority_as_item, target_amount):
             if current_pos in companion_requests:
                 harvest()
                 plant(companion_requests.pop(current_pos))
-                new_comp = get_companion()
-                companion_requests[(new_comp[1], new_comp[2])] = new_comp[0]
             else:
                 harvest()
                 plant(priority_as_entity)
-                new_comp = get_companion()
-                companion_requests[(new_comp[1], new_comp[2])] = new_comp[0]
+
+            if get_entity_type() != priority_as_entity and exclusive:
+                move(next_move)
+                continue
+            new_comp = get_companion()
+            companion_requests[(new_comp[1], new_comp[2])] = new_comp[0]
             move(next_move)
+            
         if num_items(priority_as_item) > target_amount: 
             return True
 
