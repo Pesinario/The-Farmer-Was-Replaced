@@ -1,5 +1,5 @@
-/python*
 /save.json
 /__builtins__.py
+/notes.txt
 /f[0-9]*
-/Notes
+/python*

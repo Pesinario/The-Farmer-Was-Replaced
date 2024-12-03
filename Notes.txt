@@ -1,7 +1,0 @@
-Restrictions from the game:
-Can't use <Match:> # For cases
-Can't use .sort or sorted() # For lists
-Can't use Update # For dictionaries
-
-TODO: new hay methods, like hay/tree
-TODO: Better maze solving solutions.
