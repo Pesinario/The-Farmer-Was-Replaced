@@ -73,10 +73,10 @@ def cactus_bubble(cactus_target):
             print("Expected yield was: ", expected_yield, " cactus")
             print("We have farmed ", actual_yield, " cactus.")
             print("We farmed ", expected_yield - actual_yield, " less cactus than expected")
-            break
+            return False
         
         if num_items(Items.Cactus) > cactus_target:
-            break
+            return True
 
 # if you wish to run this standalone instead of via timed_run.py, remove the "# "
 # precalc = precalc_world()

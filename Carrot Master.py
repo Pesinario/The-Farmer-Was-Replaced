@@ -19,7 +19,7 @@ def carrots_ensure_seeds(carrot_target):
                     plant(Entities.Bush)
             move(next_move)
         if num_items(Items.Carrot) > carrot_target:
-            break
+            return True
 
 def carrots_trusting(carrot_target):
     WORLD_TILE_COUNT = get_world_size()**2
@@ -47,7 +47,7 @@ def carrots_trusting(carrot_target):
             plant(Entities.Carrots)
             move(next_move)
         if num_items(Items.Carrot) > carrot_target:
-            break
+            return True
 
 # if you wish to run this standalone instead of via timed_run.py, remove the "# "
 # precalc = precalc_world()

@@ -10,7 +10,7 @@ def tree_and_bush(wood_target):
                 plant(Entities.Bush)
             move(next_move)
         if num_items(Items.Wood) > wood_target:
-            break
+            return True
 
 # if you wish to run this standalone instead of via timed_run.py, remove the "# "
 # precalc = precalc_world()

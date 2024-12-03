@@ -2,9 +2,6 @@ def do_simple_maze_run(gold_target):
     clear() # the farm reverts to grass anyways after harvesting the treasure
     while True:
         counter = 0
-        while num_items(Items.Fertilizer) < 25:
-            trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10)
-            pumpkin_smart(50) # TODO: temp quick and dirty fix
         while not get_entity_type() == Entities.Hedge:
             plant(Entities.Bush)
             try_fert()
@@ -32,6 +29,6 @@ def do_simple_maze_run(gold_target):
 
         harvest()
         if num_items(Items.Gold) > gold_target:
-            break
+            return True
 
 do_simple_maze_run(num_items(Items.Gold) + 10000)

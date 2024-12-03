@@ -9,6 +9,9 @@ def harv_hay_dumb(hay_target):
         smart_harv()
         move(North)
 
+def harv_hay_slightly_smarter(hay_target):
+    pass # TODO: make this, there's a point where we outspeed a single column of hay
+
 def one_by_three_bush(wood_target):
     CONST_GRASS_WAITING = 7
     # initial setup:
@@ -21,7 +24,7 @@ def one_by_three_bush(wood_target):
 
     while True:
         if num_items(Items.Wood) > wood_target:
-            break
+            return True
         replant = get_entity_type()
         if replant == Entities.Grass:
             for i in range(CONST_GRASS_WAITING):
@@ -40,7 +43,7 @@ def three_by_three_bush(wood_target):
 
     while True:
         if num_items(Items.Wood) > wood_target:
-            break
+            return True
         for next_move in precalc:
             wait_harv()
             plant(Entities.Bush)

@@ -12,4 +12,4 @@ def ultra_dumb_dyno(bones_target): # TODO: this should be nuked and redone
             use_item(Items.Egg)
             walk_the_grid()
         if num_items(Items.Bones) > bones_target:
-            break
+            return True
