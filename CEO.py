@@ -1,8 +1,10 @@
-def grind_method(what, target_amount):
+def grind_method(what, target_amount, ignore_power = False):
     quick_print("Now grinding: ", what, " required: ", target_amount)
     if what == Items.Power:
         get_power(target_amount)
     elif num_unlocked(Unlocks.Sunflowers) > 0 and num_items(Items.Power) < 50:
+        if num_items(Items.Carrot) < get_world_size() **2:
+            grind_method(Items.Carrot, get_world_size()**2)
         get_power(0) # There's a buffer of 50 implemented
 
     if what in [Items.Hay, Items.Wood, Items.Carrot]:
@@ -17,7 +19,7 @@ def grind_method(what, target_amount):
             elif what == Items.Wood:
                 if num_unlocked(Unlocks.Expand) == 1:
                     one_by_three_bush(target_amount)
-                elif num_unlocked(Unlocks.Trees) > 0:
+                elif num_unlocked(Unlocks.Trees) > 0: # TODO: probably can make hay and trees instead of tree and bush
                     tree_and_bush(target_amount)
                 else:
                     three_by_three_bush(target_amount)
@@ -55,6 +57,7 @@ def get_me_unlock(what_unlock):
     quick_print(what_unlock,"(", num_unlocked(what_unlock) + 1, ")", "requires:", all_costs)
     for resource in ORDER_OF_GRIND: # Grind in order of most expensive to cheapest
         if resource in all_costs:
+            quick_print(all_costs[resource], "and we have:", num_items(resource))
             if num_items(resource) < all_costs[resource]:
                 grind_method(resource, all_costs[resource])
 
