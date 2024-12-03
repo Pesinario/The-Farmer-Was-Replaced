@@ -6,12 +6,12 @@ def wait_harv():
 
 def smart_harv(debate=True):
     if can_harvest():
-        harvest() 
+        harvest()
     elif debate:
         debate_watering()
 
 def till_this_many_tiles(how_many, debate=True):
-    for i in range(how_many):
+    for _ in range(how_many):
         smart_harv(debate)
         if get_ground_type() != Grounds.Soil:
             till()
@@ -33,7 +33,8 @@ def acquire_seeds(type_of_seed, how_many):
                 if num_items(seed_req) < amount_required:
                     grind_method(seed_req, amount_required, seed_req == Items.Sunflower_Seed)
         if not trade(type_of_seed, mustbuy):
-            print("° Something went really wrong with seed acquisition, even after trying to grind them.")
+            print("° Something went really wrong with seed acquisition, ",
+                  "even after trying to grind them.")
             return False
     return True
 
@@ -44,7 +45,7 @@ def debate_watering(thresh=0.75):
             can_buy = min(num_items(Items.Wood) // 5, 10)
             if not trade(Items.Empty_Tank, can_buy):
                 print("- Too broke to buy tanks")
-            
+
 def try_fert():
     if num_items(Items.Fertilizer) < 1:
         if num_unlocked(Unlocks.Fertilizer) == 0:
@@ -53,11 +54,11 @@ def try_fert():
             return False
         if not trade(Items.Fertilizer, min((num_items(Items.Pumpkin) // 10), 100)):
             return False
-    
+
     if use_item(Items.Fertilizer):
         return True
     else:
         return False
-    
+
 while True:
     print("° This file should never be run by itself")

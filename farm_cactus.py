@@ -1,9 +1,9 @@
 def do_1_pass_sort(dir_fw, dir_bw):
-    # TODO: this can be optimized by remembering whether or not we had to sort 
+    # TODO: this can be optimized by remembering whether or not we had to sort
     # at a certain spot(therefore diminishing the wasted travel over sorted tiles)
     # i think that's known as cocktail sort instead of bubble sort
     did_swaps = 0
-    for i in range(get_world_size()):
+    for _ in range(get_world_size()):
         if measure() > measure(dir_fw):
             swap(dir_fw)
             did_swaps += 1
@@ -40,27 +40,27 @@ def cactus_bubble(cactus_target):
         acquire_seeds(Items.Cactus_Seed, WORLD_TILE_COUNT)
 
         if multi_run:
-            for i in range(WORLD_TILE_COUNT):
+            for _ in range(WORLD_TILE_COUNT):
                 plant(Entities.Cactus)
                 walk_the_grid()
         else:
             multi_run = True
         navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
         # sort the rows
-        for x in range(get_world_size()):
+        for x in range(get_world_size()): # pylint: disable=[W0612]
             while True:
                 debug_var =do_1_pass_sort(East, West)
                 if debug_var < 3:
                     break
             move(North)
-        
+
         # sort the columns
-        for y in range(get_world_size()):
+        for y in range(get_world_size()): # pylint: disable=[W0612]
             while True:
                 if do_1_pass_sort(North, South) < 3:
                     break
             move(East)
-        
+
         old_cactus = num_items(Items.Cactus)
         harvest()
         new_cactus = num_items(Items.Cactus)
@@ -70,7 +70,7 @@ def cactus_bubble(cactus_target):
             print("° We have farmed ", actual_yield, " cactus.")
             print("° We farmed ", expected_yield - actual_yield, " less cactus than expected")
             return False
-        
+
         if num_items(Items.Cactus) > cactus_target:
             return True
 

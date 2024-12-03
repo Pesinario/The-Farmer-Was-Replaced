@@ -5,7 +5,10 @@ def grind_method(what, target_amount, boost = True):
     elif num_unlocked(Unlocks.Sunflowers) > 0 and num_items(Items.Power) < 50 and boost:
         quick_print("+ Getting power before getting", what)
         if num_items(Items.Carrot) < get_world_size() **2:
-            quick_print("+-° Not enough carrots to farm power even once. Attempting to grind carrots for sunflower seeds without boost")
+            quick_print(
+                "+-° Not enough carrots to farm power even once.",
+                "Attempting to grind carrots for sunflower seeds without boost"
+                )
             grind_method(Items.Carrot, get_world_size()**2, False)
         get_power(0) # There's a buffer of 50 implemented
 
@@ -13,7 +16,7 @@ def grind_method(what, target_amount, boost = True):
         if num_unlocked(Unlocks.Polyculture) == 0:
             if what == Items.Hay:
                 if num_unlocked(Unlocks.Expand) < 1:
-                    for i in range(target_amount):
+                    for _ in range(target_amount):
                         wait_harv()
                 elif num_unlocked(Unlocks.Sunflowers) < 1:
                     harv_hay_dumb(target_amount)
@@ -39,14 +42,14 @@ def grind_method(what, target_amount, boost = True):
                         # TODO: Remove the check later if all tests are passed
         else:
             poly_farm(what, target_amount)
-    
+
     elif what == Items.Pumpkin:
         cost_per_run = OPTIMAL_PUMPKIN_SEEDS[num_unlocked(Unlocks.Expand)]
         expected_yield_per_run = (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins)
-        needed_runs = (target_amount // expected_yield_per_run)
+        needed_runs = target_amount // expected_yield_per_run
         acquire_seeds(Items.Pumpkin_Seed, needed_runs * cost_per_run)
         pumpkin_smart(target_amount)
-    
+
     elif what == Items.Gold:
         FERT_PER_MAZE = 25 # This value is just a guess
         gold_per_maze = num_unlocked(Unlocks.Mazes) * (get_world_size()**2)
@@ -73,7 +76,7 @@ def grind_method(what, target_amount, boost = True):
         dyno_slightly_smarter(target_amount)
 
 
-def get_me_unlock(what_unlock): 
+def get_me_unlock(what_unlock):
     all_costs = get_cost(what_unlock)
     quick_print("+", what_unlock, num_unlocked(what_unlock) + 1, "requires:", all_costs)
     for resource in ORDER_OF_GRIND: # Grind in order of most expensive to cheapest

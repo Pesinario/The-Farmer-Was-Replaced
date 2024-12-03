@@ -1,5 +1,5 @@
 def harv_hay_dumb(hay_target):
-    for i in range(get_world_size()):
+    for _ in range(get_world_size()):
         harvest()
         if get_ground_type() != Grounds.Turf:
             till()

@@ -16,8 +16,8 @@ def water_dead(suspects):
         navigate_smart(local_sus)
         if not can_harvest():
             if not plant(Entities.Pumpkin):
-                    print("° Couldn't plant, fatal issue @ water_dead")
-                    return False
+                print("° Couldn't plant, fatal issue @ water_dead")
+                return False
             while get_water() <= 0.75:
                 debate_watering(0.75)
             suspects.append(local_sus)
@@ -53,7 +53,7 @@ def pumpkin_smart(pumpkin_target):
         # now we take note of all pumpkins that died in the first planting run
         suspects = find_suspects(precalc)
         # now we replant dead pumpkins untill we're sure that all pumpkins are alive
-        
+
         while len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:
                 if num_items(Items.Fertilizer) > 10:

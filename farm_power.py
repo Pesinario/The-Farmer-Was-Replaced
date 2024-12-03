@@ -9,7 +9,7 @@ def old_method_sunflower(power_target):
     while True:
         biggest = 0
         acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT)
-        for i in range(WORLD_TILE_COUNT):
+        for _ in range(WORLD_TILE_COUNT):
             plant(Entities.Sunflower)
             debate_watering(0.75)
             a = measure()
@@ -21,7 +21,7 @@ def old_method_sunflower(power_target):
         biggestThresh = biggest -3
 
         while biggest > biggestThresh: # harvest
-            for i in range(WORLD_TILE_COUNT):
+            for _ in range(WORLD_TILE_COUNT):
                 if measure() == biggest:
                     smart_harv()
                 walk_the_grid()
@@ -58,13 +58,13 @@ def sunflower_no_replanting(should_setup):
             for sunflower in siblings:
                 navigate_smart(sunflower)
                 wait_harv()
-    
+
 def get_power(power_target=0, initial=True):
     WORLD_TILE_COUNT = get_world_size()**2
     expected_yield = EXPECTED_POWER[num_unlocked(Unlocks.Expand)]
-    runs_to_fulfil = ((power_target + 50) // expected_yield)
+    runs_to_fulfil = (power_target + 50) // expected_yield
     acquire_seeds(Items.Sunflower_Seed, (WORLD_TILE_COUNT) * (runs_to_fulfil + 1))
-    for i in range(runs_to_fulfil):
+    for _ in range(runs_to_fulfil):
         if initial:
             sunflower_no_replanting(True)
             initial = False

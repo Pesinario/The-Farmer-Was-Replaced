@@ -15,7 +15,7 @@ def one_by_three_bush_hay_wait(wood_target):
             return True
         replant = get_entity_type()
         if replant == Entities.Grass:
-            for i in range(CONST_GRASS_WAITING):
+            for _ in range(CONST_GRASS_WAITING):
                 wait_harv()
         elif can_harvest():
             harvest()
@@ -49,8 +49,8 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
             new_comp = get_companion()
             companion_requests[(new_comp[1], new_comp[2])] = new_comp[0]
             move(next_move)
-            
-        if num_items(priority_as_item) > target_amount: 
+
+        if num_items(priority_as_item) > target_amount:
             return True
 
 while True:
