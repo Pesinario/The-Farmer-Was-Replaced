@@ -47,10 +47,11 @@ def grind_method(what, target_amount, boost = True):
         pumpkin_smart(target_amount)
     
     elif what == Items.Gold:
+        FERT_PER_MAZE = 25 # This value is just a guess
         gold_per_maze = num_unlocked(Unlocks.Mazes) * (get_world_size()**2)
         remaining_gold_to_farm = target_amount - num_items(Items.Gold)
         mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
-        expected_fert_usage = mazes_for_goal * 100
+        expected_fert_usage = mazes_for_goal * FERT_PER_MAZE
         must_get_fert = expected_fert_usage - num_items(Items.Fertilizer)
         quick_print("$$$ We are about to buy", expected_fert_usage, "Fertilizer for farming gold")
         if num_items(Items.Fertilizer) < expected_fert_usage:
