@@ -1,10 +1,9 @@
 def grind_method(what, target_amount):
-    quick_print("Now grinding: ", resource, " required: ", all_costs[resource])
+    quick_print("Now grinding: ", what, " required: ", target_amount)
     if what == Items.Power:
-        while num_items(Items.Power) < target_amount:
-            do_power_run(target_amount)
+        get_power(target_amount)
     elif num_unlocked(Unlocks.Sunflowers) > 0 and num_items(Items.Power) < 50:
-        do_power_run(0)
+        get_power(0) # There's a buffer of 50 implemented
 
     if what in [Items.Hay, Items.Wood, Items.Carrot]:
         if num_unlocked(Unlocks.Polyculture) == 0:

@@ -1,50 +1,52 @@
 def reset_sunflowers():
     navigate_to(0,0)
-    trade(Items.Sunflower_Seed)
     plant(Entities.Sunflower)
     harvest()
 
-def old_method_sunflower():
-    WORLD_TILE_COUNT = get_world_size()**2
-    till_this_many_tiles(WORLD_TILE_COUNT)
-    while True:
-        biggest = 0
-        acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT)
-        for i in range(WORLD_TILE_COUNT):
-            plant(Entities.Sunflower)
-            debate_watering(0.75)
-            a = measure()
-            if a == None:
-                a = 0
-            if a > biggest:
-                biggest = a
-            walk_the_grid()
-        # print("biggest:", biggest)
-        biggestThresh = biggest -3
+#def old_method_sunflower():
+#    WORLD_TILE_COUNT = get_world_size()**2
+#    till_this_many_tiles(WORLD_TILE_COUNT)
+#    while True:
+#        biggest = 0
+#        acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT)
+#        for i in range(WORLD_TILE_COUNT):
+#            plant(Entities.Sunflower)
+#            debate_watering(0.75)
+#            a = measure()
+#            if a == None:
+#                a = 0
+#            if a > biggest:
+#                biggest = a
+#            walk_the_grid()
+#        # print("biggest:", biggest)
+#        biggestThresh = biggest -3
+#
+#        while biggest > biggestThresh: # harvest
+#            for i in range(WORLD_TILE_COUNT):
+#                if measure() == biggest:
+#                    smart_harv()
+#                walk_the_grid()
+#            biggest = biggest - 1
+#        reset_sunflowers()
 
-        while biggest > biggestThresh: # harvest
-            for i in range(WORLD_TILE_COUNT):
-                if measure() == biggest:
-                    smart_harv()
-                walk_the_grid()
-            biggest = biggest - 1
-        reset_sunflowers()
 
-
-def new_method_sunflower():
+def new_method_sunflower(should_setup):
     my_record = {}
-    acquire_seeds(Items.Sunflower_Seed, (get_world_size()**2) *1.5)
 
     for next_move in precalc: # Initial setting up
-        harvest()
-        if get_ground_type() != Grounds.Soil:
-            till()
+        if should_setup:
+            harvest()
+            if get_ground_type() != Grounds.Soil:
+                till()
+        # debate_watering()
         plant(Entities.Sunflower)
         petals = measure()
         if petals in my_record:
             petal_siblings = my_record.pop(petals)
             petal_siblings.append([get_pos_x(), get_pos_y()])
             my_record[petals] = petal_siblings
+        elif petals == None:
+            print("Some kind of error @ Sunflower Master")
         else:
             my_record[petals] = [[get_pos_x(), get_pos_y()]]
         move(next_move)
@@ -57,11 +59,22 @@ def new_method_sunflower():
                 navigate_smart(sunflower)
                 wait_harv()
     
-def do_power_run(power_target=0):
-    MINIMUM_POWER = 50
-    while power_target + MINIMUM_POWER > num_items(Items.Power):
-        new_method_sunflower()
+def get_power(power_target=0, initial=True):
+    WORLD_TILE_COUNT = get_world_size()**2
+    expected_yield = EXPECTED_POWER[num_unlocked(Unlocks.Expand)]
+    runs_to_fulfil = ((power_target + 50) // expected_yield) + 1
+    acquire_seeds(Items.Sunflower_Seed, (WORLD_TILE_COUNT) * runs_to_fulfil)
+    for i in range(runs_to_fulfil):
+        if initial:
+            new_method_sunflower(True)
+            initial = False
+        else:
+            new_method_sunflower(False)
         reset_sunflowers()
+        if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
+            print("Seed issue @ get_power")
+    if num_items(Items.Power) < power_target + 50:
+        print("We underfarmed sunflowers.")
 
 # if you wish to run this standalone instead of via timed_run.py, remove the "# "
 # precalc = precalc_world()
