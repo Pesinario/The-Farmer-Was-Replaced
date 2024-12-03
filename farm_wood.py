@@ -28,4 +28,4 @@ def tree_and_bush(wood_target):
             return True
 
 while True:
-    print("This file should be run from Method Tester.py")
+    print("° This file should be run from Method Tester.py")

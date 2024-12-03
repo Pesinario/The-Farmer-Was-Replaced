@@ -18,7 +18,6 @@ def old_method_sunflower(power_target):
             if a > biggest:
                 biggest = a
             walk_the_grid()
-        # print("biggest:", biggest)
         biggestThresh = biggest -3
 
         while biggest > biggestThresh: # harvest
@@ -47,7 +46,7 @@ def sunflower_no_replanting(should_setup):
             petal_siblings.append([get_pos_x(), get_pos_y()])
             my_record[petals] = petal_siblings
         elif petals == None:
-            print("Some kind of error @ Sunflower Master")
+            print("° Some kind of error @ Sunflower Master")
         else:
             my_record[petals] = [[get_pos_x(), get_pos_y()]]
         move(next_move)
@@ -73,9 +72,9 @@ def get_power(power_target=0, initial=True):
             sunflower_no_replanting(False)
         # reset_sunflowers()
         if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
-            print("Seed issue @ get_power")
+            print("° Seed issue @ get_power")
     if num_items(Items.Power) < power_target + 50:
-        print("We underfarmed sunflowers.")
+        print("° We underfarmed sunflowers.")
 
 while True:
-    print("This file should be run from Method Tester.py")
+    print("° This file should be run from Method Tester.py")

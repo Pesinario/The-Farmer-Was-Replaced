@@ -1,4 +1,4 @@
-def ultra_dumb_dyno(bones_target): # TODO: this should be nuked and done properly
+def ultra_dumb_dyno(bones_target):
     WORLD_TILE_COUNT = get_world_size()**2
     while True:
         if num_items(Items.Egg) < WORLD_TILE_COUNT:
@@ -6,7 +6,7 @@ def ultra_dumb_dyno(bones_target): # TODO: this should be nuked and done properl
                 smart_harv(False)
                 walk_the_grid()
             if not acquire_seeds(Items.Egg, WORLD_TILE_COUNT):
-                print("We're broke! This went terrible!")
+                print("° We're broke! This was a terrible idea!")
         for i in range(WORLD_TILE_COUNT):
             smart_harv(False)
             use_item(Items.Egg)
@@ -51,4 +51,4 @@ def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much 
             move(next_move)
 
 while True:
-    print("This file should be run from Method Tester.py")
+    print("° This file should be run from Method Tester.py")

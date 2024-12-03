@@ -38,7 +38,6 @@ def return_moves_1d(me, target):
             return wrap * -1
             
     return no_wrap
-    print("how did we get here wtf")    
 
 def return_closest_target(array_of_targets): # TODO: check if this works and then implement it for pumpkin or sunflower stuff
     current_closest = array_of_targets[0]
@@ -74,4 +73,4 @@ def precalc_world():
     return moves
 
 while True:
-    print("This file should never be run by itself")
+    print("° This file should never be run by itself")

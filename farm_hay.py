@@ -8,7 +8,7 @@ def harv_hay_dumb(hay_target):
     while num_items(Items.Hay) < hay_target:
         if not can_harvest():
             if get_entity_type() == Entities.Grass:
-                print("We outspeed grass! confirmed")
+                print("° We outspeed grass! confirmed")
         harvest()
         move(North)
     return True
@@ -26,4 +26,4 @@ def hay_full_field(hay_target):
     return True
 
 while True:
-    print("This file should be run from Method Tester.py")
+    print("° This file should be run from Method Tester.py")

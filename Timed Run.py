@@ -1,6 +1,14 @@
 timed_reset()
 START_TIME = get_time()
-quick_print("$$$", "Start time is", START_TIME)
+quick_print("$", "Start time is", START_TIME)
+
+# Output keys:
+# ° means error
+# $ means it could be possible to cut corners here
+# ~ means milestone
+# + means grinding Something
+# - means info
+
 KINDS_OF_UNLOCKS = [Unlocks.Speed, Unlocks.Expand, Unlocks.Plant, Unlocks.Grass, 
                      Unlocks.Trees, Unlocks.Carrots, Unlocks.Sunflowers, 
                      Unlocks.Pumpkins, Unlocks.Polyculture, Unlocks.Fertilizer, 
@@ -22,10 +30,10 @@ def hard_coded_milestone(milestone_name, started_at_time):
 
 def log_this_unlock(unlock): # adds to the dictionary the unlock and how long it took
     started_unlocking = get_time()
-    quick_print(current_milestone_chased, "started @", started_unlocking-START_TIME)
+    quick_print("~", current_milestone_chased, "started @", started_unlocking - START_TIME)
     get_me_unlock(unlock)
     took_this_long = (get_time() - started_unlocking)
-    quick_print(current_milestone_chased, "ended @", get_time()-START_TIME, "and took", took_this_long)
+    quick_print("~", current_milestone_chased, "ended @", get_time() - START_TIME, "and took", took_this_long)
     return True
 
 # Some useful globals:
@@ -39,9 +47,9 @@ for current_milestone_chased in GAME_PLAN:
         log_this_unlock(current_milestone_chased)
     else:
         while True:
-            print(current_milestone_chased)
+            print("°", current_milestone_chased)
     if current_milestone_chased == Unlocks.Expand:
         precalc = precalc_world() # I don't think we should need this before we get to at least 4x4 farm size, but we define it as soon as we get 1x3
 
-quick_print("$$$", "End time is", get_time())
+quick_print("$", "End time is", get_time())
 timed_reset()

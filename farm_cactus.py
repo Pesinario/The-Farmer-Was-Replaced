@@ -7,20 +7,18 @@ def do_1_pass_sort(dir_fw, dir_bw):
         if measure() > measure(dir_fw):
             swap(dir_fw)
             did_swaps += 1
-            #print("swapped forwards")
         if measure() < measure(dir_bw):
             swap(dir_bw)
             did_swaps += 1
-            #print ("swapped backwards")
         move(dir_fw)
     return did_swaps
 
-def check_work(precalc):
+def check_work(precalc): # This is currently not called because it just works.
     for next_move in precalc:
         if get_pos_x() != 0 and get_pos_y() != 0:
             if get_pos_x() != get_world_size()-1 and get_pos_y() != get_world_size()-1:
                 if measure() > measure(North) or measure() > measure(East):
-                    print("ERROR!!!")
+                    print("° ERROR!!!")
         move(next_move)
 
 def cactus_bubble(cactus_target):
@@ -63,20 +61,18 @@ def cactus_bubble(cactus_target):
                     break
             move(East)
         
-        # print("Done sorting, i think")
-        # check_work(precalc) this has been disabled cuz it worked
         old_cactus = num_items(Items.Cactus)
         harvest()
         new_cactus = num_items(Items.Cactus)
         actual_yield = new_cactus - old_cactus
         if actual_yield != expected_yield:
-            print("Expected yield was: ", expected_yield, " cactus")
-            print("We have farmed ", actual_yield, " cactus.")
-            print("We farmed ", expected_yield - actual_yield, " less cactus than expected")
+            print("° Expected yield was: ", expected_yield, " cactus")
+            print("° We have farmed ", actual_yield, " cactus.")
+            print("° We farmed ", expected_yield - actual_yield, " less cactus than expected")
             return False
         
         if num_items(Items.Cactus) > cactus_target:
             return True
 
 while True:
-    print("This file should be run from Method Tester.py")
+    print("° This file should be run from Method Tester.py")

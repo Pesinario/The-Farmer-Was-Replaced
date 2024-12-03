@@ -29,7 +29,7 @@ def carrots_trusting(carrot_target):
     # I got some scary errors trying to split the variable definition
     # This should buy enough seeds to reach our intended amount of carrots, plus a full farmland's worth
     if not acquire_seeds(Items.Carrot_Seed, seeds_to_buy):
-        print("Seed issue at acquire_seeds() -> carrots_trusting(), not my fault boss")
+        print("° Seed issue at acquire_seeds() -> carrots_trusting(), not my fault boss")
         return False
 
     for next_move in precalc: # Initial setting up
@@ -41,7 +41,7 @@ def carrots_trusting(carrot_target):
 
     while True:
         if num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
-            print("Seed issue @ carrots_trusting")
+            print("° Seed issue @ carrots_trusting")
             return False
         for next_move in precalc:
             smart_harv()
@@ -51,4 +51,4 @@ def carrots_trusting(carrot_target):
             return True
 
 while True:
-    print("This file should be run from Method Tester.py")
+    print("° This file should be run from Method Tester.py")
