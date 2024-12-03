@@ -31,7 +31,8 @@ def fert_dead(suspects):
         while not can_harvest():
             if get_entity_type() != Entities.Pumpkin:
                 if not plant(Entities.Pumpkin):
-                    print("Couldn't plant, issue @ fert_dead")
+                    print("Couldn't plant, fatal issue @ fert_dead")
+                    return False
             if not try_fert():
                 print("Can't fert dude!, will wait")
 
@@ -59,7 +60,7 @@ def pumpkin_smart(pumpkin_target):
             else:
                 suspects = water_dead(suspects)
         # end of run
-        print("We think we found all dead pumpkins")
+        quick_print("We think we found all dead pumpkins")
         old_pumpkins = num_items(Items.Pumpkin)
         harvest()
         new_pumpkins = num_items(Items.Pumpkin)
