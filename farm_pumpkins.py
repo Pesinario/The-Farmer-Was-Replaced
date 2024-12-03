@@ -53,14 +53,32 @@ def pumpkin_smart(pumpkin_target):
         # now we take note of all pumpkins that died in the first planting run
         suspects = find_suspects(precalc)
         # now we replant dead pumpkins untill we're sure that all pumpkins are alive
+        
         while len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:
-                fert_dead(suspects)
+                if num_items(Items.Fertilizer) > 10:
+                    if not fert_dead(suspects):
+                        quick_print("° returned false from fert_dead")
+                        harvest()
+                        return False
+                elif trade(Items.Fertilizer, min((num_items(Items.Pumpkin) // 10), 100)):
+                    if not fert_dead(suspects):
+                        quick_print("° returned false from fert_dead")
+                        harvest()
+                        return False
+                else:
+                    if not water_dead(suspects):
+                        quick_print("° returned false from water_dead")
+                        harvest()
+                        return False
             else:
-                water_dead(suspects)
+                if not water_dead(suspects):
+                    quick_print("° returned false from water_dead")
+                    harvest()
+                    return False
         # end of run
         old_pumpkins = num_items(Items.Pumpkin)
-        harvest()
+        smart_harv()
         new_pumpkins = num_items(Items.Pumpkin)
         expected_yield = (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins)
         actual_yield = new_pumpkins - old_pumpkins

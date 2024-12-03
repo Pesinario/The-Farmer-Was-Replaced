@@ -5,12 +5,14 @@ def do_simple_maze_run(gold_target):
     dir_next = 1
     while True:
         counter = 0
-        while not get_entity_type() == Entities.Hedge:
-            plant(Entities.Bush)
-            try_fert()
+        while get_entity_type() != Entities.Hedge:
+            if get_entity_type() != Entities.Bush:
+                plant(Entities.Bush)
+            if not try_fert():
+                return False
         # Now we should be in a maze.
-        move(East)
         while get_entity_type() != Entities.Treasure: # solve the maze
+            counter *= 1
             if counter > 1000:
                 break
             dir_next = dir_last + 1

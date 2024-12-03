@@ -62,8 +62,8 @@ def sunflower_no_replanting(should_setup):
 def get_power(power_target=0, initial=True):
     WORLD_TILE_COUNT = get_world_size()**2
     expected_yield = EXPECTED_POWER[num_unlocked(Unlocks.Expand)]
-    runs_to_fulfil = ((power_target + 50) // expected_yield) + 1
-    acquire_seeds(Items.Sunflower_Seed, (WORLD_TILE_COUNT) * runs_to_fulfil)
+    runs_to_fulfil = ((power_target + 50) // expected_yield)
+    acquire_seeds(Items.Sunflower_Seed, (WORLD_TILE_COUNT) * (runs_to_fulfil + 1))
     for i in range(runs_to_fulfil):
         if initial:
             sunflower_no_replanting(True)

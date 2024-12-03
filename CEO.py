@@ -59,8 +59,7 @@ def grind_method(what, target_amount, boost = True):
             if not trade(Items.Fertilizer, must_get_fert):
                 grind_method(Items.Pumpkin, must_get_fert * 10)
             if not trade(Items.Fertilizer, must_get_fert):
-                while True:
-                    print("° FUCKFUCKFUCKFUCK")
+                print("° FAILED TWICE TO BUY FERTILIZER.")
         do_simple_maze_run(target_amount)
         quick_print("$ We finished grinding gold, we have", num_items(Items.Fertilizer), "Fertilizer leftover.")
 
