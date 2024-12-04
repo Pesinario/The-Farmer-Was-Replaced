@@ -48,7 +48,6 @@ def log_this_unlock(unlock): # adds to the dictionary the unlock and how long it
 precalc = []
 # These numbers came from simulations i ran:
 OPTIMAL_PUMPKIN_SEEDS = {2:17, 3:27, 4:40, 5:55, 6:72, 7:92, 8:115, 9:140}
-
 EXPECTED_POWER = {2:18.31, 3:46.97, 4:73.63, 5:126.14, 6:191.86, 7:281.47, 8:397.77, 9:544.71}
 # This is ordered from most expensive to least expensive, to minimize recursion.
 ORDER_OF_GRIND = [Items.Bones, Items.Cactus, Items.Gold, Items.Pumpkin,

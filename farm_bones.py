@@ -47,6 +47,7 @@ def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much 
                 swap(East)
             # if here != None and south != None and here > south:
             #     swap(South)
+
             move(next_move)
 
 while True:

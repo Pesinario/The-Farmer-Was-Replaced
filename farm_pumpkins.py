@@ -55,8 +55,8 @@ def pumpkin_smart(pumpkin_target):
 
         # now we take note of all pumpkins that died in the first planting run
         suspects = find_suspects(precalc)
-
         # now we replant dead pumpkins untill we're sure that all pumpkins are alive
+
         while len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:
                 if num_items(Items.Fertilizer) > 10:
@@ -79,8 +79,7 @@ def pumpkin_smart(pumpkin_target):
                     quick_print("° returned false from water_dead")
                     harvest()
                     return False
-
-        # end of run, checking if something went wrong:
+        # end of run
         old_pumpkins = num_items(Items.Pumpkin)
         smart_harv()
         new_pumpkins = num_items(Items.Pumpkin)
