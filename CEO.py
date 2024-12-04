@@ -69,6 +69,9 @@ def grind_method(what, target_amount, boost = True):
         quick_print("$ We finished grinding gold, we have", num_items(Items.Fertilizer), "Fertilizer leftover.")
 
     elif what == Items.Cactus:
+        expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
+        runs_needed = (target_amount // expected_yield) + 1
+        acquire_seeds(Items.Cactus_Seed, runs_needed * WORLD_TILE_COUNT)
         cactus_bubble(target_amount)
 
     elif what == Items.Bones:

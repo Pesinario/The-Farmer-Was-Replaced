@@ -22,29 +22,22 @@ def check_work(precalc): # This is currently not called because it just works.
         move(next_move)
 
 def cactus_bubble(cactus_target):
-    WORLD_TILE_COUNT = get_world_size()**2
-    navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
-    expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**2 * get_world_size()
-    for_goal = (cactus_target / expected_yield) * WORLD_TILE_COUNT
-    acquire_seeds(Items.Cactus_Seed, for_goal)
-    multi_run = False
-    for next_move in precalc:
-        harvest()
-        if get_ground_type() != Grounds.Soil:
-            till()
-        plant(Entities.Cactus)
-        move(next_move)
-
+    if get_entity_type() == Entities.Hedge or get_entity_type() == Entities.Treasure:
+        harvest() # Somehow we get here while in a maze sometimes. probably can fix it elsewhere.
+    expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
     while True: # Main script loop
-        # plant the cactus
-        acquire_seeds(Items.Cactus_Seed, WORLD_TILE_COUNT)
+        navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
+        if num_items(Items.Cactus_Seed) < get_world_size()**2:
+            print("° seed issue @ cactus_bubble")
+            return False
+        # plant the cactus:
+        for next_move in precalc:
+            harvest()
+            if get_ground_type() != Grounds.Soil:
+                till()
+            plant(Entities.Cactus)
+            move(next_move)
 
-        if multi_run:
-            for _ in range(WORLD_TILE_COUNT):
-                plant(Entities.Cactus)
-                walk_the_grid()
-        else:
-            multi_run = True
         navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
         # sort the rows
         for x in range(get_world_size()): # pylint: disable=[W0612]
