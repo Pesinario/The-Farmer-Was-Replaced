@@ -12,7 +12,7 @@ def find_suspects(precalc):
 
 def water_dead(suspects):
     while len(suspects) > 0:
-        local_sus = suspects.pop()
+        local_sus = suspects.pop(0)
         navigate_smart(local_sus)
         if not can_harvest():
             if not plant(Entities.Pumpkin):
@@ -25,7 +25,7 @@ def water_dead(suspects):
 
 def fert_dead(suspects):
     while len(suspects) > 0:
-        current_target = suspects.pop()
+        current_target = suspects.pop(0)
         navigate_smart(current_target)
         while not can_harvest():
             if get_entity_type() != Entities.Pumpkin:
@@ -38,9 +38,12 @@ def fert_dead(suspects):
 
 def pumpkin_smart(pumpkin_target):
     while True: # Loop for everything
-        if num_items(Items.Pumpkin_Seed) < get_world_size()**2:
+        if num_items(Items.Pumpkin) > pumpkin_target:
+            return True
+        elif num_items(Items.Pumpkin_Seed) < (get_world_size()**2):
             print("° Seed issue @ pumpkin_smart")
             return False
+
         # first planting and watering once run:
         for next_move in precalc:
             harvest()
@@ -86,8 +89,7 @@ def pumpkin_smart(pumpkin_target):
             print("° Expected yield was: ", expected_yield, " pumpkins")
             print("° We have farmed ", actual_yield, " pumpkins.")
             print("° We farmed ", expected_yield - actual_yield, " less pumpkins than expected")
-        if num_items(Items.Pumpkin) > pumpkin_target:
-            return True
+
 
 while True:
     print("° This file should be run from Method Tester.py")
