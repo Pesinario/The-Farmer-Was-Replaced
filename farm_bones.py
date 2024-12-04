@@ -14,6 +14,7 @@ def ultra_dumb_dyno(bones_target):
         if num_items(Items.Bones) > bones_target:
             return True
 
+
 def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much better.
     while num_items(Items.Bones) < bones_target and num_items(Items.Egg) > 0:
         for next_move in precalc:
@@ -47,7 +48,6 @@ def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much 
                 swap(East)
             # if here != None and south != None and here > south:
             #     swap(South)
-
             move(next_move)
 
 while True:

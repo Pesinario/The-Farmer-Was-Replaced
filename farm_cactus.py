@@ -37,7 +37,6 @@ def cactus_bubble(cactus_target):
                 till()
             plant(Entities.Cactus)
             move(next_move)
-
         navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
         # sort the rows
         for x in range(get_world_size()): # pylint: disable=[W0612]
