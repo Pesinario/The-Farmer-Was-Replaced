@@ -1,15 +1,16 @@
 def grind_method(what, target_amount, boost = True):
     quick_print("+ Now grinding: ", what, " required: ", target_amount, "boost active:", boost)
+    WORLD_TILE_COUNT = get_world_size()**2
     if what == Items.Power:
         get_power(target_amount)
     elif num_unlocked(Unlocks.Sunflowers) > 0 and num_items(Items.Power) < 50 and boost:
         quick_print("+ Getting power before getting", what)
-        if num_items(Items.Carrot) < get_world_size() **2:
+        if num_items(Items.Carrot) < WORLD_TILE_COUNT: # sunflower seeds cost 1 carrot each
             quick_print(
                 "+-° Not enough carrots to farm power even once.",
                 "Attempting to grind carrots for sunflower seeds without boost"
                 )
-            grind_method(Items.Carrot, get_world_size()**2, False)
+            grind_method(Items.Carrot, WORLD_TILE_COUNT, False)
         get_power(0) # There's a buffer of 50 implemented
 
     if what in [Items.Hay, Items.Wood, Items.Carrot]:
@@ -32,14 +33,15 @@ def grind_method(what, target_amount, boost = True):
                     three_by_three_bush(target_amount)
 
             elif what == Items.Carrot: # TODO: add a better method for 3x3 stage
-                # TODO: frontload seed acquistion here, as previously done with pumpkin seeds
-                if num_unlocked(Unlocks.Trees) == 0:
-                    carrots_ensure_seeds(target_amount)
-                else:
+                if num_unlocked(Unlocks.Trees) > 0:
+                    carrots_required = target_amount - num_items(what)
+                    runs_needed = carrots_required // (num_unlocked(Unlocks.Carrots) * WORLD_TILE_COUNT)
+                    acquire_seeds(Items.Carrot_Seed, (runs_needed * WORLD_TILE_COUNT) + WORLD_TILE_COUNT)
                     if not carrots_trusting(target_amount):
-                        quick_print("° We had to fall back to old carrot method")
-                        carrots_ensure_seeds(target_amount)
-                        # TODO: Remove the check later if all tests are passed
+                        while True:
+                            print("° Fix this correctly.")
+                else:
+                    carrots_ensure_seeds(target_amount)
         else:
             poly_farm(what, target_amount)
 
@@ -52,7 +54,7 @@ def grind_method(what, target_amount, boost = True):
 
     elif what == Items.Gold:
         FERT_PER_MAZE = 25 # This value is just a guess
-        gold_per_maze = num_unlocked(Unlocks.Mazes) * (get_world_size()**2)
+        gold_per_maze = num_unlocked(Unlocks.Mazes) * WORLD_TILE_COUNT
         remaining_gold_to_farm = target_amount - num_items(Items.Gold)
         mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
         expected_fert_usage = mazes_for_goal * FERT_PER_MAZE
@@ -71,7 +73,7 @@ def grind_method(what, target_amount, boost = True):
 
     elif what == Items.Bones:
         expected_bones_per_chicken = 4 * num_unlocked(Unlocks.Dinosaurs)
-        needed_eggs_safe = ((2000 - num_items(Items.Egg)) // expected_bones_per_chicken ) + get_world_size()**2
+        needed_eggs_safe = ((2000 - num_items(Items.Egg)) // expected_bones_per_chicken ) + WORLD_TILE_COUNT
         acquire_seeds(Items.Egg, needed_eggs_safe)
         dyno_slightly_smarter(target_amount)
 
