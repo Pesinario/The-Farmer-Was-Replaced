@@ -63,5 +63,7 @@ for current_milestone_chased in GAME_PLAN:
         precalc = precalc_world() # I don't think we should need this before
         # we get to at least 4x4 farm size, but we define it as soon as we get 1x3
 
-quick_print("$", "End time is", get_time())
+quick_print("$", "End time is", get_time() - START_TIME)
+for extra in ORDER_OF_GRIND:
+    quick_print(extra, num_items(extra))
 timed_reset()

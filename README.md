@@ -4,3 +4,4 @@ Also i broke the naming convention for three files, because those files I deem t
 * Best time (v1.1): 1:48:08.733
 * Best time (v1.2): 1:22:58.444
 * Best time (v1.21):1:14:01.313
+* Best time (v1.22):1:10:51.399
