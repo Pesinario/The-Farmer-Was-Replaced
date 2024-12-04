@@ -30,13 +30,19 @@ GAME_PLAN = BEFORE_CARROTS + BEFORE_TREES + BEFORE_SUNFLOWERS + (
 # TODO: This route is awful.
 
 def log_this_unlock(unlock): # adds to the dictionary the unlock and how long it took
+    succesfully_unlocked = False
+    attempts = 0
     started_unlocking = get_time()
     quick_print("~", current_milestone_chased, "started @", started_unlocking - START_TIME)
-    get_me_unlock(unlock)
-    took_this_long = get_time() - started_unlocking
-    quick_print("~", current_milestone_chased, "ended @", get_time() - START_TIME,
-                 "and took", took_this_long)
-    return True
+    while not succesfully_unlocked:
+        attempts += 1
+        if get_me_unlock(unlock):
+            took_this_long = get_time() - started_unlocking
+            quick_print("~", current_milestone_chased, "ended @", get_time() - START_TIME,
+                        "and took", took_this_long, "attempts:", attempts)
+            return True
+        else:
+            print("° We fucked up somewhere")
 
 # Some useful globals:
 precalc = []

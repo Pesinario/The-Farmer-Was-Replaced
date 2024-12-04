@@ -1,5 +1,6 @@
 def grind_method(what, target_amount, boost = True):
-    quick_print("+ Now grinding: ", what, " required: ", target_amount, "boost active:", boost)
+    random_id = random()
+    quick_print("+ Now grinding: ", what, "up to:", target_amount, "boost active:", boost, "id:", random_id)
     WORLD_TILE_COUNT = get_world_size()**2
     if what == Items.Power:
         get_power(target_amount)
@@ -48,7 +49,7 @@ def grind_method(what, target_amount, boost = True):
     elif what == Items.Pumpkin:
         cost_per_run = OPTIMAL_PUMPKIN_SEEDS[num_unlocked(Unlocks.Expand)]
         expected_yield_per_run = (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins) * 0.9
-        # the reason for the 0.9 is that we speend pumpkins o make pumpkins
+        # the reason for the 0.9 is that we spend pumpkins to buy fertilizer to make pumpkins.
         needed_runs = target_amount // expected_yield_per_run
         acquire_seeds(Items.Pumpkin_Seed, needed_runs * cost_per_run)
         pumpkin_smart(target_amount)
@@ -58,17 +59,17 @@ def grind_method(what, target_amount, boost = True):
         gold_per_maze = num_unlocked(Unlocks.Mazes) * WORLD_TILE_COUNT
         remaining_gold_to_farm = target_amount - num_items(Items.Gold)
         mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
+        trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10) # go ahead and buy as much as we can
         expected_fert_usage = mazes_for_goal * FERT_PER_MAZE
-        must_get_fert = expected_fert_usage - num_items(Items.Fertilizer)
-        if num_items(Items.Fertilizer) < expected_fert_usage:
-            quick_print("$ We are about to buy", must_get_fert, "Fertilizer for farming gold")
+        attempts = 0
+        while num_items(Items.Fertilizer) < expected_fert_usage:
+            attempts += 1
+            must_get_fert = expected_fert_usage - num_items(Items.Fertilizer)
+            quick_print("$ We are about to attempt to grind and buy",
+                        must_get_fert, "Fertilizer for farming gold")
             if not trade(Items.Fertilizer, must_get_fert):
-                trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10) # go ahead and buy as much as we can
                 grind_method(Items.Pumpkin, must_get_fert * 10)
-                if not trade(Items.Fertilizer, must_get_fert):
-                    print("° FAILED TWICE TO BUY FERTILIZER.")
-        else:
-            quick_print("$ We have enough fertilizer")
+        quick_print("$ We have enough fertilizer after", attempts, "attempts of farming pumpkin")
         if not do_simple_maze_run(target_amount):
             quick_print("° ERROR while farming gold")
         quick_print("$ We finished grinding gold, we have", num_items(Items.Fertilizer), "Fertilizer leftover.")
@@ -82,10 +83,13 @@ def grind_method(what, target_amount, boost = True):
             quick_print("° Cactus issue")
 
     elif what == Items.Bones:
+        grind_method(Items.Power, 500)
         expected_bones_per_chicken = 4 * num_unlocked(Unlocks.Dinosaurs)
         needed_eggs_safe = ((2000 - num_items(Items.Egg)) // expected_bones_per_chicken ) + WORLD_TILE_COUNT
         acquire_seeds(Items.Egg, needed_eggs_safe)
+        grind_method(Items.Power, 200)
         dyno_slightly_smarter(target_amount)
+    quick_print("+ Finished grinding: ", what, "up to:", target_amount, "boost active:", boost, "id:", random_id)
 
 
 def get_me_unlock(what_unlock):
@@ -97,9 +101,7 @@ def get_me_unlock(what_unlock):
             if num_items(resource) < all_costs[resource]:
                 grind_method(resource, all_costs[resource])
 
-    if not unlock(what_unlock): # Safety check
-        print("° We fucked up somewhere")
-        get_me_unlock(what_unlock) # Recursion, spooky
+    return unlock(what_unlock)
 
 while True:
     print("° This file should never be run by itself")
