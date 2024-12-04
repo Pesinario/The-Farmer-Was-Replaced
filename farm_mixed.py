@@ -29,10 +29,14 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
                    Items.Wood:Entities.Tree} # Only these can be companions.
     priority_as_entity = item_to_ent[priority_as_item]
     companion_requests = {}
-    till_this_many_tiles(WORLD_TILE_COUNT)
+    for next_move in precalc:
+        if get_ground_type() != Grounds.Soil:
+            till()
+        plant(priority_as_entity)
+        move(next_move)
 
     while True: # Main loop
-        acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT)
+        acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT, False)
 
         for next_move in precalc: # Visit every tile once
             current_pos = (get_pos_x(),get_pos_y())
