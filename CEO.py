@@ -54,27 +54,32 @@ def grind_method(what, target_amount, boost = True):
         pumpkin_smart(target_amount)
 
     elif what == Items.Gold:
-        FERT_PER_MAZE = 25 # This value is just a guess
+        FERT_PER_MAZE = 25 # This value should be more than enough now, since we should only use 4 fert per maze.
         gold_per_maze = num_unlocked(Unlocks.Mazes) * WORLD_TILE_COUNT
         remaining_gold_to_farm = target_amount - num_items(Items.Gold)
         mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
         expected_fert_usage = mazes_for_goal * FERT_PER_MAZE
         must_get_fert = expected_fert_usage - num_items(Items.Fertilizer)
-        quick_print("$ We are about to buy", expected_fert_usage, "Fertilizer for farming gold")
         if num_items(Items.Fertilizer) < expected_fert_usage:
+            quick_print("$ We are about to buy", must_get_fert, "Fertilizer for farming gold")
             if not trade(Items.Fertilizer, must_get_fert):
                 trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10) # go ahead and buy as much as we can
                 grind_method(Items.Pumpkin, must_get_fert * 10)
-            if not trade(Items.Fertilizer, must_get_fert):
-                print("° FAILED TWICE TO BUY FERTILIZER.")
-        do_simple_maze_run(target_amount)
+                if not trade(Items.Fertilizer, must_get_fert):
+                    print("° FAILED TWICE TO BUY FERTILIZER.")
+        else:
+            quick_print("$ We have enough fertilizer")
+        if not do_simple_maze_run(target_amount):
+            quick_print("° ERROR while farming gold")
         quick_print("$ We finished grinding gold, we have", num_items(Items.Fertilizer), "Fertilizer leftover.")
 
     elif what == Items.Cactus:
         expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
         runs_needed = (target_amount // expected_yield) + 1
-        acquire_seeds(Items.Cactus_Seed, runs_needed * WORLD_TILE_COUNT)
-        cactus_bubble(target_amount)
+        if acquire_seeds(Items.Cactus_Seed, runs_needed * WORLD_TILE_COUNT):
+            cactus_bubble(target_amount)
+        else:
+            quick_print("° Cactus issue")
 
     elif what == Items.Bones:
         expected_bones_per_chicken = 4 * num_unlocked(Unlocks.Dinosaurs)

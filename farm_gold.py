@@ -1,18 +1,19 @@
 def do_simple_maze_run(gold_target):
-    clear() # the farm reverts to grass anyways after harvesting the treasure
     dir_list = [East, South, West, North]
     dir_last = 0
     dir_next = 1
     while True:
-        counter = 0
+        navigate_to(0, 0)
         while get_entity_type() != Entities.Hedge:
             if get_entity_type() != Entities.Bush:
                 harvest()
                 plant(Entities.Bush)
-            for _ in range(3):
-                if not use_item(Items.Fertilizer):
-                    return False
+            else:
+                for _ in range(4):
+                    if not use_item(Items.Fertilizer):
+                        return False
         # Now we should be in a maze.
+        counter = 0
         while get_entity_type() != Entities.Treasure: # solve the maze
             counter *= 1
             if counter > 1000:
