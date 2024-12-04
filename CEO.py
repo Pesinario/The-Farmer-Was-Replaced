@@ -47,7 +47,8 @@ def grind_method(what, target_amount, boost = True):
 
     elif what == Items.Pumpkin:
         cost_per_run = OPTIMAL_PUMPKIN_SEEDS[num_unlocked(Unlocks.Expand)]
-        expected_yield_per_run = (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins)
+        expected_yield_per_run = (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins) * 0.9
+        # the reason for the 0.9 is that we speend pumpkins o make pumpkins
         needed_runs = target_amount // expected_yield_per_run
         acquire_seeds(Items.Pumpkin_Seed, needed_runs * cost_per_run)
         pumpkin_smart(target_amount)
@@ -62,6 +63,7 @@ def grind_method(what, target_amount, boost = True):
         quick_print("$ We are about to buy", expected_fert_usage, "Fertilizer for farming gold")
         if num_items(Items.Fertilizer) < expected_fert_usage:
             if not trade(Items.Fertilizer, must_get_fert):
+                trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10) # go ahead and buy as much as we can
                 grind_method(Items.Pumpkin, must_get_fert * 10)
             if not trade(Items.Fertilizer, must_get_fert):
                 print("° FAILED TWICE TO BUY FERTILIZER.")
