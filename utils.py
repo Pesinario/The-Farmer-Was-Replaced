@@ -6,37 +6,34 @@ def wait_harv():
 
 def smart_harv(debate=True):
     if can_harvest():
-        harvest()
+        harvest() 
     elif debate:
         debate_watering()
 
 def till_this_many_tiles(how_many, debate=True):
-    for _ in range(how_many):
+    for i in range(how_many):
         smart_harv(debate)
         if get_ground_type() != Grounds.Soil:
             till()
         walk_the_grid()
 
-def acquire_seeds(type_of_seed, how_many, grind = True):
-    quick_print("- acquire_seeds got a request of", how_many, type_of_seed)
+def acquire_seeds(type_of_seed, how_many):
     mustbuy = how_many - num_items(type_of_seed)
     if mustbuy < 0:
         return True
 
-    if not trade(type_of_seed, mustbuy) and grind:
+    if not trade(type_of_seed, mustbuy):
         # Farm the price of the seeds
         requirements = get_cost(type_of_seed)
-        quick_print("- Couldn't afford", mustbuy, type_of_seed, "Starting to grind", requirements, "@ acquire_seeds()")
+        quick_print("Couldn't afford", mustbuy, type_of_seed, "Starting to grind", requirements)
         for seed_req in ORDER_OF_GRIND:
             if seed_req in requirements:
                 amount_required = requirements[seed_req]
                 amount_required *= mustbuy
                 if num_items(seed_req) < amount_required:
-                    quick_print("- Farming", amount_required, seed_req, "@ acquire_seeds()")
                     grind_method(seed_req, amount_required, seed_req == Items.Sunflower_Seed)
         if not trade(type_of_seed, mustbuy):
-            print("° Something went really wrong with seed acquisition, ",
-                  "even after trying to grind them.")
+            print("Something went really wrong with seed acquisition, even after trying to grind them.")
             return False
     return True
 
@@ -46,21 +43,18 @@ def debate_watering(thresh=0.75):
         if not use_item(Items.Water_Tank):
             can_buy = min(num_items(Items.Wood) // 5, 10)
             if not trade(Items.Empty_Tank, can_buy):
-                print("- Too broke to buy tanks")
-
+                print("Too broke to buy tanks")
+            
 def try_fert():
-    if num_items(Items.Fertilizer) < 1:
+    if num_items(Items.Fertilizer) < 5:
         if num_unlocked(Unlocks.Fertilizer) == 0:
             return False
-        if num_items(Items.Pumpkin) < 10:
-            return False
-        if not trade(Items.Fertilizer, min((num_items(Items.Pumpkin) // 10), 100)):
-            return False
-
+        acquire_seeds(Items.Fertilizer, 25)
+    
     if use_item(Items.Fertilizer):
         return True
     else:
         return False
-
+    
 while True:
-    print("° This file should never be run by itself")
+    print("This file should never be run by itself")

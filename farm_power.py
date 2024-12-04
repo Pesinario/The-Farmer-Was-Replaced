@@ -9,7 +9,7 @@ def old_method_sunflower(power_target):
     while True:
         biggest = 0
         acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT)
-        for _ in range(WORLD_TILE_COUNT):
+        for i in range(WORLD_TILE_COUNT):
             plant(Entities.Sunflower)
             debate_watering(0.75)
             a = measure()
@@ -18,10 +18,11 @@ def old_method_sunflower(power_target):
             if a > biggest:
                 biggest = a
             walk_the_grid()
+        # print("biggest:", biggest)
         biggestThresh = biggest -3
 
         while biggest > biggestThresh: # harvest
-            for _ in range(WORLD_TILE_COUNT):
+            for i in range(WORLD_TILE_COUNT):
                 if measure() == biggest:
                     smart_harv()
                 walk_the_grid()
@@ -46,7 +47,7 @@ def sunflower_no_replanting(should_setup):
             petal_siblings.append([get_pos_x(), get_pos_y()])
             my_record[petals] = petal_siblings
         elif petals == None:
-            print("° Some kind of error @ Sunflower Master")
+            print("Some kind of error @ Sunflower Master")
         else:
             my_record[petals] = [[get_pos_x(), get_pos_y()]]
         move(next_move)
@@ -58,23 +59,23 @@ def sunflower_no_replanting(should_setup):
             for sunflower in siblings:
                 navigate_smart(sunflower)
                 wait_harv()
-
-def get_power(power_target = 0, initial = True):
+    
+def get_power(power_target=0, initial=True):
     WORLD_TILE_COUNT = get_world_size()**2
     expected_yield = EXPECTED_POWER[num_unlocked(Unlocks.Expand)]
-    runs_to_fulfil = (power_target + 50) // expected_yield
-    acquire_seeds(Items.Sunflower_Seed, (WORLD_TILE_COUNT) * (runs_to_fulfil + 1))
-    for _ in range(runs_to_fulfil + 1):
-        if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
-            print("° Seed issue @ get_power")
+    runs_to_fulfil = ((power_target + 50) // expected_yield) + 1
+    acquire_seeds(Items.Sunflower_Seed, (WORLD_TILE_COUNT) * runs_to_fulfil)
+    for i in range(runs_to_fulfil):
         if initial:
             sunflower_no_replanting(True)
             initial = False
         else:
             sunflower_no_replanting(False)
         # reset_sunflowers()
-    if num_items(Items.Power) < power_target + 40:
-        print("° We underfarmed sunflowers.")
+        if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
+            print("Seed issue @ get_power")
+    if num_items(Items.Power) < power_target + 50:
+        print("We underfarmed sunflowers.")
 
 while True:
-    print("° This file should be run from Method Tester.py")
+    print("This file should be run from Method Tester.py")

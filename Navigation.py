@@ -9,7 +9,7 @@ def navigate_to(x, y): # effectively a wrapper for navigate_smart()
     navigate_smart([x, y])
 
 def move_helper(direction, duration):
-    for _ in range(duration):
+    for i in range(duration):
         move(direction)
 
 def navigate_dumb(target_x,target_y): # This has no wrapping but also doesnt use lists
@@ -36,15 +36,15 @@ def return_moves_1d(me, target):
         wrap = me + bound - target
         if wrap < abs(no_wrap):
             return wrap * -1
-
+            
     return no_wrap
+    print("how did we get here wtf")    
 
-def return_closest_target(array_of_targets):
-    # TODO: check if this works and then implement it for pumpkin or sunflower stuff
+def return_closest_target(array_of_targets): # TODO: check if this works and then implement it for pumpkin or sunflower stuff
     current_closest = array_of_targets[0]
     for target in array_of_targets:
-        target.insert(2, abs(return_moves_1d(get_pos_x(), target[0])) + (
-            abs(return_moves_1d(get_pos_y(), target[1]))))
+        target.insert(2, abs(return_moves_1d(get_pos_x(), target[0])) + 
+            abs(return_moves_1d(get_pos_y(), target[1])))
         if current_closest[2] > target[2]:
             current_closest = target
     return current_closest
@@ -67,11 +67,11 @@ def precalc_world():
     # a list with num_unlocked (Unlocks.Expand), but this solution is clearer.
     moves = []
     size = get_world_size()
-    for _ in range(size):
-        for _ in range(size-1):
+    for i in range(size):
+        for j in range(size-1):
             moves.append(North)
         moves.append(East)
     return moves
 
 while True:
-    print("° This file should never be run by itself")
+    print("This file should never be run by itself")
