@@ -1,16 +1,21 @@
 def do_simple_maze_run(gold_target):
-    clear() # the farm reverts to grass anyways after harvesting the treasure
     dir_list = [East, South, West, North]
     dir_last = 0
     dir_next = 1
     while True:
-        counter = 0
-        while not get_entity_type() == Entities.Hedge:
-            plant(Entities.Bush)
-            try_fert()
+        navigate_to(0, 0)
+        while get_entity_type() != Entities.Hedge:
+            if get_entity_type() != Entities.Bush:
+                harvest()
+                plant(Entities.Bush)
+            if num_items(Items.Fertilizer) < 4:
+                return False
+            else:
+                use_item(Items.Fertilizer)
         # Now we should be in a maze.
-        move(East)
+        counter = 0
         while get_entity_type() != Entities.Treasure: # solve the maze
+            counter *= 1
             if counter > 1000:
                 break
             dir_next = dir_last + 1
@@ -32,4 +37,4 @@ def do_simple_maze_run(gold_target):
             return True
 
 while True:
-    print("This file should be run from Method Tester.py")
+    print("° This file should be run from Method Tester.py")
