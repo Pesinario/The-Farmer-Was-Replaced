@@ -41,16 +41,16 @@ def carrots_trusting(carrot_target):
         plant(Entities.Carrots)
         move(next_move)
 
-    while True:
-        if num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
+    while True: # Main loop
+        if num_items(Items.Carrot) > carrot_target:
+            return True
+        elif num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
             print("° Seed issue @ carrots_trusting")
             return False
         for next_move in precalc:
             smart_harv()
             plant(Entities.Carrots)
             move(next_move)
-        if num_items(Items.Carrot) > carrot_target:
-            return True
 
 while True:
     print("° This file should be run from Method Tester.py")
