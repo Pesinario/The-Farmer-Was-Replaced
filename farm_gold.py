@@ -8,10 +8,10 @@ def do_simple_maze_run(gold_target):
             if get_entity_type() != Entities.Bush:
                 harvest()
                 plant(Entities.Bush)
+            if num_items(Items.Fertilizer) < 4:
+                return False
             else:
-                for _ in range(4):
-                    if not use_item(Items.Fertilizer):
-                        return False
+                use_item(Items.Fertilizer)
         # Now we should be in a maze.
         counter = 0
         while get_entity_type() != Entities.Treasure: # solve the maze
