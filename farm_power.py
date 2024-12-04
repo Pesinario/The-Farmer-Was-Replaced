@@ -59,21 +59,21 @@ def sunflower_no_replanting(should_setup):
                 navigate_smart(sunflower)
                 wait_harv()
 
-def get_power(power_target=0, initial=True):
+def get_power(power_target = 0, initial = True):
     WORLD_TILE_COUNT = get_world_size()**2
     expected_yield = EXPECTED_POWER[num_unlocked(Unlocks.Expand)]
     runs_to_fulfil = (power_target + 50) // expected_yield
     acquire_seeds(Items.Sunflower_Seed, (WORLD_TILE_COUNT) * (runs_to_fulfil + 1))
-    for _ in range(runs_to_fulfil):
+    for _ in range(runs_to_fulfil + 1):
+        if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
+            print("° Seed issue @ get_power")
         if initial:
             sunflower_no_replanting(True)
             initial = False
         else:
             sunflower_no_replanting(False)
         # reset_sunflowers()
-        if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
-            print("° Seed issue @ get_power")
-    if num_items(Items.Power) < power_target + 50:
+    if num_items(Items.Power) < power_target + 40:
         print("° We underfarmed sunflowers.")
 
 while True:
