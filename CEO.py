@@ -33,7 +33,7 @@ def grind_method(what, target_amount, boost = True):
                 elif num_unlocked(Unlocks.Trees) > 0:
                     tree_and_bush(target_amount)
                 else:
-                    three_by_three_bush(target_amount)
+                    three_by_three_with_hay(target_amount)
 
             elif what == Items.Carrot: # TODO: add a better method for 3x3 stage
                 if num_unlocked(Unlocks.Trees) > 0:

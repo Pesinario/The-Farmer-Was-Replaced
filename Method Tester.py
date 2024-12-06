@@ -21,6 +21,7 @@ grind_method(Items.Bones, num_items(Items.Bones) + 2000)
 # Wood:
 #one_by_three_bush_hay_wait(num_items(Items.Wood) + WANTED_AMOUNT)
 #three_by_three_bush(num_items(Items.Wood) + WANTED_AMOUNT)
+#three_by_three_with_hay(num_items(Items.Wood) + WANTED_AMOUNT)
 #tree_and_bush(num_items(Items.Wood) + WANTED_AMOUNT)
 
 # Carrots:

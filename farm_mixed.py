@@ -24,6 +24,41 @@ def one_by_three_bush_hay_wait(wood_target):
         plant(Entities.Bush)
         move(South) # 2 -> 0
 
+def three_by_three_with_hay(wood_target):
+    # this takes 73.56 seconds compared to the 61.22 seconds from three_by_three_bush()
+    # to farm the 100 wood that it costs to get carrots, but it also gets 28 more hay
+    # in exchange for taking ~20% longer
+    def h_p_and_m(direction):
+        harvest()
+        plant(Entities.Bush)
+        move(direction)
+    while True:
+        if num_items(Items.Wood) > wood_target:
+            return True
+
+        h_p_and_m(South)
+        h_p_and_m(South)
+        h_p_and_m(East)
+        # End of first column, guaranteed to have grown bushes after first loop
+        h_p_and_m(South)
+        h_p_and_m(South)
+        h_p_and_m(East)
+        # End of second column, guaranteed to have grown bushes after first loop
+        # Regular bush:
+        h_p_and_m(South)
+        # Get hay on the first run, possibly bushes have grown back if this
+        # isn't the first pass of the farmland that we do. But we don't wait
+        # for them if they didn't have enough time to grow. (Kinda greedy)
+        harvest()
+        move(South)
+        # Get hay/bush, then backtrack:
+        harvest()
+        move(North)
+        while not can_harvest(): # We wait for the hay to grow back
+            pass
+        h_p_and_m(South)
+        h_p_and_m(East)
+
 def poly_farm(priority_as_item, target_amount, exclusive = True):
     # Initial setup:
     WORLD_TILE_COUNT = get_world_size()**2
