@@ -1,26 +1,28 @@
 # The functions here should provide a net gain of more than one resource
 
 def one_by_three_bush_hay_wait(wood_target):
-    CONST_GRASS_WAITING = 7
-    # initial setup:
-    harvest()
-    plant(Entities.Bush)
-    move(South)
-    harvest()
-    plant(Entities.Bush)
-    move(South)
+    def h_p_and_m(direction = South): # Private function
+        harvest()
+        plant(Entities.Bush)
+        move(direction)
 
+    CONST_GRASS_WAITING = 3.5 * (num_unlocked(Unlocks.Speed) + 1)
+    # This is not as much wood as possible, but it's close enough while not
+    # wasting any time, we'll need hay anyways.
+    h_p_and_m() # 0 -> 1
     while True:
         if num_items(Items.Wood) > wood_target:
+            for _ in range(3): # Do not waste the bushes, since we're about to buy expand 2
+                harvest()
+                move(North)
             return True
-        replant = get_entity_type()
-        if replant == Entities.Grass:
-            for _ in range(CONST_GRASS_WAITING):
-                wait_harv()
-        elif can_harvest():
-            harvest()
-            plant(Entities.Bush)
-        move(North)
+
+        h_p_and_m() # 1 -> 2
+
+        for _ in range(CONST_GRASS_WAITING):
+            wait_harv()
+        plant(Entities.Bush)
+        move(South) # 2 -> 0
 
 def poly_farm(priority_as_item, target_amount, exclusive = True):
     # Initial setup:
