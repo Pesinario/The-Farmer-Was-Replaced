@@ -1,8 +1,9 @@
-def grind_method(what, target_amount, boost = True):
+def grind_method(what, target_amount, boost = True, is_test = False):
     random_id = random()
-    quick_print("+ Now grinding: ", what, "up to:", target_amount,
-                "boost active:", boost, "id:", random_id,
-                "timestamp:", time_stamp())
+    if not is_test:
+        quick_print("+ Now grinding: ", what, "up to:", target_amount,
+                    "boost active:", boost, "id:", random_id,
+                    "timestamp:", time_stamp())
 
     if num_unlocked(Unlocks.Sunflowers) > 0:
         if num_items(Items.Power) < 1:
@@ -31,7 +32,7 @@ def grind_method(what, target_amount, boost = True):
     else:
         quick_print("° Gigantic blunder @ grind_method")
 
-    if report: # pylint: disable=[E0606]
+    if report and not is_test: # pylint: disable=[E0606]
         quick_print("+ Finished grinding: ", what, "up to:", target_amount,
                     "boost active:", boost, "id:", random_id, "timestamp:", time_stamp())
 
@@ -108,8 +109,6 @@ def grind_pumpkins(target_amount):
         quick_print('- Someting went "wrong" with pumpkin farming, ',
                     'probably we split the order because it was too big.')
         return False
-    else:
-        return True
 
 def grind_gold(target_amount):
     ensure_power()
