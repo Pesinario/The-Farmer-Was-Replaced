@@ -10,36 +10,13 @@ def smart_harv(debate=True):
     elif debate:
         debate_watering()
 
-def till_this_many_tiles(how_many, debate=True):
+def till_this_many_tiles(how_many, debate=True): # This is deprecated,
+    # but is still used by some also deprected farming methods.
     for _ in range(how_many):
         smart_harv(debate)
         if get_ground_type() != Grounds.Soil:
             till()
         walk_the_grid()
-
-def acquire_seeds(type_of_seed, how_many, grind = True):
-    quick_print("- acquire_seeds got a request of", how_many, type_of_seed)
-    mustbuy = how_many - num_items(type_of_seed)
-    if mustbuy < 0:
-        return True
-
-    if not trade(type_of_seed, mustbuy) and grind:
-        # Farm the price of the seeds
-        requirements = get_cost(type_of_seed)
-        quick_print("- Couldn't afford", mustbuy, type_of_seed, "Starting to grind", requirements, "@ acquire_seeds()")
-        for seed_req in ORDER_OF_GRIND:
-            if seed_req in requirements:
-                amount_required = requirements[seed_req]
-                amount_required *= mustbuy
-                if num_items(seed_req) < amount_required:
-                    quick_print("- Farming", amount_required, seed_req, "@ acquire_seeds()")
-                    grind_method(seed_req, amount_required, seed_req == Items.Sunflower_Seed)
-        if not trade(type_of_seed, mustbuy):
-            print("° Something went really wrong with seed acquisition, ",
-                  "even after trying to grind them.")
-            return False
-    return True
-
 
 def debate_watering(thresh=0.75):
     if get_water() <= thresh:
@@ -57,10 +34,7 @@ def try_fert():
         if not trade(Items.Fertilizer, min((num_items(Items.Pumpkin) // 10), 100)):
             return False
 
-    if use_item(Items.Fertilizer):
-        return True
-    else:
-        return False
+    return use_item(Items.Fertilizer)
 
 while True:
     print("° This file should never be run by itself")

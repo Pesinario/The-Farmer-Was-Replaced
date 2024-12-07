@@ -1,4 +1,4 @@
-def ultra_dumb_dyno(bones_target):
+def ultra_dumb_dyno(bones_target): # This method is deprecated
     WORLD_TILE_COUNT = get_world_size()**2
     while True:
         if num_items(Items.Egg) < WORLD_TILE_COUNT:
@@ -16,7 +16,11 @@ def ultra_dumb_dyno(bones_target):
 
 
 def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much better.
-    while num_items(Items.Bones) < bones_target and num_items(Items.Egg) > 0:
+    while num_items(Items.Bones) < bones_target:
+        if num_items(Items.Egg) == 0:
+            quick_print("° Egg issue @ dyno_slightly_smarter()")
+            return False
+
         for next_move in precalc:
             if get_entity_type() != Entities.Dinosaur:
                 use_item(Items.Egg)
@@ -49,6 +53,7 @@ def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much 
             # if here != None and south != None and here > south:
             #     swap(South)
             move(next_move)
+    return True
 
 while True:
     print("° This file should be run from Method Tester.py")

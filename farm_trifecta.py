@@ -1,4 +1,65 @@
-# The functions here should provide a net gain of more than one resource
+# The functions here are related to hay, wood and carrots, since they're often farmed together
+
+# Hay only:
+def harv_hay_dumb(hay_target):
+    for _ in range(get_world_size()):
+        harvest()
+        if get_ground_type() != Grounds.Turf:
+            till()
+        move(North)
+
+    while num_items(Items.Hay) < hay_target:
+        if not can_harvest():
+            if get_entity_type() == Entities.Grass:
+                print("° We outspeed grass! confirmed")
+        harvest()
+        move(North)
+    return True
+
+def hay_full_field(hay_target):
+    for next_move in precalc: # Initial setting up
+        harvest()
+        if get_ground_type() != Grounds.Turf:
+            till()
+        move(next_move)
+    while num_items(Items.Hay) < hay_target:
+        for next_move in precalc: # Main loop
+            harvest()
+            move(next_move)
+    return True
+
+# Wood only:
+
+def three_by_three_bush(wood_target): # This method is deprecated
+    # initial setup:
+    for next_move in precalc:
+        harvest()
+        plant(Entities.Bush)
+        move(next_move)
+
+    while True:
+        if num_items(Items.Wood) > wood_target:
+            return True
+        for next_move in precalc:
+            wait_harv()
+            plant(Entities.Bush)
+            move(next_move)
+
+def tree_and_bush(wood_target):
+    while True:
+        for next_move in precalc:
+            pos_sum = get_pos_x()+get_pos_y()
+            if pos_sum % 2 == 0:
+                smart_harv(True)
+                plant(Entities.Tree)
+            else:
+                smart_harv(False)
+                plant(Entities.Bush)
+            move(next_move)
+        if num_items(Items.Wood) > wood_target:
+            return True
+
+# Wood and Hay:
 
 def one_by_three_bush_hay_wait(wood_target):
     def h_p_and_m(direction = South): # Private function
@@ -59,12 +120,63 @@ def three_by_three_with_hay(wood_target):
         h_p_and_m(South)
         h_p_and_m(East)
 
+# Carrots only:
+
+def carrots_trusting(carrot_target):
+    WORLD_TILE_COUNT = get_world_size()**2
+
+    for next_move in precalc: # Initial setting up
+        smart_harv(False)
+        if get_ground_type() != Grounds.Soil:
+            till()
+        plant(Entities.Carrots)
+        move(next_move)
+
+    while True: # Main loop
+        if num_items(Items.Carrot) > carrot_target:
+            return True
+        elif num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
+            print("° Seed issue @ carrots_trusting")
+            return False
+        for next_move in precalc:
+            smart_harv()
+            plant(Entities.Carrots)
+            move(next_move)
+
+# Carrots and wood/hay
+
+def carrots_ensure_seeds(carrot_target): # This method is deprecated
+    WORLD_TILE_COUNT = get_world_size()**2
+    hay_tiles_per_carrot_tile = get_cost(Items.Carrot_Seed)[Items.Hay] / (
+        num_unlocked(Unlocks.Grass) + 1)
+    is_tilled = WORLD_TILE_COUNT / (1 + hay_tiles_per_carrot_tile) // 1
+
+    till_this_many_tiles(is_tilled, False)
+    not_tilled = WORLD_TILE_COUNT - is_tilled
+    for _ in range(not_tilled):
+        harvest()
+        if get_ground_type() == Grounds.Soil:
+            till()
+        walk_the_grid()
+    while True:
+        trade(Items.Carrot_Seed, is_tilled) # we do NOT use acquire_seeds()
+        # because this farming method should farm its own wood and hay
+        for next_move in precalc:
+            smart_harv(False)
+            if get_ground_type() == Grounds.Soil:
+                if not plant(Entities.Carrots):
+                    plant(Entities.Bush)
+            move(next_move)
+        if num_items(Items.Carrot) > carrot_target:
+            return True
+
 def carrot_three_by_three(carrot_target):
     CONST_WAIT_FOR_CARROTS = 3
     def h_p_and_m(direction, should_till=False):
         harvest()
         if should_till:
-            till()
+            if get_ground_type() != Grounds.Soil:
+                till()
         plant(Entities.Carrots)
         move(direction)
 
@@ -98,6 +210,8 @@ def carrot_three_by_three(carrot_target):
             h_p_and_m(East)
         h_p_and_m(South)
         hay_and_continue()
+
+# Poly farm almost always gets all three
 
 def poly_farm(priority_as_item, target_amount, exclusive = True):
     # Initial setup:

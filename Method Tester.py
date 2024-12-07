@@ -1,10 +1,6 @@
-OPTIMAL_PUMPKIN_SEEDS = {2:17, 3:27, 4:40, 5:55,
-                         6:72, 7:92, 8:115, 9:140} # Do not even ask where these numbers came from
 ORDER_OF_GRIND = [
     Items.Egg, Items.Cactus, Items.Gold,Items.Pumpkin, Items.Pumpkin,
     Items.Power, Items.Carrot, Items.Wood, Items.Hay]
-EXPECTED_POWER = {2:18.31, 3:46.97, 4:73.63, 5:126.14,
-                  6:191.86, 7:281.47, 8:397.77, 9:544.71}
 
 clear()
 set_farm_size(3)
