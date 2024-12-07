@@ -69,6 +69,7 @@ def get_power(power_target = 0, initial = True):
     for _ in range(runs_to_fulfil + 1):
         if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
             print("° Seed issue @ get_power")
+            return False
         if initial:
             sunflower_no_replanting(True)
             initial = False
@@ -77,6 +78,8 @@ def get_power(power_target = 0, initial = True):
         # reset_sunflowers()
     if num_items(Items.Power) < power_target + 40:
         print("° We underfarmed sunflowers.")
+        return False
+    return True
 
 while True:
     print("° This file should be run from Method Tester.py")

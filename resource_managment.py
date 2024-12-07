@@ -5,16 +5,19 @@ def grind_method(what, target_amount, boost = True, is_test = False):
                     "boost active:", boost, "id:", random_id,
                     "timestamp:", time_stamp())
 
-    if num_unlocked(Unlocks.Sunflowers) > 0:
-        if num_items(Items.Power) < 1:
-            quick_print("° We're out of juice, that was an oopsie somewhere.")
-        if what == Items.Power:
-            report = get_power(target_amount)
-        elif num_items(Items.Power) < 50 and boost:
-            quick_print("+ Getting power before getting", what)
-            ensure_power()
+    if what != Items.Power:
+        if num_unlocked(Unlocks.Sunflowers) > 0:
+            if num_items(Items.Power) < 1:
+                quick_print("° We're out of juice, that was an oopsie somewhere.")
 
-    if what in [Items.Hay, Items.Wood, Items.Carrot]:
+            if num_items(Items.Power) < 50 and boost:
+                quick_print("+ Getting power before getting", what)
+                ensure_power()
+
+    if what == Items.Power:
+        report = get_power(target_amount)
+
+    elif what in [Items.Hay, Items.Wood, Items.Carrot]:
         report = grind_trifecta(what, target_amount)
 
     elif what == Items.Pumpkin:
