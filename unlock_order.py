@@ -14,7 +14,8 @@ def old_route():
         )
     return my_route
 
-def new_route():
+def new_route(): # TODO: WIP, should incorporate stockpiling of seeds BEFORE
+    # upgrading carrots/pumpkins, since they'll be more expensive after.
     one_by_three   = [Unlocks.Speed, Unlocks.Expand , Unlocks.Plant,
                       Unlocks.Expand, Unlocks.Grass]
     three_by_three = [Unlocks.Speed, Unlocks.Carrots, Unlocks.Trees,
@@ -25,6 +26,65 @@ def new_route():
     my_route = one_by_three + three_by_three + four_by_four + five_by_five
     return my_route
 
+def route_stolen_from_josh_from_the_discord():
+    # this order of unlocks was taken from legoman12343, as posted in the
+    # official "The Farmer Was Replaced" discord, it will not be the final
+    # route but it is definitely better than the old one
+    stolen=[]
+    stolen.append(Unlocks.Grass)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Expand)
+    stolen.append(Unlocks.Plant)
+    stolen.append(Unlocks.Expand)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Grass)
+    stolen.append(Unlocks.Carrots)
+    stolen.append(Unlocks.Trees)
+    stolen.append(Unlocks.Trees)
+    stolen.append(Unlocks.Expand)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Carrots)
+    stolen.append(Unlocks.Sunflowers)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Grass)
+    stolen.append(Unlocks.Grass)
+    stolen.append(Unlocks.Trees)
+    stolen.append(Unlocks.Trees)
+    stolen.append(Unlocks.Carrots)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Carrots)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Pumpkins)
+    stolen.append(Unlocks.Polyculture)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Carrots)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Pumpkins)
+    stolen.append(Unlocks.Pumpkins)
+    stolen.append(Unlocks.Pumpkins)
+    stolen.append(Unlocks.Expand)
+    stolen.append(Unlocks.Expand)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Carrots)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Speed)
+    stolen.append(Unlocks.Trees)
+    stolen.append(Unlocks.Pumpkins)
+    stolen.append(Unlocks.Pumpkins)
+    stolen.append(Unlocks.Expand)
+    stolen.append(Unlocks.Fertilizer)
+    stolen.append(Unlocks.Expand)
+    stolen.append(Unlocks.Mazes)
+    stolen.append(Unlocks.Mazes)
+    stolen.append(Unlocks.Mazes)
+    stolen.append(Unlocks.Cactus)
+    stolen.append(Unlocks.Cactus)
+    stolen.append(Unlocks.Dinosaurs)
+    stolen.append(Unlocks.Dinosaurs)
+    stolen.append(Unlocks.Leaderboard)
+    return stolen
+
 
 def get_me_best_route():
-    return old_route()
+    return route_stolen_from_josh_from_the_discord()

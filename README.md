@@ -1,6 +1,6 @@
 # Welcome to my code for "The Farmer Was Replaced"!
 ### A few things you should know about it:
-* I am fairly inexperienced with both Python and Git, so please excuse any blunders i make.
+* I am fairly inexperienced with both Python and Git, so please excuse any blunders I make.
 * The goal of this project is **not** to get a *great* time on the leaderboard.
 * The goals of this project **are:**
   * To learn how to use git properly
@@ -14,3 +14,4 @@ Below is a list of the best time achieved with each version of the code, the goa
 * Best time (v1.2): 1:22:58.444
 * Best time (v1.21):1:14:01.313
 * Best time (v1.22):1:10:51.399
+* Best time (v1.3): 0:40:28.440
