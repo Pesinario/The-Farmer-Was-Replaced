@@ -3,8 +3,8 @@ ORDER_OF_GRIND = [
     Items.Power, Items.Carrot, Items.Wood, Items.Hay]
 
 clear()
-# set_farm_size(3)
-set_execution_speed(10)
+set_farm_size(7)
+# set_execution_speed(10)
 
 precalc = precalc_world()
 
@@ -37,7 +37,7 @@ grind_method(grind_target, num_items(grind_target) + WANTED_AMOUNT, True, True)
 #poly_farm(default_poly, num_items(default_poly) + WANTED_AMOUNT)
 
 # Pumpkins:
-#pumpkin_smart(num_items(Items.Pumpkin) + WANTED_AMOUNT)
+#pumpkin_smart(10) # This should really be called from grind_method() instead..
 
 # Power:
 #old_method_sunflower(num_items(Items.Power) + WANTED_AMOUNT)

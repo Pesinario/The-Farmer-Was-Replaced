@@ -83,36 +83,30 @@ def grind_pumpkins(target_amount):
     SEEDS_99_PERCENT = {2:17, 3:27, 4:40, 5:55, 6:72, 7:92, 8:115, 9:140}
     # This is the amount of seeds needed to get a 99% chance of harvesting a
     # full field of pumpkins without running out, according to Expand size.
-    if num_unlocked(Unlocks.Fertilizer) > 0:
-        LOSSES_FROM_FERTILIZER = 0.9 # This is a complete guess.
-    else:
-        LOSSES_FROM_FERTILIZER = 1.0
-
     cost_per_run = SEEDS_99_PERCENT[num_unlocked(Unlocks.Expand)]
-    yield_per_run = (
-        (get_world_size() ** 3) *        # How much pumpkins are worth
-        num_unlocked(Unlocks.Pumpkins) * # The upgrade modifier
-        LOSSES_FROM_FERTILIZER           # Our best guess
-        )
+    yield_per_run = ((get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins))
     needed_pumpkins = target_amount - num_items(Items.Pumpkin)
-    needed_runs = needed_pumpkins // yield_per_run + 1 # One extra for safety.
+    needed_runs = needed_pumpkins // yield_per_run + 1 # Extra run for safety.
 
     while needed_runs > MAX_RUNS_ALLOWED:
         acquire_seeds(Items.Pumpkin_Seed,
-                      MAX_RUNS_ALLOWED * cost_per_run +
-                      cost_per_run) # This is a buffer of one field
-        if not pumpkin_smart(
-            num_items(Items.Pumpkin) +
-            yield_per_run * MAX_RUNS_ALLOWED
-            ):
-            quick_print('° Someting went "wrong" with pumpkin farming. ')
+                      MAX_RUNS_ALLOWED * cost_per_run + cost_per_run)
+        if not pumpkin_smart(MAX_RUNS_ALLOWED):
+            quick_print('° Error @grind_pumpkins during run splitting')
             return False
         needed_runs -= MAX_RUNS_ALLOWED
 
-    acquire_seeds(Items.Pumpkin_Seed, needed_runs * cost_per_run)
-    if not pumpkin_smart(target_amount):
-        quick_print('- Someting went "wrong" with pumpkin farming, ',
-                    'probably we split the order because it was too big.')
+    acquire_seeds(Items.Pumpkin_Seed,
+                  needed_runs * cost_per_run + cost_per_run)
+    if not pumpkin_smart(needed_runs):
+        quick_print('° Error @grind_pumpkins near the end')
+        return False
+
+    if num_items(Items.Pumpkin) > target_amount:
+        return True
+    else:
+        quick_print("° Error @grind_pumpkins, ",
+                    "Somehow we didn't farm enough pumpkins.")
         return False
 
 def grind_gold(target_amount):

@@ -1,22 +1,26 @@
 def find_suspects(precalc):
     starting_suspects = []
-    count = 0
+    # Initial setup:
+    while get_entity_type() == Entities.Pumpkin and not can_harvest():
+        do_a_flip() # We wait for it to grow, this is for cases where
+        # we are so fast that we don't give the first pumpkin planted
+        # time to grow, can also happen if the first pumpkin dies.
+    if get_entity_type() != Entities.Pumpkin:
+        if not plant(Entities.Pumpkin):
+            print("° Couldn't plant, fatal issue @find_suspects")
+            return False
+        starting_suspects.append([get_pos_x(), get_pos_y()])
     for next_move in precalc:
-        if count == 0:
-            if get_entity_type() != Entities.Pumpkin:
-                plant(Entities.Pumpkin)
-            while get_entity_type() == Entities.Pumpkin and not can_harvest():
-                do_a_flip() # We wait for it to grow, this is for cases where
-                # we are so fast that we don't give the first pumpkin planted
-                # time to grow
-
         if get_entity_type() != Entities.Pumpkin:
-            plant(Entities.Pumpkin)
+            if not plant(Entities.Pumpkin):
+                print("° Couldn't plant, fatal issue @find_suspects")
+                return False
+            debate_watering(0.75)
             starting_suspects.append([get_pos_x(), get_pos_y()])
         elif not can_harvest():
             debate_watering(0.75)
+            starting_suspects.append([get_pos_x(), get_pos_y()])
         move(next_move)
-        count += 1
     return starting_suspects
 
 def water_dead(suspects):
@@ -52,12 +56,12 @@ def fert_dead(suspects):
     return True
 
 
-def pumpkin_smart(pumpkin_target):
-    while True: # Loop for everything
-        if num_items(Items.Pumpkin) > pumpkin_target:
-            return True
-        elif num_items(Items.Pumpkin_Seed) < (get_world_size()**2):
-            print("° Seed issue @ pumpkin_smart")
+def pumpkin_smart(runs_to_do):
+    run_counter = 0
+    while runs_to_do > run_counter: # Loop for everything
+        run_counter += 1
+        if num_items(Items.Pumpkin_Seed) < (get_world_size()**2):
+            print("° Seed issue @ pumpkin_smart, run #:", run_counter)
             return False
 
         # first planting and watering once run:
@@ -65,14 +69,14 @@ def pumpkin_smart(pumpkin_target):
             harvest()
             if get_ground_type() != Grounds.Soil:
                 till()
-            plant(Entities.Pumpkin)
+            plant(Entities.Pumpkin) # Don't need to check on this one
             debate_watering(0.25)
             move(next_move)
 
         # now we take note of all pumpkins that died in the first planting run
+        # and also water them after replanting
         suspects = find_suspects(precalc)
-
-        # now we replant dead pumpkins untill we're sure that all pumpkins are alive
+        # now we replant dead pumpkins and water/fertilizer them until we're done.
         if len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:
                 fert_dead(suspects)
@@ -80,7 +84,14 @@ def pumpkin_smart(pumpkin_target):
                 water_dead(suspects)
         # end of run
         old_pumpkins = num_items(Items.Pumpkin)
-        smart_harv()
+        while not can_harvest(): # harvest last suspect
+            if get_entity_type() != Entities.Pumpkin:
+                if not plant(Entities.Pumpkin):
+                    print("° Couldn't plant, fatal issue @pumpkin_smart's final harvest.")
+                return False
+            debate_watering(0.75)
+            try_fert()
+        harvest()
         new_pumpkins = num_items(Items.Pumpkin)
         expected_yield = (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins)
         actual_yield = new_pumpkins - old_pumpkins
@@ -88,8 +99,9 @@ def pumpkin_smart(pumpkin_target):
             print("° Expected yield was: ", expected_yield, " pumpkins")
             print("° We have farmed ", actual_yield, " pumpkins.")
             print("° We farmed ", expected_yield - actual_yield, " less pumpkins than expected")
-            print("° Seeds left:", num_items(Items.Pumpkin_Seed))
-
+            print("° Seeds left:", num_items(Items.Pumpkin_Seed), "run #:", run_counter)
+            return False
+    return True
 
 while True:
     print("° This file should be run from Method Tester.py")
