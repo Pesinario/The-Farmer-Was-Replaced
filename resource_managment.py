@@ -159,7 +159,7 @@ def grind_gold(target_amount):
 def grind_cacti(target_amount):
     ensure_power()
     expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
-    runs_needed = (target_amount // expected_yield) + 1
+    runs_needed = target_amount // expected_yield
     if acquire_seeds(Items.Cactus_Seed, runs_needed * get_world_size()**2):
         return cactus_bubble(target_amount)
     else:
