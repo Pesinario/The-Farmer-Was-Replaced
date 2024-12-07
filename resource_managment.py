@@ -41,7 +41,8 @@ def grind_method(what, target_amount, boost = True, is_test = False):
 
     return report
 
-def grind_trifecta(what, target_amount): # TODO: this
+def grind_trifecta(what, target_amount): # TODO: Be slightly smarter about how
+    # we farm the trifecta.
     if num_unlocked(Unlocks.Polyculture) != 0:
         poly_farm(what, target_amount)
 
@@ -74,7 +75,7 @@ def grind_trifecta(what, target_amount): # TODO: this
             if not carrots_trusting(target_amount):
                 while True:
                     print("° Fix this correctly.")
-    return True # TODO: make this smarter
+        return num_items(what) > target_amount
 
 def grind_pumpkins(target_amount):
     MAX_RUNS_ALLOWED = 9 # To prevent buying a huge amount of extra seeds.
@@ -137,7 +138,7 @@ def grind_gold(target_amount):
             return True
 
     else:
-        quick_print("$ We are about to attempt to grind and buy",
+        quick_print("- We are about to attempt to grind and buy",
                     MAX_FERT_PER_BATCH - num_items(Items.Fertilizer),
                     "Fertilizer for farming gold")
         while mazes_for_goal > MAX_MAZES_ALLOWED:
@@ -200,10 +201,11 @@ def acquire_seeds(type_of_seed, how_many, grind = True):
         requirements = get_cost(type_of_seed)
         for material in requirements:
             requirements[material] = requirements[material] * seed_diff
-        quick_print("- Couldn't afford", seed_diff, type_of_seed, "Starting to grind up to", requirements, "@ acquire_seeds()")
+        quick_print("- Couldn't afford", seed_diff, type_of_seed,
+                    "Starting to grind up to", requirements, "@ acquire_seeds()")
         if type_of_seed == Items.Sunflower_Seed:
             quick_print(
-                "+-° Not enough carrots to farm power even once.",
+                "° Not enough carrots to farm power even once.",
                 "Attempting to grind carrots for sunflower seeds without boost"
                 )
             grind_method(Items.Carrot, seed_diff, False)
@@ -216,10 +218,11 @@ def acquire_seeds(type_of_seed, how_many, grind = True):
     return True
 
 def grind_by_order(grind_what):
-    for resource in ORDER_OF_GRIND: # Grind in order of most expensive to cheapest
+    for resource in ORDER_OF_GRIND: # Grind in descending order of cost
         if resource in grind_what:
             if num_items(resource) < grind_what[resource]:
-                quick_print("+", resource, grind_what[resource])
+                quick_print("+ Sending grind order of",
+                            resource, grind_what[resource])
                 grind_method(resource, grind_what[resource])
             else:
                 quick_print("- we're good on", resource)

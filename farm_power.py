@@ -65,7 +65,7 @@ def get_power(power_target = 0, initial = True):
                       6:191.86, 7:281.47, 8:397.77, 9:544.71}
     expected_yield = EXPECTED_POWER[num_unlocked(Unlocks.Expand)]
     runs_to_fulfil = (power_target + 50) // expected_yield
-    acquire_seeds(Items.Sunflower_Seed, (WORLD_TILE_COUNT) * (runs_to_fulfil + 1))
+    acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT*(runs_to_fulfil + 1))
     for _ in range(runs_to_fulfil + 1):
         if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
             print("° Seed issue @ get_power")

@@ -84,7 +84,7 @@ def pumpkin_smart(pumpkin_target):
         new_pumpkins = num_items(Items.Pumpkin)
         expected_yield = (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins)
         actual_yield = new_pumpkins - old_pumpkins
-        if actual_yield != expected_yield: # TODO: clean up all of the debugging stuff eventually
+        if actual_yield != expected_yield:
             print("° Expected yield was: ", expected_yield, " pumpkins")
             print("° We have farmed ", actual_yield, " pumpkins.")
             print("° We farmed ", expected_yield - actual_yield, " less pumpkins than expected")
