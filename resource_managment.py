@@ -95,7 +95,7 @@ def grind_pumpkins(target_amount):
     while needed_runs > MAX_RUNS_ALLOWED:
         acquire_seeds(Items.Pumpkin_Seed, MAX_RUNS_ALLOWED * cost_per_run)
         if not pumpkin_smart(
-            num_items(Items.Pumpkin) -
+            num_items(Items.Pumpkin) +
             yield_per_run * MAX_RUNS_ALLOWED
             ):
             quick_print('- Someting went "wrong" with pumpkin farming, ',
@@ -140,7 +140,7 @@ def grind_gold(target_amount):
         while mazes_for_goal > MAX_MAZES_ALLOWED:
             acquire_seeds(Items.Fertilizer, FERT_PER_MAZE, MAX_MAZES_ALLOWED)
             if not do_simple_maze_run(
-                num_items(Items.Gold) -
+                num_items(Items.Gold) +
                 gold_per_maze * MAX_MAZES_ALLOWED
                 ):
                 quick_print("° ERROR while farming gold")
