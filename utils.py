@@ -26,9 +26,9 @@ def debate_watering(thresh=0.75):
                 print("- Too broke to buy tanks")
 
 def try_fert():
-    if num_items(Items.Fertilizer) < 1:
-        if num_unlocked(Unlocks.Fertilizer) == 0:
-            return False
+    if num_unlocked(Unlocks.Fertilizer) == 0:
+        return False
+    if num_items(Items.Fertilizer) == 0:
         if num_items(Items.Pumpkin) < 10:
             return False
         if not trade(Items.Fertilizer, min((num_items(Items.Pumpkin) // 10), 100)):
