@@ -227,15 +227,23 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
         move(next_move)
 
     while True: # Main loop
-        acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT, False)
+        if not acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT, False):
+            for next_move in precalc:
+                if can_harvest():
+                    harvest
+                current_pos = get_pos_x() + get_pos_y()
+                if current_pos % 2 == 0:
+                    plant(Entities.Bush)
+                else:
+                    plant(Entities.Grass)
+                move(next_move)
 
         for next_move in precalc: # Visit every tile once
             current_pos = (get_pos_x(),get_pos_y())
+            smart_harv()
             if current_pos in companion_requests:
-                harvest()
                 plant(companion_requests.pop(current_pos))
             else:
-                harvest()
                 plant(priority_as_entity)
 
             if get_entity_type() != priority_as_entity and exclusive:

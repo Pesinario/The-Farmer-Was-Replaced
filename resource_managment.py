@@ -190,7 +190,9 @@ def acquire_seeds(type_of_seed, how_many, grind = True):
     if seed_diff < 0:
         return True
 
-    if not trade(type_of_seed, seed_diff) and grind:
+    if not trade(type_of_seed, seed_diff):
+        if not grind:
+            return False
         # Farm the price of the seeds
         requirements = get_cost(type_of_seed)
         for material in requirements:
