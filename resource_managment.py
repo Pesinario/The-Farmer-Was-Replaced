@@ -30,7 +30,7 @@ def grind_method(what, target_amount, boost = True, is_test = False):
         report = grind_bones(target_amount)
 
     else:
-        quick_print("° Gigantic blunder @ grind_method")
+        quick_print("° Gigantic blunder @ grind_method", what)
 
     if report and not is_test: # pylint: disable=[E0606]
         quick_print("+ Finished grinding: ", what, "up to:", target_amount,
@@ -74,7 +74,7 @@ def grind_trifecta(what, target_amount): # TODO: this
     return True # TODO: make this smarter
 
 def grind_pumpkins(target_amount):
-    MAX_RUNS_ALLOWED = 10 # To prevent buying a huge amount of extra seeds.
+    MAX_RUNS_ALLOWED = 9 # To prevent buying a huge amount of extra seeds.
     # We split our seed acquisition (and grind) to a maximum of 10.
     SEEDS_99_PERCENT = {2:17, 3:27, 4:40, 5:55, 6:72, 7:92, 8:115, 9:140}
     # This is the amount of seeds needed to get a 99% chance of harvesting a
@@ -91,16 +91,17 @@ def grind_pumpkins(target_amount):
         LOSSES_FROM_FERTILIZER           # Our best guess
         )
     needed_pumpkins = target_amount - num_items(Items.Pumpkin)
-    needed_runs = needed_pumpkins // yield_per_run + 1 # One extra run for safety.
+    needed_runs = needed_pumpkins // yield_per_run + 1 # One extra for safety.
 
     while needed_runs > MAX_RUNS_ALLOWED:
-        acquire_seeds(Items.Pumpkin_Seed, MAX_RUNS_ALLOWED * cost_per_run)
+        acquire_seeds(Items.Pumpkin_Seed,
+                      MAX_RUNS_ALLOWED * cost_per_run +
+                      cost_per_run) # This is a buffer of one field
         if not pumpkin_smart(
             num_items(Items.Pumpkin) +
             yield_per_run * MAX_RUNS_ALLOWED
             ):
-            quick_print('- Someting went "wrong" with pumpkin farming, ',
-                    'probably we split the order because it was too big.')
+            quick_print('° Someting went "wrong" with pumpkin farming. ')
             return False
         needed_runs -= MAX_RUNS_ALLOWED
 
