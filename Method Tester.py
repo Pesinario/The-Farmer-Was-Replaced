@@ -3,17 +3,20 @@ ORDER_OF_GRIND = [
     Items.Power, Items.Carrot, Items.Wood, Items.Hay]
 
 clear()
-set_farm_size(3)
-set_execution_speed(3)
+# set_farm_size(3)
+set_execution_speed(10)
 
 precalc = precalc_world()
 
 
 # To use or test any of the grinding functions, remove the "#"
-WANTED_AMOUNT = 600 # This is how much MORE than you currently have you want
+WANTED_AMOUNT = 100000 # This is how much MORE than you currently have you want
 default_poly = Items.Carrot
+grind_target = Items.Pumpkin
 
-# grind_method(Items.Bones, num_items(Items.Bones) + 2000)
+# The third parameter in grind_method is whether or not to get power first.
+# The fourth parameter in grind_method should be True, as this is a test.
+grind_method(grind_target, num_items(grind_target) + WANTED_AMOUNT, True, True)
 
 # Hay:
 #harv_hay_dumb(num_items(Items.Hay) + WANTED_AMOUNT)

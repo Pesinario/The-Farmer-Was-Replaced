@@ -1,20 +1,33 @@
 def find_suspects(precalc):
     starting_suspects = []
+    count = 0
     for next_move in precalc:
+        if count == 0:
+            if get_entity_type() != Entities.Pumpkin:
+                plant(Entities.Pumpkin)
+            while get_entity_type() == Entities.Pumpkin and not can_harvest():
+                do_a_flip() # We wait for it to grow, this is for cases where
+                # we are so fast that we don't give the first pumpkin planted
+                # time to grow
+
         if get_entity_type() != Entities.Pumpkin:
             plant(Entities.Pumpkin)
             starting_suspects.append([get_pos_x(), get_pos_y()])
         elif not can_harvest():
-            do_a_flip() # wait for growth kinda
-        debate_watering(0.25)
+            debate_watering(0.75)
         move(next_move)
+        count += 1
     return starting_suspects
 
 def water_dead(suspects):
     while len(suspects) > 0:
         local_sus = suspects.pop(0)
         navigate_smart(local_sus)
-        if not can_harvest():
+
+        if can_harvest():
+            continue
+
+        if get_entity_type() != Entities.Pumpkin:
             if not plant(Entities.Pumpkin):
                 print("° Couldn't plant, fatal issue @ water_dead")
                 return False
@@ -33,7 +46,10 @@ def fert_dead(suspects):
                     print("° Couldn't plant, fatal issue @ fert_dead")
                     return False
             if not try_fert():
-                print("° Can't fert dude!, will wait")
+                quick_print("° Can't fert dude!, reverting to water_dead")
+                suspects.append(current_target)
+                return water_dead(suspects)
+    return True
 
 
 def pumpkin_smart(pumpkin_target):
@@ -57,28 +73,11 @@ def pumpkin_smart(pumpkin_target):
         suspects = find_suspects(precalc)
 
         # now we replant dead pumpkins untill we're sure that all pumpkins are alive
-        while len(suspects) > 0:
+        if len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:
-                if num_items(Items.Fertilizer) > 10:
-                    if not fert_dead(suspects):
-                        quick_print("° returned false from fert_dead")
-                        harvest()
-                        return False
-                elif trade(Items.Fertilizer, min((num_items(Items.Pumpkin) // 10), 100)):
-                    if not fert_dead(suspects):
-                        quick_print("° returned false from fert_dead")
-                        harvest()
-                        return False
-                else:
-                    if not water_dead(suspects):
-                        quick_print("° returned false from water_dead")
-                        harvest()
-                        return False
+                fert_dead(suspects)
             else:
-                if not water_dead(suspects):
-                    quick_print("° returned false from water_dead")
-                    harvest()
-                    return False
+                water_dead(suspects)
         # end of run
         old_pumpkins = num_items(Items.Pumpkin)
         smart_harv()
