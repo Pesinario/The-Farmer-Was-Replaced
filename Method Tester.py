@@ -5,14 +5,19 @@ ORDER_OF_GRIND = [
     Items.Power, Items.Carrot, Items.Wood, Items.Hay]
 EXPECTED_POWER = {2:18.31, 3:46.97, 4:73.63, 5:126.14,
                   6:191.86, 7:281.47, 8:397.77, 9:544.71}
+
+clear()
+set_farm_size(3)
+set_execution_speed(3)
+
 precalc = precalc_world()
 
 
 # To use or test any of the grinding functions, remove the "#"
-WANTED_AMOUNT = 10000 # This is how much MORE than you currently have you want
+WANTED_AMOUNT = 600 # This is how much MORE than you currently have you want
 default_poly = Items.Carrot
 
-grind_method(Items.Bones, num_items(Items.Bones) + 2000)
+# grind_method(Items.Bones, num_items(Items.Bones) + 2000)
 
 # Hay:
 #harv_hay_dumb(num_items(Items.Hay) + WANTED_AMOUNT)
@@ -26,6 +31,7 @@ grind_method(Items.Bones, num_items(Items.Bones) + 2000)
 
 # Carrots:
 #carrots_ensure_seeds(num_items(Items.Carrot) + WANTED_AMOUNT)
+#carrot_three_by_three(num_items(Items.Carrot) + WANTED_AMOUNT)
 #carrots_trusting(num_items(Items.Carrot) + WANTED_AMOUNT)
 
 # Polyculture (Choose what to prioritize):

@@ -59,6 +59,46 @@ def three_by_three_with_hay(wood_target):
         h_p_and_m(South)
         h_p_and_m(East)
 
+def carrot_three_by_three(carrot_target):
+    CONST_WAIT_FOR_CARROTS = 3
+    def h_p_and_m(direction, should_till=False):
+        harvest()
+        if should_till:
+            till()
+        plant(Entities.Carrots)
+        move(direction)
+
+    def hay_and_continue():
+        for _ in range(CONST_WAIT_FOR_CARROTS):
+            harvest()
+            move(South)
+            harvest()
+            move(North)
+        harvest()
+        move(South)
+        move(East)
+    # initial setup:
+    for _ in range(2):
+        h_p_and_m(South, True)
+        h_p_and_m(South, True)
+        h_p_and_m(East, True)
+    h_p_and_m(South, True)
+    hay_and_continue()
+
+    while True:
+        if num_items(Items.Carrot) > carrot_target:
+            return True
+        elif num_items(Items.Carrot_Seed) < 7:
+            quick_print("Seed issue @ carrot_three_by_three()")
+            return False
+
+        for _ in range(2):
+            h_p_and_m(South)
+            h_p_and_m(South)
+            h_p_and_m(East)
+        h_p_and_m(South)
+        hay_and_continue()
+
 def poly_farm(priority_as_item, target_amount, exclusive = True):
     # Initial setup:
     WORLD_TILE_COUNT = get_world_size()**2

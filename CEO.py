@@ -35,16 +35,16 @@ def grind_method(what, target_amount, boost = True):
                 else:
                     three_by_three_with_hay(target_amount)
 
-            elif what == Items.Carrot: # TODO: add a better method for 3x3 stage
+            elif what == Items.Carrot:
+                carrots_required = target_amount - num_items(what)
+                runs_needed = carrots_required // (num_unlocked(Unlocks.Carrots) * WORLD_TILE_COUNT)
+                acquire_seeds(Items.Carrot_Seed, (runs_needed * WORLD_TILE_COUNT) + WORLD_TILE_COUNT)
                 if num_unlocked(Unlocks.Trees) > 0:
-                    carrots_required = target_amount - num_items(what)
-                    runs_needed = carrots_required // (num_unlocked(Unlocks.Carrots) * WORLD_TILE_COUNT)
-                    acquire_seeds(Items.Carrot_Seed, (runs_needed * WORLD_TILE_COUNT) + WORLD_TILE_COUNT)
                     if not carrots_trusting(target_amount):
                         while True:
                             print("° Fix this correctly.")
                 else:
-                    carrots_ensure_seeds(target_amount)
+                    carrot_three_by_three(target_amount)
         else:
             poly_farm(what, target_amount)
 
