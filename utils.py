@@ -18,9 +18,9 @@ def till_this_many_tiles(how_many, debate=True): # This is deprecated,
             till()
         walk_the_grid()
 
-def debate_watering(thresh=0.75):
+def debate_watering(thresh=0.75, buy_new=True):
     if get_water() <= thresh:
-        if not use_item(Items.Water_Tank):
+        if not use_item(Items.Water_Tank) and buy_new:
             can_buy = min(num_items(Items.Wood) // 5, 10)
             if not trade(Items.Empty_Tank, can_buy):
                 print("- Too broke to buy tanks")

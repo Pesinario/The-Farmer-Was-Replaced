@@ -221,7 +221,10 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
                 harvest()
             current_pos = get_pos_x() + get_pos_y()
             if current_pos % 2 == 0:
-                plant(Entities.Bush)
+                plant(Entities.Tree)
+                debate_watering(0.75, False)
+                debate_watering(0.75, False)
+                debate_watering(0.75, False)
             else:
                 plant(Entities.Grass)
             move(next_move)
@@ -233,6 +236,7 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
     priority_as_entity = item_to_ent[priority_as_item]
     companion_requests = {}
     for next_move in precalc:
+        harvest()
         if get_ground_type() != Grounds.Soil:
             till()
         plant(priority_as_entity)
@@ -248,6 +252,7 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
         for next_move in precalc: # Visit every tile once
             current_pos = (get_pos_x(),get_pos_y())
             smart_harv()
+            debate_watering(0.75, False)
             if current_pos in companion_requests:
                 plant(companion_requests.pop(current_pos))
             else:
