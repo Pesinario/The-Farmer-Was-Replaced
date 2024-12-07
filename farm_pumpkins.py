@@ -88,6 +88,7 @@ def pumpkin_smart(pumpkin_target):
             print("° Expected yield was: ", expected_yield, " pumpkins")
             print("° We have farmed ", actual_yield, " pumpkins.")
             print("° We farmed ", expected_yield - actual_yield, " less pumpkins than expected")
+            print("° Seeds left:", num_items(Items.Pumpkin_Seed))
 
 
 while True:
