@@ -214,6 +214,18 @@ def carrot_three_by_three(carrot_target):
 # Poly farm almost always gets all three
 
 def poly_farm(priority_as_item, target_amount, exclusive = True):
+    def poly_grind_seed():
+        quick_print("- grinding carrot seed requirements @poly_farm")
+        for next_move in precalc:
+            if can_harvest():
+                harvest()
+            current_pos = get_pos_x() + get_pos_y()
+            if current_pos % 2 == 0:
+                plant(Entities.Bush)
+            else:
+                plant(Entities.Grass)
+            move(next_move)
+
     # Initial setup:
     WORLD_TILE_COUNT = get_world_size()**2
     item_to_ent = {Items.Hay:Entities.Grass, Items.Carrot:Entities.Carrots,
@@ -227,16 +239,11 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
         move(next_move)
 
     while True: # Main loop
-        if not acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT, False):
-            for next_move in precalc:
-                if can_harvest():
-                    harvest()
-                current_pos = get_pos_x() + get_pos_y()
-                if current_pos % 2 == 0:
-                    plant(Entities.Bush)
-                else:
-                    plant(Entities.Grass)
-                move(next_move)
+        if num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
+            if not trade(Items.Carrot_Seed, WORLD_TILE_COUNT):
+                poly_grind_seed()
+                if not trade(Items.Carrot_Seed, WORLD_TILE_COUNT):
+                    quick_print("° Something went wrong @poly_grind_seed")
 
         for next_move in precalc: # Visit every tile once
             current_pos = (get_pos_x(),get_pos_y())
