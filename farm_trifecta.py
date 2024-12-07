@@ -230,7 +230,7 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
         if not acquire_seeds(Items.Carrot_Seed, WORLD_TILE_COUNT, False):
             for next_move in precalc:
                 if can_harvest():
-                    harvest
+                    harvest()
                 current_pos = get_pos_x() + get_pos_y()
                 if current_pos % 2 == 0:
                     plant(Entities.Bush)
