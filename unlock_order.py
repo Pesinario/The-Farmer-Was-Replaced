@@ -20,7 +20,9 @@ def new_route(): # TODO: WIP, should incorporate stockpiling of seeds BEFORE
                       Unlocks.Expand, Unlocks.Grass]
     three_by_three = [Unlocks.Speed, Unlocks.Carrots, Unlocks.Trees,
                       Unlocks.Speed, Unlocks.Speed, Unlocks.Expand]
-    four_by_four   = [Unlocks.Sunflowers, Unlocks.Speed, Unlocks.Grass, Unlocks.Carrots, Unlocks.Trees, Unlocks.Pumpkins, Unlocks.Fertilizer, Unlocks.Expand]
+    four_by_four   = [Unlocks.Sunflowers, Unlocks.Speed, Unlocks.Grass,
+                    Unlocks.Carrots, Unlocks.Trees, Unlocks.Pumpkins,
+                    Unlocks.Fertilizer, Unlocks.Expand]
     five_by_five   = [Unlocks.Polyculture, Unlocks.Expand]
 
     my_route = one_by_three + three_by_three + four_by_four + five_by_five
