@@ -192,10 +192,12 @@ def acquire_seeds(type_of_seed, how_many, grind = True):
     quick_print("- acquire_seeds got a request of", how_many, type_of_seed)
     seed_diff = how_many - num_items(type_of_seed)
     if seed_diff < 0:
+        quick_print("- we had more than", how_many, type_of_seed, "already.")
         return True
 
     if not trade(type_of_seed, seed_diff):
         if not grind:
+            quick_print("- was not able to buy the seeds and will not grind.")
             return False
         # Farm the price of the seeds
         requirements = get_cost(type_of_seed)
@@ -215,7 +217,9 @@ def acquire_seeds(type_of_seed, how_many, grind = True):
             print("° Something went really wrong with seed acquisition, ",
                   "even after trying to grind them.")
             return False
-    return True
+    else:
+        quick_print("- was able to buy", how_many, type_of_seed, "without grinding")
+        return True
 
 def grind_by_order(grind_what):
     for resource in ORDER_OF_GRIND: # Grind in descending order of cost
