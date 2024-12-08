@@ -1,4 +1,5 @@
-def walk_the_grid():
+def walk_the_grid(): # This is deprecated but is still used by some also
+    # deprected farming methods.
     if get_pos_y() != get_world_size()-1:
         move(North)
     else:

@@ -3,7 +3,7 @@ def reset_sunflowers():
     plant(Entities.Sunflower)
     harvest()
 
-def old_method_sunflower(power_target):
+def old_method_sunflower(power_target): # This method is deprecated
     WORLD_TILE_COUNT = get_world_size()**2
     till_this_many_tiles(WORLD_TILE_COUNT)
     while True:
