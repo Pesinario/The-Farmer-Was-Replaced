@@ -1,7 +1,53 @@
-def do_1_pass_sort(dir_fw, dir_bw):
-    # TODO: this can be optimized by remembering whether or not we had to sort
-    # at a certain spot(therefore diminishing the wasted travel over sorted tiles)
-    # i think that's known as cocktail sort instead of bubble sort
+def results_expected():
+    expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
+    old_cactus = num_items(Items.Cactus)
+    harvest()
+    new_cactus = num_items(Items.Cactus)
+    actual_yield = new_cactus - old_cactus
+    if actual_yield != expected_yield:
+        print("° Expected yield was: ", expected_yield, " cactus")
+        print("° We have farmed ", actual_yield, " cactus.")
+        print("° We farmed ", expected_yield - actual_yield, " less cactus than expected")
+        return False
+    return True
+
+def check_work(): # This is currently not called because buble sort works 99%
+    upper_bound = get_world_size() - 1
+    for next_move in precalc:
+        cur_measure = measure()
+        pos_x = get_pos_x() # I wonder if using `in range()` would be faster or
+        pos_y = get_pos_y() # not, certainly would be prettier. TODO: check
+        # Check along the X axis, but not if we're on the edge
+        if pos_x() != 0 and pos_x() != upper_bound:
+            if cur_measure > measure(East) or cur_measure < measure(West):
+                print("° ERROR during cactus sorting (horizontal)")
+                return False
+        # Check along the Y axis, but not if we're on the edge
+        if pos_y() != 0 and pos_y() != upper_bound:
+            if cur_measure > measure(North) or cur_measure < measure(South):
+                print("° ERROR during cactus sorting (vertical)")
+                return False
+        # Continue checking
+        move(next_move)
+    return True
+
+def plant_the_cacti():
+    for next_move in precalc:
+        harvest()
+        if get_ground_type() != Grounds.Soil:
+            till()
+        plant(Entities.Cactus)
+        move(next_move)
+
+def ensure_cactus_seeds():
+    if num_items(Items.Cactus_Seed) < get_world_size()**2:
+        if not trade(Items.Cactus_Seed,
+                        get_world_size()**2 - num_items(Items.Cactus_Seed)):
+            print("° seed issue @ cactus_bubble")
+            return False
+    return True
+
+def bubble_sort_one_line(dir_fw, dir_bw):
     did_swaps = 0
     for _ in range(get_world_size()):
         if measure() > measure(dir_fw):
@@ -13,56 +59,28 @@ def do_1_pass_sort(dir_fw, dir_bw):
         move(dir_fw)
     return did_swaps
 
-def check_work(precalc): # This is currently not called because it just works.
-    for next_move in precalc:
-        if get_pos_x() != 0 and get_pos_y() != 0:
-            if get_pos_x() != get_world_size()-1 and get_pos_y() != get_world_size()-1:
-                if measure() > measure(North) or measure() > measure(East):
-                    print("° ERROR!!!")
-        move(next_move)
-
 def cactus_bubble(cactus_target):
-    if get_entity_type() == Entities.Hedge or get_entity_type() == Entities.Treasure:
-        harvest() # Somehow we get here while in a maze sometimes. probably can fix it elsewhere.
-    expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
     while True: # Main script loop
-        navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
-        if num_items(Items.Cactus_Seed) < get_world_size()**2:
-            print("° seed issue @ cactus_bubble")
+        if not ensure_cactus_seeds():
             return False
-        # plant the cactus:
-        for next_move in precalc:
-            harvest()
-            if get_ground_type() != Grounds.Soil:
-                till()
-            plant(Entities.Cactus)
-            move(next_move)
-        navigate_to(0,0) # this we need for the dumb navigation in the sorting to work
+        plant_the_cacti()
+
         # sort the rows
         for x in range(get_world_size()): # pylint: disable=[W0612]
             while True:
-                debug_var =do_1_pass_sort(East, West)
-                if debug_var < 3:
-                    break
+                if bubble_sort_one_line(East, West) < 3: # Two of the "swaps"
+                    break # are ghost swaps from being at the edge of the farm.
             move(North)
 
         # sort the columns
         for y in range(get_world_size()): # pylint: disable=[W0612]
             while True:
-                if do_1_pass_sort(North, South) < 3:
-                    break
+                if bubble_sort_one_line(North, South) < 3: # Two of the "swaps" are
+                    break # ghost swaps from being at the edge of the farm.
             move(East)
 
-        old_cactus = num_items(Items.Cactus)
-        harvest()
-        new_cactus = num_items(Items.Cactus)
-        actual_yield = new_cactus - old_cactus
-        if actual_yield != expected_yield:
-            print("° Expected yield was: ", expected_yield, " cactus")
-            print("° We have farmed ", actual_yield, " cactus.")
-            print("° We farmed ", expected_yield - actual_yield, " less cactus than expected")
+        if not results_expected():
             return False
-
         if num_items(Items.Cactus) > cactus_target:
             return True
 
