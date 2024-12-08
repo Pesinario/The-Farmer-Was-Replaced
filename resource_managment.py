@@ -158,7 +158,7 @@ def grind_cacti(target_amount):
     if acquire_seeds(Items.Cactus_Seed, runs_needed * get_world_size()**2):
         return cactus_bubble(target_amount)
     else:
-        quick_print("° Cactus issue")
+        quick_print("° Cactus seed acquisition Issue")
         return False
 
 def grind_bones(target_amount):
