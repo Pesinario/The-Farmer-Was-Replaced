@@ -1,5 +1,5 @@
 def reset_sunflowers():
-    navigate_to(0,0)
+    navigate_smart([0, 0])
     plant(Entities.Sunflower)
     harvest()
 

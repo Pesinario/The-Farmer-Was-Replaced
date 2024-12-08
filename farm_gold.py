@@ -3,7 +3,7 @@ def do_simple_maze_run(gold_target):
     dir_last = 0
     dir_next = 1
     while True:
-        navigate_to(0, 0)
+        navigate_smart([0, 0])
         while get_entity_type() != Entities.Hedge:
             if get_entity_type() != Entities.Bush:
                 harvest()
