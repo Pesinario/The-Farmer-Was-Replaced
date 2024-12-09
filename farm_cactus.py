@@ -258,4 +258,4 @@ def cactus_shaker(cactus_target):
             return True
 
 while True:
-    print("° This file should be run from Method Tester.py")
+    print("° This file should be run from method_tester.py")

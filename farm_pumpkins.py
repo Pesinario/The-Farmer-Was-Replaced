@@ -108,4 +108,4 @@ def pumpkin_smart(runs_to_do):
     return True
 
 while True:
-    print("° This file should be run from Method Tester.py")
+    print("° This file should be run from method_tester.py")

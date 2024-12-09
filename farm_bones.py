@@ -61,4 +61,4 @@ def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much 
     return True
 
 while True:
-    print("° This file should be run from Method Tester.py")
+    print("° This file should be run from method_tester.py")

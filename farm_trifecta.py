@@ -271,4 +271,4 @@ def poly_farm(priority_as_item, target_amount, exclusive = True):
             return True
 
 while True:
-    print("° This file should be run from Method Tester.py")
+    print("° This file should be run from method_tester.py")

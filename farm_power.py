@@ -87,4 +87,4 @@ def get_power(power_target = 0, initial = True):
     return True
 
 while True:
-    print("° This file should be run from Method Tester.py")
+    print("° This file should be run from method_tester.py")

@@ -40,4 +40,4 @@ def do_simple_maze_run(gold_target):
             return True
 
 while True:
-    print("° This file should be run from Method Tester.py")
+    print("° This file should be run from method_tester.py")
