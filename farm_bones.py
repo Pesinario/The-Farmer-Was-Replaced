@@ -1,4 +1,4 @@
-def ultra_dumb_dyno(bones_target): # This method is deprecated
+def ultra_dumb_dyno(bones_target): # This farming method is deprecated
     WORLD_TILE_COUNT = get_world_size()**2
     while True:
         if num_items(Items.Egg) < WORLD_TILE_COUNT:
