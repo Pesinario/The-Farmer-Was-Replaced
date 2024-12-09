@@ -7,7 +7,7 @@
   * To write easy to read Python code
   * To hopefully be useful to someone, someday
 #### If you're reading this, please use as many GitHub features as you can, make a fork, pull request and issue!
-###### If you want to use any of my code, the "Timed Run.py" and "Method Tester.py" files can be run by themselves from inside the game.
+###### If you want to use any of my code, the "timed_run.py" and "method_tester.py" files can be run by themselves from inside the game.
 Below is a list of the best time achieved with each version of the code, the goal is _somewhere around_ 30 minutes.
 * First completion time with v1: ~2 hours 48 minutes
 * Best time (v1.1): 1:48:08.733
