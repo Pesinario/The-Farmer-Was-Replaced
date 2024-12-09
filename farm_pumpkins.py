@@ -92,7 +92,7 @@ def pumpkin_smart(runs_to_do):
             if get_entity_type() != Entities.Pumpkin:
                 if not plant(Entities.Pumpkin):
                     print("° Couldn't plant, fatal issue @pumpkin_smart's final harvest.")
-                return False
+                    return False
             debate_watering(0.75)
             try_fert()
         harvest()
