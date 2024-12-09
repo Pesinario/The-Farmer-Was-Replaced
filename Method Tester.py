@@ -3,7 +3,7 @@ ORDER_OF_GRIND = [
     Items.Power, Items.Carrot, Items.Wood, Items.Hay]
 
 clear()
-set_farm_size(7)
+# set_farm_size(7)
 # set_execution_speed(10)
 
 precalc = precalc_world()
@@ -12,7 +12,7 @@ precalc = precalc_world()
 # To use or test any of the grinding functions, remove the "#"
 WANTED_AMOUNT = 100000 # This is how much MORE than you currently have you want
 default_poly = Items.Carrot
-grind_target = Items.Pumpkin
+grind_target = Items.Gold
 
 # The third parameter in grind_method is whether or not to get power first.
 # The fourth parameter in grind_method should be True, as this is a test.
@@ -46,8 +46,9 @@ grind_method(grind_target, num_items(grind_target) + WANTED_AMOUNT, True, True)
 # Gold:
 #do_simple_maze_run(num_items(Items.Gold) + WANTED_AMOUNT)
 
-# Cactus:
+# Cacti:
 #cactus_bubble(num_items(Items.Cactus) + WANTED_AMOUNT)
+#cactus_shaker(num_items(Items.Cactus) + WANTED_AMOUNT)
 
 # Bones:
 #ultra_dumb_dyno(num_items(Items.Bones) + WANTED_AMOUNT)
