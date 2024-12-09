@@ -1,3 +1,6 @@
+#"""#This module contains a gold farming method.#"""#
+from navigation import navigate_smart
+
 def do_simple_maze_run(gold_target):
     dir_list = [East, South, West, North]
     dir_last = 0

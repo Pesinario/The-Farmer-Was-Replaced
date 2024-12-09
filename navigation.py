@@ -1,3 +1,5 @@
+#"""#Module that contains functions related to navigation.#"""#
+
 def walk_the_grid(): # This is deprecated but is still used by some also
     # deprected farming methods.
     if get_pos_y() != get_world_size()-1:
@@ -70,6 +72,8 @@ def precalc_world():
             moves.append(North)
         moves.append(East)
     return moves
+
+precalc = []
 
 while True:
     print("° This file should never be run by itself")

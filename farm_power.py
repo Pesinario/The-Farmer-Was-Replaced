@@ -1,3 +1,8 @@
+#"""#Module containing all power farming methods.#"""#
+from utils import debate_watering, till_this_many_tiles, wait_harv, smart_harv
+from navigation import walk_the_grid, navigate_smart
+from resource_managment import acquire_seeds
+
 def reset_sunflowers():
     navigate_smart([0, 0])
     plant(Entities.Sunflower)
@@ -18,9 +23,9 @@ def old_method_sunflower(power_target): # This method is deprecated
             if a > biggest:
                 biggest = a
             walk_the_grid()
-        biggestThresh = biggest -3
+        offset_biggest = biggest -3
 
-        while biggest > biggestThresh: # harvest
+        while biggest > offset_biggest: # harvest
             for _ in range(WORLD_TILE_COUNT):
                 if measure() == biggest:
                     smart_harv()

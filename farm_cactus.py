@@ -1,3 +1,6 @@
+#"""#This module contains cacti farming methods and their helper functions.#"""#
+from navigation import move_helper, navigate_smart, precalc
+
 def results_expected():
     expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
     old_cactus = num_items(Items.Cactus)

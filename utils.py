@@ -1,3 +1,6 @@
+#"""#Module that contains several utility functions.#"""#
+from navigation import walk_the_grid
+
 def wait_harv():
     while not can_harvest():
         if get_entity_type() == None:

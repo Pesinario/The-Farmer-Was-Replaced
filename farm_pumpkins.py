@@ -1,4 +1,8 @@
-def find_suspects(precalc):
+#"""#This module contains a pumpkin farming method and it's helper functions.#"""#
+from utils import debate_watering, try_fert
+from navigation import navigate_smart, precalc
+
+def find_suspects():
     starting_suspects = []
     # Initial setup:
     while get_entity_type() == Entities.Pumpkin and not can_harvest():
@@ -75,7 +79,7 @@ def pumpkin_smart(runs_to_do):
 
         # now we take note of all pumpkins that died in the first planting run
         # and also water them after replanting
-        suspects = find_suspects(precalc)
+        suspects = find_suspects()
         # now we replant dead pumpkins and water/fertilizer them until we're done.
         if len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:

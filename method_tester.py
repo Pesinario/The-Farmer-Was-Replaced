@@ -1,3 +1,7 @@
+#"""#This module allows for testing of specific farming methods.#"""#
+from resource_managment import grind_method
+from navigation import precalc_world
+
 ORDER_OF_GRIND = [
     Items.Egg, Items.Cactus, Items.Gold,Items.Pumpkin, Items.Pumpkin,
     Items.Power, Items.Carrot, Items.Wood, Items.Hay]

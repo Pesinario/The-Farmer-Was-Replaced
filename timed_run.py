@@ -1,3 +1,6 @@
+#"""#This module does a timed run.#"""#
+
+
 timed_reset()
 START_TIME = get_time()
 quick_print("$", "Start time is", START_TIME)
@@ -26,14 +29,14 @@ def get_me_unlock(what_unlock):
 
     return unlock(what_unlock)
 
-def log_this_unlock(unlock): # adds to the dictionary the unlock and how long it took
+def log_this_unlock(current_unlock): # adds to the dictionary the unlock and how long it took
     succesfully_unlocked = False
     attempts = 0
     started_unlocking = get_time()
     quick_print("~", current_milestone_chased, "started @", started_unlocking - START_TIME)
     while not succesfully_unlocked:
         attempts += 1
-        if get_me_unlock(unlock):
+        if get_me_unlock(current_unlock):
             took_this_long = get_time() - started_unlocking
             quick_print("~", current_milestone_chased, "ended @", get_time() - START_TIME,
                         "and took", took_this_long, "attempts:", attempts)

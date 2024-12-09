@@ -1,4 +1,6 @@
-# The functions here are related to hay, wood and carrots, since they're often farmed together
+#"""#Module that contains farming methods related to hay, wood and carrots.#"""#
+from utils import debate_watering, wait_harv, smart_harv, till_this_many_tiles
+from navigation import walk_the_grid, precalc
 
 # Hay only:
 def harv_hay_dumb(hay_target):
@@ -73,7 +75,7 @@ def one_by_three_bush_hay_wait(wood_target):
     h_p_and_m() # 0 -> 1
     while True:
         if num_items(Items.Wood) > wood_target:
-            for _ in range(3): # Do not waste the bushes, since we're about to buy expand 2
+            for _ in range(3): # Save some wood by harvesting at the end
                 harvest()
                 move(North)
             return True

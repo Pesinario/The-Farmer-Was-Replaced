@@ -1,3 +1,5 @@
+#"""#This module is where we define the route that the timed run will take.#"""#
+
 def old_route():
     before_carrots = [Unlocks.Speed, Unlocks.Expand, Unlocks.Plant,
                       Unlocks.Expand, Unlocks.Speed, Unlocks.Grass, Unlocks.Carrots]
