@@ -17,16 +17,21 @@ def check_work(): # This is currently not called because buble sort works 99%
         cur_measure = measure()
         pos_x = get_pos_x() # I wonder if using `in range()` would be faster or
         pos_y = get_pos_y() # not, certainly would be prettier. TODO: check
-        # Check along the X axis, but not if we're on the edge
-        if pos_x() != 0 and pos_x() != upper_bound:
-            if cur_measure > measure(East) or cur_measure < measure(West):
-                print("° ERROR during cactus sorting (horizontal)")
-                return False
-        # Check along the Y axis, but not if we're on the edge
-        if pos_y() != 0 and pos_y() != upper_bound:
-            if cur_measure > measure(North) or cur_measure < measure(South):
-                print("° ERROR during cactus sorting (vertical)")
-                return False
+
+        # Check along the X axis, but not if we're on the edges
+        if pos_x != 0 and cur_measure < measure(West):
+            print("° ERROR during cactus sorting (horizontal)")
+            return False
+        if pos_x != upper_bound and cur_measure > measure(East):
+            print("° ERROR during cactus sorting (horizontal)")
+            return False
+        # Check along the X axis, but not if we're on the edges
+        if pos_y != 0 and cur_measure < measure(South):
+            print("° ERROR during cactus sorting (vertical)")
+            return False
+        if pos_y != upper_bound and cur_measure > measure(North):
+            print("° ERROR during cactus sorting (vertical)")
+            return False
         # Continue checking
         move(next_move)
     return True
