@@ -6,9 +6,6 @@ def walk_the_grid(): # This is deprecated but is still used by some also
         move(North)
         move(East)
 
-def navigate_to(x, y): # effectively a wrapper for navigate_smart()
-    navigate_smart([x, y])
-
 def move_helper(direction, duration):
     for _ in range(duration):
         move(direction)

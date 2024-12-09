@@ -30,7 +30,7 @@ def hay_full_field(hay_target):
 
 # Wood only:
 
-def three_by_three_bush(wood_target): # This method is deprecated
+def three_by_three_bush(wood_target): # This farming method is deprecated
     # initial setup:
     for next_move in precalc:
         harvest()
@@ -145,7 +145,7 @@ def carrots_trusting(carrot_target):
 
 # Carrots and wood/hay
 
-def carrots_ensure_seeds(carrot_target): # This method is deprecated
+def carrots_ensure_seeds(carrot_target): # This farming method is deprecated
     WORLD_TILE_COUNT = get_world_size()**2
     hay_tiles_per_carrot_tile = get_cost(Items.Carrot_Seed)[Items.Hay] / (
         num_unlocked(Unlocks.Grass) + 1)
