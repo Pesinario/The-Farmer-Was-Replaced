@@ -69,11 +69,13 @@ def trim_output(output_untrimmed:list, default_include=True,
 
     return trimmed_output
 
-trimmed_lines = trim_output(colored_lines, default_include=False,
-                            include_error=True, include_grind=True)
+trimmed_lines = trim_output(colored_lines, default_include=True,
+                            include_error=True, include_info=True)
 
-print(f"Length of total lines: {len(colored_lines)}") # oh my beloved fstrings
-print(f"Length of trimmed lines: {len(trimmed_lines)}") # Ii missed you
+print("If you're reading this, the terminal is showing all of the logs.")
 
 for trimmed_line in trimmed_lines:
     print(trimmed_line)
+
+print(f"Length of total lines: {len(colored_lines)}") # oh my beloved fstrings
+print(f"Length of trimmed lines: {len(trimmed_lines)}") # Ii missed you

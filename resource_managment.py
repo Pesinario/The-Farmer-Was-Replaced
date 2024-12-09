@@ -14,7 +14,7 @@ from farm_trifecta import carrot_three_by_three
 def grind_method(what, target_amount, boost = True, is_test = False):
     random_id = random()
     if not is_test:
-        quick_print("+ Now grinding: ", what, "up to:", target_amount,
+        quick_print("+ Now grinding:", what, "up to:", target_amount,
                     "boost active:", boost, "id:", random_id,
                     "timestamp:", time_stamp())
 
@@ -100,18 +100,21 @@ def grind_pumpkins(target_amount):
     yield_per_run = ((get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins))
     needed_pumpkins = target_amount - num_items(Items.Pumpkin)
     needed_runs = needed_pumpkins // yield_per_run + 1 # Extra run for safety.
-
+    pumpkin_run_tracker = 0
     while needed_runs > MAX_RUNS_ALLOWED:
         acquire_seeds(Items.Pumpkin_Seed,
                       MAX_RUNS_ALLOWED * cost_per_run + cost_per_run)
-        if not pumpkin_smart(MAX_RUNS_ALLOWED):
+        if not pumpkin_smart(MAX_RUNS_ALLOWED, pumpkin_run_tracker):
             quick_print('° Error @grind_pumpkins during run splitting')
             return False
         needed_runs -= MAX_RUNS_ALLOWED
+        pumpkin_run_tracker += MAX_RUNS_ALLOWED
 
+    quick_print('$ About to try to get', needed_runs * cost_per_run + cost_per_run, 'Pumpkin seeds')
     acquire_seeds(Items.Pumpkin_Seed,
                   needed_runs * cost_per_run + cost_per_run)
-    if not pumpkin_smart(needed_runs):
+    quick_print('$ I have:', num_items(Items.Pumpkin_Seed), "For: ", needed_runs, "Runs at expand size", num_unlocked(Unlocks.Expand))
+    if not pumpkin_smart(needed_runs, pumpkin_run_tracker):
         quick_print('° Error @grind_pumpkins near the end')
         return False
 
@@ -223,6 +226,11 @@ def acquire_seeds(type_of_seed, how_many, grind = True):
         if not trade(type_of_seed, seed_diff):
             print("° Something went really wrong with seed acquisition, ",
                   "even after trying to grind them.")
+            print("° Order was:", how_many, type_of_seed)
+            print("° Resource dump:")
+            for resource in ORDER_OF_GRIND:
+                quick_print("$ ", num_items(resource))
+            print("$ Requirements was:", requirements)
             return False
     else:
         quick_print("- was able to buy", how_many, type_of_seed, "without grinding")

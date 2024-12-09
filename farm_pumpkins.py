@@ -60,10 +60,10 @@ def fert_dead(suspects):
     return True
 
 
-def pumpkin_smart(runs_to_do):
-    run_counter = 0
+def pumpkin_smart(runs_to_do, run_counter = 0):
     while runs_to_do > run_counter: # Loop for everything
         run_counter += 1
+        quick_print("- This is pumpkin run N°", run_counter)
         if num_items(Items.Pumpkin_Seed) < (get_world_size()**2):
             print("° Seed issue @ pumpkin_smart, run #:", run_counter)
             return False
@@ -83,9 +83,11 @@ def pumpkin_smart(runs_to_do):
         # now we replant dead pumpkins and water/fertilizer them until we're done.
         if len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:
-                fert_dead(suspects)
+                if not fert_dead(suspects):
+                    quick_print("° Error replanting with fertilizer unlocked")
             else:
-                water_dead(suspects)
+                if not water_dead(suspects):
+                    quick_print("° Error replanting with fertilizer not yet unlocked")
         # end of run
         old_pumpkins = num_items(Items.Pumpkin)
         while not can_harvest(): # harvest last suspect
