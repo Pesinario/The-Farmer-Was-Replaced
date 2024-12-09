@@ -36,7 +36,7 @@ def check_work(): # This is currently not called because buble sort works 99%
         move(next_move)
     return True
 
-def plant_the_cacti():
+def till_and_plant_cacti():
     for next_move in precalc:
         harvest()
         if get_ground_type() != Grounds.Soil:
@@ -52,35 +52,35 @@ def ensure_cactus_seeds():
             return False
     return True
 
-def bubble_sort_one_line(dir_fw, dir_bw):
-    did_swaps = 0
-    for _ in range(get_world_size()):
-        if measure() > measure(dir_fw):
-            swap(dir_fw)
-            did_swaps += 1
-        if measure() < measure(dir_bw):
-            swap(dir_bw)
-            did_swaps += 1
-        move(dir_fw)
-    return did_swaps
+def cactus_bubble(cactus_target): # This farming method is deprecated, as cactus_shaker() is faster
+    def bubble_sort_one_line(dir_bw, dir_fw):
+        did_swaps = 0
+        for _ in range(get_world_size()):
+            if measure() > measure(dir_fw):
+                swap(dir_fw)
+                did_swaps += 1
+            if measure() < measure(dir_bw):
+                swap(dir_bw)
+                did_swaps += 1
+            move(dir_fw)
+        return did_swaps
 
-def cactus_bubble(cactus_target):
     while True: # Main script loop
         if not ensure_cactus_seeds():
             return False
-        plant_the_cacti()
+        till_and_plant_cacti()
 
         # sort the rows
         for x in range(get_world_size()): # pylint: disable=[W0612]
             while True:
-                if bubble_sort_one_line(East, West) < 3: # Two of the "swaps"
+                if bubble_sort_one_line(West, East) < 3: # Two of the "swaps"
                     break # are ghost swaps from being at the edge of the farm.
             move(North)
 
         # sort the columns
         for y in range(get_world_size()): # pylint: disable=[W0612]
             while True:
-                if bubble_sort_one_line(North, South) < 3: # Two of the "swaps" are
+                if bubble_sort_one_line(South, North) < 3: # Two of the "swaps" are
                     break # ghost swaps from being at the edge of the farm.
             move(East)
 
