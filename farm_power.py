@@ -1,14 +1,16 @@
-#"""#Module containing all power farming methods.#"""#
+# """#Module containing all power farming methods.#"""#
 from utils import debate_watering, till_this_many_tiles, wait_harv, smart_harv
 from navigation import walk_the_grid, navigate_smart
 from resource_management import acquire_seeds
+
 
 def reset_sunflowers():
     navigate_smart([0, 0])
     plant(Entities.Sunflower)
     harvest()
 
-def old_method_sunflower(power_target): # This method is deprecated
+
+def old_method_sunflower(power_target):  # This method is deprecated
     WORLD_TILE_COUNT = get_world_size()**2
     till_this_many_tiles(WORLD_TILE_COUNT)
     while True:
@@ -23,9 +25,9 @@ def old_method_sunflower(power_target): # This method is deprecated
             if a > biggest:
                 biggest = a
             walk_the_grid()
-        offset_biggest = biggest -3
+        offset_biggest = biggest - 3
 
-        while biggest > offset_biggest: # harvest
+        while biggest > offset_biggest:  # harvest
             for _ in range(WORLD_TILE_COUNT):
                 if measure() == biggest:
                     smart_harv()
@@ -35,10 +37,11 @@ def old_method_sunflower(power_target): # This method is deprecated
         if num_items(Items.Power) > power_target:
             return True
 
+
 def sunflower_no_replanting(should_setup):
     my_record = {}
 
-    for next_move in precalc: # Initial setting up
+    for next_move in precalc:  # Initial setting up
         if should_setup:
             harvest()
             if get_ground_type() != Grounds.Soil:
@@ -56,21 +59,22 @@ def sunflower_no_replanting(should_setup):
             my_record[petals] = [[get_pos_x(), get_pos_y()]]
         move(next_move)
 
-    for i in range(9): # harvest
-        offset_petal = 15-i
+    for i in range(9):  # harvest
+        offset_petal = 15 - i
         if offset_petal in my_record:
             siblings = my_record[offset_petal]
             for sunflower in siblings:
                 navigate_smart(sunflower)
                 wait_harv()
 
-def get_power(power_target = 0, initial = True):
+
+def get_power(power_target=0, initial=True):
     WORLD_TILE_COUNT = get_world_size()**2
-    EXPECTED_POWER = {2:18.31, 3:46.97, 4:73.63, 5:126.14,
-                      6:191.86, 7:281.47, 8:397.77, 9:544.71}
+    EXPECTED_POWER = {2: 18.31, 3: 46.97, 4: 73.63, 5: 126.14,
+                      6: 191.86, 7: 281.47, 8: 397.77, 9: 544.71}
     expected_yield = EXPECTED_POWER[num_unlocked(Unlocks.Expand)]
     runs_to_fulfil = (power_target + 50) // expected_yield
-    acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT*(runs_to_fulfil + 1))
+    acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT * (runs_to_fulfil + 1))
     for _ in range(runs_to_fulfil + 1):
         if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
             print("° Seed issue @ get_power")
@@ -85,6 +89,7 @@ def get_power(power_target = 0, initial = True):
         print("° We farmed fewer sunflowers than we needed to.")
         return False
     return True
+
 
 while True:
     print("° This file should be run from method_tester.py")

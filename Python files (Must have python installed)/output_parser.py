@@ -5,6 +5,7 @@ from pathlib import Path
 # script, that deals with the "output.txt" file in a smarter way, look for
 # output_watcher.py in the repository.
 
+
 def give_color_code(indicator):
     octal = "\033"
     if indicator == "$":
@@ -20,13 +21,15 @@ def give_color_code(indicator):
     else:
         return "*"
 
+
 def color_this_line(line):
     end = "\033[0m"
     return give_color_code(line[0]) + line[1:] + end
 
+
 # You may need to modify this bit of code to get it working, the code assumes
 # you cloned the repo as a save inside the game itself.
-my_path = Path(__file__).parents[3] # Get the path to the "main" game folder
+my_path = Path(__file__).parents[3]  # Get the path to the "main" game folder
 my_path = my_path / 'output.txt'    # Get to the output file
 
 with open(my_path, encoding='utf-8') as file:
@@ -38,7 +41,8 @@ colored_lines = []
 for output_line in output_lines:
     colored_lines.append(color_this_line(output_line))
 
-def trim_output(output_untrimmed:list, default_include=True,
+
+def trim_output(output_untrimmed: list, default_include=True,
                 include_grind=None, include_budget=None,
                 include_error=None, include_info=None, include_milestone=None):
 
@@ -72,6 +76,7 @@ def trim_output(output_untrimmed:list, default_include=True,
 
     return trimmed_output
 
+
 trimmed_lines = trim_output(colored_lines, default_include=False,
                             include_error=True, include_info=True)
 
@@ -82,5 +87,5 @@ print("If you're reading this, the terminal is showing all of the logs.")
 for trimmed_line in trimmed_lines:
     print(trimmed_line)
 
-print(f"Length of total lines: {len(colored_lines)}") # oh my beloved fStrings
-print(f"Length of trimmed lines: {len(trimmed_lines)}") # I missed you.
+print(f"Length of total lines: {len(colored_lines)}")  # oh my beloved fStrings
+print(f"Length of trimmed lines: {len(trimmed_lines)}")  # I missed you.
