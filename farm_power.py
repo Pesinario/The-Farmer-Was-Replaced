@@ -1,4 +1,3 @@
-# """#Module containing all power farming methods.#"""#
 from utils import debate_watering, till_this_many_tiles, wait_harv, smart_harv
 from navigation import walk_the_grid, navigate_smart
 from resource_management import acquire_seeds

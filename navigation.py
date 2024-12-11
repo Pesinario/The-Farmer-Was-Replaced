@@ -1,5 +1,3 @@
-# """#Module that contains functions related to navigation.#"""#
-
 def walk_the_grid():  # This is deprecated but is still used by some also
     # deprecated farming methods.
     if get_pos_y() != get_world_size() - 1:

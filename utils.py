@@ -1,4 +1,3 @@
-# """#Module that contains several utility functions.#"""#
 from navigation import walk_the_grid
 
 

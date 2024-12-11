@@ -1,4 +1,3 @@
-# """#This module is where most of the resource management logic takes place.#"""#
 from utils import wait_harv
 from timed_run import time_stamp, ORDER_OF_GRIND
 from farm_bones import dyno_slightly_smarter

@@ -1,4 +1,3 @@
-# """#This module allows for testing of specific farming methods.#"""#
 from resource_management import grind_method
 from navigation import precalc_world
 

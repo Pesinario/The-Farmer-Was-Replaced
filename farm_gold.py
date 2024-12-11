@@ -1,4 +1,3 @@
-# """#This module contains a gold farming method.#"""#
 from navigation import navigate_smart
 
 

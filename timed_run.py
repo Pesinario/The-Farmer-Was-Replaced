@@ -1,6 +1,3 @@
-# """#This module does a timed run.#"""#
-
-
 timed_reset()
 START_TIME = get_time()
 quick_print("$", "Start time is", START_TIME)

@@ -1,4 +1,3 @@
-# """#Module that contains farming methods related to hay, wood and carrots.#"""#
 from utils import debate_watering, wait_harv, smart_harv, till_this_many_tiles
 from navigation import walk_the_grid, precalc
 

@@ -1,4 +1,3 @@
-# """#This module contains bone farming methods.#"""#
 from navigation import walk_the_grid, precalc
 from utils import smart_harv
 from resource_management import acquire_seeds

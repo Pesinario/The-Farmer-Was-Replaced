@@ -1,4 +1,3 @@
-# """#This module contains a pumpkin farming method and it's helper functions.#"""#
 from utils import debate_watering, try_fert
 from navigation import navigate_smart, precalc
 
