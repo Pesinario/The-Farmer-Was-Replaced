@@ -30,7 +30,7 @@ def do_simple_maze_run(gold_target):
                 continue
             elif move(dir_list[dir_last]): # if we can go straight, we do it
                 continue
-            else: # we try what would be left from last succesful move
+            else: # we try what would be left from last successful move
                 dir_last += 2
                 if dir_last > len(dir_list)-1:
                     dir_last -= len(dir_list)

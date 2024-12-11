@@ -82,7 +82,7 @@ def get_power(power_target = 0, initial = True):
             sunflower_no_replanting(False)
         # reset_sunflowers()
     if num_items(Items.Power) < power_target + 40:
-        print("° We underfarmed sunflowers.")
+        print("° We farmed fewer sunflowers than we needed to.")
         return False
     return True
 

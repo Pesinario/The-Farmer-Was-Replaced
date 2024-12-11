@@ -13,7 +13,7 @@ def harv_hay_dumb(hay_target):
     while num_items(Items.Hay) < hay_target:
         if not can_harvest():
             if get_entity_type() == Entities.Grass:
-                print("° We outspeed grass! confirmed")
+                print("° We out speed grass! confirmed")
         harvest()
         move(North)
     return True

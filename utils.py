@@ -14,7 +14,7 @@ def smart_harv(debate=True):
         debate_watering()
 
 def till_this_many_tiles(how_many, debate=True): # This is deprecated,
-    # but is still used by some also deprected farming methods.
+    # but is still used by some also deprecated farming methods.
     for _ in range(how_many):
         smart_harv(debate)
         if get_ground_type() != Grounds.Soil:

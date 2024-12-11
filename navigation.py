@@ -1,7 +1,7 @@
 #"""#Module that contains functions related to navigation.#"""#
 
 def walk_the_grid(): # This is deprecated but is still used by some also
-    # deprected farming methods.
+    # deprecated farming methods.
     if get_pos_y() != get_world_size()-1:
         move(North)
     else:
@@ -12,7 +12,7 @@ def move_helper(direction, duration):
     for _ in range(duration):
         move(direction)
 
-def navigate_dumb(target_x,target_y): # This has no wrapping but also doesnt use lists
+def navigate_dumb(target_x,target_y): # This has no wrapping but also doesn't use lists
     must_x = target_x - get_pos_x()
     must_y = target_y - get_pos_y()
     if must_x > 0:
