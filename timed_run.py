@@ -1,6 +1,3 @@
-#"""#This module does a timed run.#"""#
-
-
 timed_reset()
 START_TIME = get_time()
 quick_print("$", "Start time is", START_TIME)
@@ -12,8 +9,10 @@ quick_print("$", "Start time is", START_TIME)
 # + means grinding Something
 # - means info
 
+
 def time_stamp():
     return get_time() - START_TIME
+
 
 def report_extra_resources():
     my_extras = {}
@@ -22,19 +21,24 @@ def report_extra_resources():
             my_extras[extra] = num_items(extra)
     quick_print("$ Extra resources:", my_extras)
 
+
 def get_me_unlock(what_unlock):
     all_costs = get_cost(what_unlock)
-    quick_print("+", what_unlock, num_unlocked(what_unlock) + 1, "requires:", all_costs)
+    quick_print("+", what_unlock, num_unlocked(what_unlock) +
+                1, "requires:", all_costs)
     grind_by_order(all_costs)
 
     return unlock(what_unlock)
 
-def log_this_unlock(current_unlock): # adds to the dictionary the unlock and how long it took
-    succesfully_unlocked = False
+
+# adds to the dictionary the unlock and how long it took
+def log_this_unlock(current_unlock):
+    successfully_unlocked = False
     attempts = 0
     started_unlocking = get_time()
-    quick_print("~", current_milestone_chased, "started @", started_unlocking - START_TIME)
-    while not succesfully_unlocked:
+    quick_print("~", current_milestone_chased, "started @",
+                started_unlocking - START_TIME)
+    while not successfully_unlocked:
         attempts += 1
         if get_me_unlock(current_unlock):
             took_this_long = get_time() - started_unlocking
@@ -45,13 +49,14 @@ def log_this_unlock(current_unlock): # adds to the dictionary the unlock and how
         else:
             print("° We fucked up somewhere")
 
+
 KINDS_OF_UNLOCKS = [Unlocks.Speed, Unlocks.Expand, Unlocks.Plant,
                     Unlocks.Grass, Unlocks.Trees, Unlocks.Carrots,
                     Unlocks.Sunflowers, Unlocks.Pumpkins, Unlocks.Polyculture,
                     Unlocks.Fertilizer, Unlocks.Mazes, Unlocks.Cactus,
                     Unlocks.Dinosaurs, Unlocks.Leaderboard]
 
-GAME_PLAN = get_me_best_route() # This is the route we will attempt
+GAME_PLAN = get_me_best_route()  # This is the route we will attempt
 precalc = []
 # This is ordered from most expensive to least expensive.
 # this way, we minimize "backtracking" while grinding resources.
@@ -66,8 +71,8 @@ for current_milestone_chased in GAME_PLAN:
         while True:
             print("°", current_milestone_chased)
     if current_milestone_chased == Unlocks.Expand:
-        precalc = precalc_world() # I don't think we should need this before
-        # we get to at least 4x4 farm size, but we define it as soon as we get 1x3
+        precalc = precalc_world()  # I don't think we should need this before
+        # we get to at least 3x3 farm size.
 
 quick_print("$", "End time is", time_stamp())
 report_extra_resources()

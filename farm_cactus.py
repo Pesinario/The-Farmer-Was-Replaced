@@ -1,5 +1,5 @@
-#"""#This module contains cacti farming methods and their helper functions.#"""#
 from navigation import move_helper, navigate_smart, precalc
+
 
 def results_expected():
     expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
@@ -10,16 +10,18 @@ def results_expected():
     if actual_yield != expected_yield:
         print("° Expected yield was: ", expected_yield, " cactus")
         print("° We have farmed ", actual_yield, " cactus.")
-        print("° We farmed ", expected_yield - actual_yield, " less cactus than expected")
+        print("° We farmed ", expected_yield -
+              actual_yield, " less cactus than expected")
         return False
     return True
 
-def check_work(): # This is currently not used, but is handy for debugging.
+
+def check_work():  # This is currently not used, but is handy for debugging.
     upper_bound = get_world_size() - 1
     for next_move in precalc:
         cur_measure = measure()
-        pos_x = get_pos_x() # I wonder if using `in range()` would be faster or
-        pos_y = get_pos_y() # not, certainly would be prettier. TODO: check
+        pos_x = get_pos_x()  # I wonder if using `in range()` would be faster or
+        pos_y = get_pos_y()  # not, certainly would be prettier. TODO: check
 
         # Check along the X axis, but not if we're on the edges
         if pos_x != 0 and cur_measure < measure(West):
@@ -39,6 +41,7 @@ def check_work(): # This is currently not used, but is handy for debugging.
         move(next_move)
     return True
 
+
 def till_and_plant_cacti():
     for next_move in precalc:
         harvest()
@@ -46,6 +49,7 @@ def till_and_plant_cacti():
             till()
         plant(Entities.Cactus)
         move(next_move)
+
 
 def plant_cacti_grouped(length_of_farm):
 
@@ -64,29 +68,32 @@ def plant_cacti_grouped(length_of_farm):
             move(dir_fw)
 
     my_y = 0
-    while my_y < length_of_farm: # up to y = 9 in 10x10
-        if my_y < length_of_farm - 3: # up to y = 7 in 10x10
-            move(North) # Place us in the middle
+    while my_y < length_of_farm:  # up to y = 9 in 10x10
+        if my_y < length_of_farm - 3:  # up to y = 7 in 10x10
+            move(North)  # Place us in the middle
             plant_three_lines(East, North, South)
-            move(North) # Move the the most northern line planted
-            move(North) # Move to non-planted line
+            move(North)  # Move the the most northern line planted
+            move(North)  # Move to non-planted line
             my_y += 3
         else:
             plant_single_line(East)
             move(North)
             my_y += 1
 
+
 def ensure_cactus_seeds():
     if num_items(Items.Cactus_Seed) < get_world_size()**2:
         if not trade(Items.Cactus_Seed,
-                        get_world_size()**2 - num_items(Items.Cactus_Seed)):
+                     get_world_size()**2 - num_items(Items.Cactus_Seed)):
             print("° seed issue @ cactus_bubble")
             return False
     return True
 
-def cactus_bubble(cactus_target): # This farming method is deprecated,
+
+def cactus_bubble(cactus_target):  # This farming method is deprecated,
     # as cactus_shaker() is faster by an amazing 2%!, I know, crazy.
     length_of_farm = get_world_size()
+
     def bubble_sort_one_line(dir_bw, dir_fw):
         did_swaps = 0
         for _ in range(get_world_size()):
@@ -100,29 +107,30 @@ def cactus_bubble(cactus_target): # This farming method is deprecated,
         return did_swaps
 
     is_first = True
-    while True: # Main script loop
+    while True:  # Main script loop
         navigate_smart([0, 0])
         if not ensure_cactus_seeds():
             return False
-        if is_first: # We can't assume the ground is tilled.
+        if is_first:  # We can't assume the ground is tilled.
             till_and_plant_cacti()
             is_first = False
-        else: # Now that we can assume the ground to be tilled, we can go
+        else:  # Now that we can assume the ground to be tilled, we can go
             # (potentially) faster, not sure if it's actually faster or not
             plant_cacti_grouped(length_of_farm)
 
         # sort the rows
-        for x in range(length_of_farm): # pylint: disable=[W0612]
+        for x in range(length_of_farm):  # pylint: disable=[W0612]
             while True:
-                if bubble_sort_one_line(West, East) < 3: # Two of the "swaps"
-                    break # are ghost swaps from being at the edge of the farm.
+                if bubble_sort_one_line(West, East) < 3:  # Two of the "swaps"
+                    # are ghost swaps from being at the edge of the farm.
+                    break
             move(North)
 
         # sort the columns
-        for y in range(length_of_farm): # pylint: disable=[W0612]
+        for y in range(length_of_farm):  # pylint: disable=[W0612]
             while True:
-                if bubble_sort_one_line(South, North) < 3: # Two of the "swaps" are
-                    break # ghost swaps from being at the edge of the farm.
+                if bubble_sort_one_line(South, North) < 3:  # Two of these are
+                    break  # ghost swaps from being at the edge of the farm.
             move(East)
 
         if not results_expected():
@@ -135,8 +143,8 @@ def cactus_shaker(cactus_target):
     length_of_farm = get_world_size()
 
     # Nested function for better readability
-    def martini(dir_bw, dir_fw): # Get it? It's cocktail sort!
-        my_index = 1 # Assume we start at index 1 of the field
+    def martini(dir_bw, dir_fw):  # Get it? It's cocktail sort!
+        my_index = 1  # Assume we start at index 1 of the field
         last_tile = length_of_farm - 1
         # not_sorted = set(x for x in range(1, last_tile))
         # The game won't let me use generators :(
@@ -153,14 +161,14 @@ def cactus_shaker(cactus_target):
                 mini_did = False
                 if here_measured > measure(dir_fw):
                     swap(dir_fw)
-                    not_sorted.add(sfh_index) # maybe this can be removed
+                    not_sorted.add(sfh_index)  # maybe this can be removed
                     not_sorted.add(sfh_index + 1)
                     did_something = True
                     mini_did = True
 
                 if here_measured < measure(dir_bw):
                     swap(dir_bw)
-                    not_sorted.add(sfh_index) # maybe this can be removed
+                    not_sorted.add(sfh_index)  # maybe this can be removed
                     not_sorted.add(sfh_index - 1)
                     did_something = True
                     mini_did = True
@@ -179,7 +187,8 @@ def cactus_shaker(cactus_target):
                 else:
                     move(dir_fw)
                     pf_index += 1
-        # Private function inside a private function:
+
+        # Nested function inside a nested function:
         def pass_backwards(pb_index):
             while True:
                 if not sorted_from_here(pb_index):
@@ -228,19 +237,19 @@ def cactus_shaker(cactus_target):
                 last_was_forward = True
 
             if 0 in not_sorted:
-                not_sorted.remove(0) # We never want to go to 0
+                not_sorted.remove(0)  # We never want to go to 0
             if last_tile in not_sorted:
-                not_sorted.remove(last_tile) # We never want to go to the edge
+                not_sorted.remove(last_tile)  # We never want to go to the edge
 
     is_first = True
-    while True: # Main script loop
+    while True:  # Main script loop
         navigate_smart([0, 0])
         if not ensure_cactus_seeds():
             return False
-        if is_first: # We can't assume the ground is tilled.
+        if is_first:  # We can't assume the ground is tilled.
             till_and_plant_cacti()
             is_first = False
-        else: # Now that we can assume the ground to be tilled, we can go
+        else:  # Now that we can assume the ground to be tilled, we can go
             # (potentially) faster, not sure if it's actually faster or not
             plant_cacti_grouped(length_of_farm)
 
@@ -256,6 +265,7 @@ def cactus_shaker(cactus_target):
             return False
         if num_items(Items.Cactus) > cactus_target:
             return True
+
 
 while True:
     print("° This file should be run from method_tester.py")

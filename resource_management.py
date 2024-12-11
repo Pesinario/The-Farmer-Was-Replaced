@@ -1,4 +1,3 @@
-#"""#This module is where most of the resource managment logic takes place.#"""#
 from utils import wait_harv
 from timed_run import time_stamp, ORDER_OF_GRIND
 from farm_bones import dyno_slightly_smarter
@@ -11,7 +10,8 @@ from farm_trifecta import three_by_three_with_hay, carrots_trusting
 from farm_trifecta import one_by_three_bush_hay_wait, tree_and_bush
 from farm_trifecta import carrot_three_by_three
 
-def grind_method(what, target_amount, boost = True, is_test = False):
+
+def grind_method(what, target_amount, boost=True, is_test=False):
     random_id = random()
     if not is_test:
         quick_print("+ Now grinding:", what, "up to:", target_amount,
@@ -21,7 +21,8 @@ def grind_method(what, target_amount, boost = True, is_test = False):
     if what != Items.Power:
         if num_unlocked(Unlocks.Sunflowers) > 0:
             if num_items(Items.Power) < 1:
-                quick_print("° We're out of juice, that was an oopsie somewhere.")
+                quick_print(
+                    "° We're out of juice, that was an oopsie somewhere.")
 
             if num_items(Items.Power) < 50 and boost:
                 quick_print("+ Getting power before getting", what)
@@ -48,13 +49,14 @@ def grind_method(what, target_amount, boost = True, is_test = False):
     else:
         quick_print("° Gigantic blunder @ grind_method", what)
 
-    if report and not is_test: # pylint: disable=[E0606]
+    if report and not is_test:  # pylint: disable=[E0606]
         quick_print("+ Finished grinding: ", what, "up to:", target_amount,
                     "boost active:", boost, "id:", random_id, "timestamp:", time_stamp())
 
     return report
 
-def grind_trifecta(what, target_amount): # TODO: Be slightly smarter about how
+
+def grind_trifecta(what, target_amount):  # TODO: Be slightly smarter about how
     # we farm the trifecta.
     if num_unlocked(Unlocks.Polyculture) != 0:
         poly_farm(what, target_amount)
@@ -90,16 +92,18 @@ def grind_trifecta(what, target_amount): # TODO: Be slightly smarter about how
                     print("° Fix this correctly.")
         return num_items(what) > target_amount
 
+
 def grind_pumpkins(target_amount):
-    MAX_RUNS_ALLOWED = 9 # To prevent buying a huge amount of extra seeds.
+    MAX_RUNS_ALLOWED = 9  # To prevent buying a huge amount of extra seeds.
     # We split our seed acquisition (and grind) to a maximum of 10.
-    SEEDS_99_PERCENT = {2:17, 3:27, 4:40, 5:55, 6:72, 7:92, 8:115, 9:140}
+    SEEDS_99_PERCENT = {2: 17, 3: 27, 4: 40,
+                        5: 55, 6: 72, 7: 92, 8: 115, 9: 140}
     # This is the amount of seeds needed to get a 99% chance of harvesting a
     # full field of pumpkins without running out, according to Expand size.
     cost_per_run = SEEDS_99_PERCENT[num_unlocked(Unlocks.Expand)]
     yield_per_run = ((get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins))
     needed_pumpkins = target_amount - num_items(Items.Pumpkin)
-    needed_runs = needed_pumpkins // yield_per_run + 1 # Extra run for safety.
+    needed_runs = needed_pumpkins // yield_per_run + 1  # Extra run for safety.
     pumpkin_run_tracker = 0
     while needed_runs > MAX_RUNS_ALLOWED:
         acquire_seeds(Items.Pumpkin_Seed,
@@ -110,10 +114,12 @@ def grind_pumpkins(target_amount):
         needed_runs -= MAX_RUNS_ALLOWED
         pumpkin_run_tracker += MAX_RUNS_ALLOWED
 
-    quick_print('$ About to try to get', needed_runs * cost_per_run + cost_per_run, 'Pumpkin seeds')
+    quick_print('$ About to try to get', needed_runs *
+                cost_per_run + cost_per_run, 'Pumpkin seeds')
     acquire_seeds(Items.Pumpkin_Seed,
                   needed_runs * cost_per_run + cost_per_run)
-    quick_print('$ I have:', num_items(Items.Pumpkin_Seed), "For: ", needed_runs, "Runs at expand size", num_unlocked(Unlocks.Expand))
+    quick_print('$ I have:', num_items(Items.Pumpkin_Seed), "For: ",
+                needed_runs, "Runs at expand size", num_unlocked(Unlocks.Expand))
     if not pumpkin_smart(needed_runs, pumpkin_run_tracker):
         quick_print('° Error @grind_pumpkins near the end')
         return False
@@ -125,19 +131,21 @@ def grind_pumpkins(target_amount):
                     "Somehow we didn't farm enough pumpkins.")
         return False
 
+
 def grind_gold(target_amount):
     ensure_power()
     WORLD_TILE_COUNT = get_world_size()**2
     MAX_MAZES_ALLOWED = 20
-    FERT_PER_MAZE = 25 # An estimation of how much fertilizer we'll need.
+    FERT_PER_MAZE = 25  # An estimation of how much fertilizer we'll need.
     MAX_FERT_PER_BATCH = FERT_PER_MAZE * MAX_MAZES_ALLOWED
     # TODO: Simulate this also.
     gold_per_maze = num_unlocked(Unlocks.Mazes) * WORLD_TILE_COUNT
     remaining_gold_to_farm = target_amount - num_items(Items.Gold)
     mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
     expected_fert_usage = mazes_for_goal * FERT_PER_MAZE
-    trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10) # At this point,
-    # we only need the pumpkins for fertilizer, so we can spend them all.
+    # At this point, we only need the pumpkins for fertilizer,
+    # so we can spend all the pumpkins.
+    trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10)
     if mazes_for_goal * expected_fert_usage < num_items(Items.Fertilizer):
         if not do_simple_maze_run(target_amount):
             quick_print("° ERROR while farming gold")
@@ -154,9 +162,8 @@ def grind_gold(target_amount):
         while mazes_for_goal > MAX_MAZES_ALLOWED:
             acquire_seeds(Items.Fertilizer, FERT_PER_MAZE, MAX_MAZES_ALLOWED)
             if not do_simple_maze_run(
-                num_items(Items.Gold) +
-                gold_per_maze * MAX_MAZES_ALLOWED
-                ):
+                    num_items(Items.Gold) +
+                    gold_per_maze * MAX_MAZES_ALLOWED):
                 quick_print("° ERROR while farming gold")
                 return False
             mazes_for_goal -= MAX_MAZES_ALLOWED
@@ -167,6 +174,7 @@ def grind_gold(target_amount):
         else:
             return True
 
+
 def grind_cacti(target_amount):
     ensure_power()
     expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
@@ -176,6 +184,7 @@ def grind_cacti(target_amount):
     else:
         quick_print("° Cactus seed acquisition Issue")
         return False
+
 
 def grind_bones(target_amount):
     ensure_power()
@@ -190,7 +199,7 @@ def grind_bones(target_amount):
         return False
 
 
-def ensure_power(how_much = None):
+def ensure_power(how_much=None):
     # TODO: make some clever logic here
     if how_much == None:
         how_much = 200
@@ -198,7 +207,8 @@ def ensure_power(how_much = None):
     if how_much > num_items(Items.Power):
         grind_method(Items.Power, how_much - num_items(Items.Power))
 
-def acquire_seeds(type_of_seed, how_many, grind = True):
+
+def acquire_seeds(type_of_seed, how_many, grind=True):
     quick_print("- acquire_seeds got a request of", how_many, type_of_seed)
     seed_diff = how_many - num_items(type_of_seed)
     if seed_diff < 0:
@@ -218,8 +228,7 @@ def acquire_seeds(type_of_seed, how_many, grind = True):
         if type_of_seed == Items.Sunflower_Seed:
             quick_print(
                 "° Not enough carrots to farm power even once.",
-                "Attempting to grind carrots for sunflower seeds without boost"
-                )
+                "Attempting to grind carrots for sunflower seeds without boost")
             grind_method(Items.Carrot, seed_diff, False)
         else:
             grind_by_order(requirements)
@@ -233,11 +242,13 @@ def acquire_seeds(type_of_seed, how_many, grind = True):
             print("$ Requirements was:", requirements)
             return False
     else:
-        quick_print("- was able to buy", how_many, type_of_seed, "without grinding")
+        quick_print("- was able to buy", how_many,
+                    type_of_seed, "without grinding")
         return True
 
+
 def grind_by_order(grind_what):
-    for resource in ORDER_OF_GRIND: # Grind in descending order of cost
+    for resource in ORDER_OF_GRIND:  # Grind in descending order of cost
         if resource in grind_what:
             if num_items(resource) < grind_what[resource]:
                 quick_print("+ Sending grind order of",
@@ -245,6 +256,7 @@ def grind_by_order(grind_what):
                 grind_method(resource, grind_what[resource])
             else:
                 quick_print("- we're good on", resource)
+
 
 while True:
     print("° This file should never be run by itself")

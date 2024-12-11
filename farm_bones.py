@@ -1,9 +1,9 @@
-#"""#This module contains bone farming methods.#"""#
 from navigation import walk_the_grid, precalc
 from utils import smart_harv
-from resource_managment import acquire_seeds
+from resource_management import acquire_seeds
 
-def ultra_dumb_dyno(bones_target): # This farming method is deprecated
+
+def ultra_dumb_dyno(bones_target):  # This farming method is deprecated
     WORLD_TILE_COUNT = get_world_size()**2
     while True:
         if num_items(Items.Egg) < WORLD_TILE_COUNT:
@@ -20,7 +20,8 @@ def ultra_dumb_dyno(bones_target): # This farming method is deprecated
             return True
 
 
-def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much better.
+# Still nowhere near optimal, but much better.
+def dyno_slightly_smarter(bones_target):
     while num_items(Items.Bones) < bones_target:
         if num_items(Items.Egg) == 0:
             quick_print("° Egg issue @ dyno_slightly_smarter()")
@@ -59,6 +60,7 @@ def dyno_slightly_smarter(bones_target): # Still nowhere near optimal, but much 
             #     swap(South)
             move(next_move)
     return True
+
 
 while True:
     print("° This file should be run from method_tester.py")
