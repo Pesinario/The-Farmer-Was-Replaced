@@ -1,7 +1,7 @@
 #"""#Module containing all power farming methods.#"""#
 from utils import debate_watering, till_this_many_tiles, wait_harv, smart_harv
 from navigation import walk_the_grid, navigate_smart
-from resource_managment import acquire_seeds
+from resource_management import acquire_seeds
 
 def reset_sunflowers():
     navigate_smart([0, 0])

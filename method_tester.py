@@ -1,5 +1,5 @@
 #"""#This module allows for testing of specific farming methods.#"""#
-from resource_managment import grind_method
+from resource_management import grind_method
 from navigation import precalc_world
 
 ORDER_OF_GRIND = [

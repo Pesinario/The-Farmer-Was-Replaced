@@ -1,7 +1,7 @@
 #"""#This module contains bone farming methods.#"""#
 from navigation import walk_the_grid, precalc
 from utils import smart_harv
-from resource_managment import acquire_seeds
+from resource_management import acquire_seeds
 
 def ultra_dumb_dyno(bones_target): # This farming method is deprecated
     WORLD_TILE_COUNT = get_world_size()**2
