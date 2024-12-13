@@ -12,12 +12,16 @@ def enter_a_maze():
             return False
         else:
             use_item(Items.Fertilizer)
+    return True
 
 
 def do_simple_maze_runs(runs_target):
     runs_done = 0
     while runs_done < runs_target:
-        enter_a_maze()
+        if not enter_a_maze():
+            quick_print("° Error @do_simple_maze_runs: could not enter maze",
+                            "runs done:", runs_done)
+            return False
         # Now we should be in a maze.
         dir_list = (East, South, West, North, # I think repeating this
                     East, South, West, North) # will make my logic easier.
@@ -30,6 +34,8 @@ def do_simple_maze_runs(runs_target):
             # Getting stuck prevention, I'm not 100% sure if it's needed or
             # not, but it's gotten stuck in earlier versions.
             if successful_moves > 1000:
+                quick_print("° Error @do_simple_maze_runs: moves > 1000",
+                            "runs done:", runs_done)
                 return False
 
             index_last = index_last % dir_len # index must be < 4.
