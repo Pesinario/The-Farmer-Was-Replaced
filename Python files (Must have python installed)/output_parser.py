@@ -3,7 +3,7 @@ from pathlib import Path
 # coding, sorry if it's ugly, it was only meant for my own personal use but
 # figured i may as well add it to the repo. Since then i made a more powerful
 # script, that deals with the "output.txt" file in a smarter way, look for
-# output_watcher.py in the repository.
+# fwr_watcher in the repository.
 
 
 def give_color_code(indicator):

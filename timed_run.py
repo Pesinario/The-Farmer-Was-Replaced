@@ -1,6 +1,6 @@
 timed_reset()
 START_TIME = get_time()
-quick_print("$", "Start time is", START_TIME)
+quick_print("~", "Start time is", START_TIME)
 
 # Output keys:
 # ° means error
@@ -74,6 +74,7 @@ for current_milestone_chased in GAME_PLAN:
         precalc = precalc_world()  # I don't think we should need this before
         # we get to at least 3x3 farm size.
 
-quick_print("$", "End time is", time_stamp())
+quick_print("~", "End time is", time_stamp())
 report_extra_resources()
+quick_print("~ End of Log")
 timed_reset()

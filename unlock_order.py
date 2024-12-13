@@ -1,4 +1,7 @@
-#"""#This module is where we define the route that the timed run will take.#"""#
+# Yeah, this file is a mess
+# Eventually it will get fixed properly.
+# When i feel like making a new route
+# And implementing grinding / purchasing orders besides unlock orders.
 
 def old_route():
     before_carrots = [Unlocks.Speed, Unlocks.Expand, Unlocks.Plant,Unlocks.Expand, Unlocks.Speed, Unlocks.Grass, Unlocks.Carrots]
