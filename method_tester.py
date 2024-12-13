@@ -46,7 +46,7 @@ grind_method(grind_target, num_items(grind_target) + WANTED_AMOUNT, True, True)
 # get_power(num_items(Items.Power) + WANTED_AMOUNT)
 
 # Gold:
-# do_simple_maze_run(num_items(Items.Gold) + WANTED_AMOUNT)
+# do_simple_maze_runs(10) # This should really be called from grind_method() instead..
 
 # Cacti:
 # cactus_bubble(num_items(Items.Cactus) + WANTED_AMOUNT)

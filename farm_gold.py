@@ -1,43 +1,56 @@
 from navigation import navigate_smart
 
 
-def do_simple_maze_run(gold_target):
-    dir_list = [East, South, West, North]
-    dir_last = 0
-    dir_next = 1
-    while True:
-        navigate_smart([0, 0])
-        while get_entity_type() != Entities.Hedge:
-            if get_entity_type() != Entities.Bush:
-                harvest()
-                plant(Entities.Bush)
-            if num_items(Items.Fertilizer) < 4:
-                return False
-            else:
-                use_item(Items.Fertilizer)
+def enter_a_maze():
+    # Get into a maze:
+    navigate_smart([0, 0])
+    while get_entity_type() != Entities.Hedge:
+        if get_entity_type() != Entities.Bush:
+            harvest()
+            plant(Entities.Bush)
+        if num_items(Items.Fertilizer) < 25: # Keep some for pumpkins
+            return False
+        else:
+            use_item(Items.Fertilizer)
+
+
+def do_simple_maze_runs(runs_target):
+    runs_done = 0
+    while runs_done < runs_target:
+        enter_a_maze()
         # Now we should be in a maze.
-        counter = 0
-        while get_entity_type() != Entities.Treasure:  # solve the maze
-            counter *= 1
-            if counter > 1000:
-                break
-            dir_next = dir_last + 1
-            if dir_next > len(dir_list) - 1:
-                dir_next = 0
+        dir_list = (East, South, West, North, # I think repeating this
+                    East, South, West, North) # will make my logic easier.
+        index_last = 0 # represents last successful move
+        dir_len = len(dir_list) // 2 # It repeats twice.
+        successful_moves = 0
 
-            if move(dir_list[dir_next]):  # if we can turn right, we do it
-                dir_last = dir_next
-                continue
-            elif move(dir_list[dir_last]):  # if we can go straight, we do it
-                continue
-            else:  # we try what would be left from last successful move
-                dir_last += 2
-                if dir_last > len(dir_list) - 1:
-                    dir_last -= len(dir_list)
+        # Inside the maze loop:
+        while get_entity_type() != Entities.Treasure:
+            # Getting stuck prevention, I'm not 100% sure if it's needed or
+            # not, but it's gotten stuck in earlier versions.
+            if successful_moves > 1000:
+                return False
 
+            index_last = index_last % dir_len # index must be < 4.
+
+            if move(dir_list[index_last + 1]):  # if we can turn right, we do it
+                index_last += 1
+            elif move(dir_list[index_last]):  # if we can go straight, we do it
+                pass
+            elif move(dir_list[index_last + 3]): # if we can turn left, we do it
+                index_last += 3
+            elif move(dir_list[index_last + 2]): # go backwards
+                index_last += 2
+            else: # we should be able to at LEAST move backwards every time.
+                successful_moves += 1000
+                print("° Terrible error in maze solving logic.")
+            successful_moves += 1
+
+        quick_print("- Found Treasure after", successful_moves, "moves")
         harvest()
-        if num_items(Items.Gold) > gold_target:
-            return True
+        runs_done += 1
+    return True
 
 
 while True:

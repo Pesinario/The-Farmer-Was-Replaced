@@ -2,7 +2,7 @@ from utils import wait_harv
 from timed_run import time_stamp, ORDER_OF_GRIND
 from farm_bones import dyno_slightly_smarter
 from farm_cactus import cactus_shaker
-from farm_gold import do_simple_maze_run
+from farm_gold import do_simple_maze_runs
 from farm_power import get_power
 from farm_pumpkins import pumpkin_smart
 from farm_trifecta import poly_farm, harv_hay_dumb, hay_full_field
@@ -146,8 +146,10 @@ def grind_gold(target_amount):
     # At this point, we only need the pumpkins for fertilizer,
     # so we can spend all the pumpkins.
     trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10)
+
+    # If we can get the gold with the fertilizer we already have:
     if mazes_for_goal * expected_fert_usage < num_items(Items.Fertilizer):
-        if not do_simple_maze_run(target_amount):
+        if not do_simple_maze_runs(mazes_for_goal):
             quick_print("° ERROR while farming gold")
             return False
         else:
@@ -155,24 +157,25 @@ def grind_gold(target_amount):
                         num_items(Items.Fertilizer), "Fertilizer leftover.")
             return True
 
-    else:
-        quick_print("- We are about to attempt to grind and buy",
-                    MAX_FERT_PER_BATCH - num_items(Items.Fertilizer),
-                    "Fertilizer for farming gold")
-        while mazes_for_goal > MAX_MAZES_ALLOWED:
-            acquire_seeds(Items.Fertilizer, FERT_PER_MAZE, MAX_MAZES_ALLOWED)
-            if not do_simple_maze_run(
-                    num_items(Items.Gold) +
-                    gold_per_maze * MAX_MAZES_ALLOWED):
-                quick_print("° ERROR while farming gold")
-                return False
-            mazes_for_goal -= MAX_MAZES_ALLOWED
-        acquire_seeds(Items.Fertilizer, mazes_for_goal * FERT_PER_MAZE)
-        if not do_simple_maze_run(target_amount):
-            quick_print("° ERROR while farming gold")
+    # This is an implicit else statement:
+    quick_print("- We are about to attempt to grind and buy",
+                MAX_FERT_PER_BATCH - num_items(Items.Fertilizer),
+                "Fertilizer for farming gold")
+
+    # to prevent excessive grinding of pumpkins to by fertilizer:
+    while mazes_for_goal > MAX_MAZES_ALLOWED:
+        acquire_seeds(Items.Fertilizer, FERT_PER_MAZE * MAX_MAZES_ALLOWED)
+        if not do_simple_maze_runs(MAX_MAZES_ALLOWED):
+            quick_print("° Error @grind_gold while splitting runs")
             return False
-        else:
-            return True
+        mazes_for_goal -= MAX_MAZES_ALLOWED
+
+    acquire_seeds(Items.Fertilizer, mazes_for_goal * FERT_PER_MAZE)
+    if not do_simple_maze_runs(target_amount):
+        quick_print("° Error @grind_gold near the end")
+        return False
+    else:
+        return True
 
 
 def grind_cacti(target_amount):
