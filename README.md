@@ -14,7 +14,7 @@ Below is a list of the best time achieved with each version of the code, the goa
 * Best time (v1.2): 1:22:58.444
 * Best time (v1.21):1:14:01.313
 * Best time (v1.22):1:10:51.399
-* Best time (v1.3): 0:40:28.440
+* Best time (v1.3): 0:40:28.440 < First time that gets under top 100
 * Best time (v1.31):0:39:42.503
 * Best time (v1.32):0:39:27.286
-* Best time (v1.4): 0:38:04.300
+* Best time (v1.4): 0:37.17:038

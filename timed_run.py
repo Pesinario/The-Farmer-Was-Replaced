@@ -47,8 +47,12 @@ def log_this_unlock(current_unlock):
         attempts += 1
         if get_me_unlock(current_unlock):
             took_this_long = get_time() - started_unlocking
-            quick_print("~", current_milestone_chased, "ended @", get_time() - START_TIME,
-                        "and took", took_this_long, "attempts:", attempts)
+            quick_print(
+                "~", current_milestone_chased, num_unlocked(current_unlock),
+                "ended @", get_time() - START_TIME,
+                "and took", took_this_long,
+                "attempts:", attempts
+            )
             report_extra_resources()
             return True
         else:
