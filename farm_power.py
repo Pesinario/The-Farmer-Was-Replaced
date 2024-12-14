@@ -1,5 +1,5 @@
 from utils import debate_watering, till_this_many_tiles, wait_harv, smart_harv
-from navigation import walk_the_grid, navigate_smart
+from navigation import walk_the_grid, navigate_smart, precalc
 from resource_management import acquire_seeds
 
 

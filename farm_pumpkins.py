@@ -9,19 +9,14 @@ def find_suspects():
         do_a_flip()  # We wait for it to grow, this is for cases where
         # we are so fast that we don't give the first pumpkin planted
         # time to grow, can also happen if the first pumpkin dies.
-    if get_entity_type() != Entities.Pumpkin:
-        if not plant(Entities.Pumpkin):
-            print("° Couldn't plant, fatal issue @find_suspects")
-            return False
-        starting_suspects.append([get_pos_x(), get_pos_y()])
+
     for next_move in precalc:
         if get_entity_type() != Entities.Pumpkin:
             if not plant(Entities.Pumpkin):
                 print("° Couldn't plant, fatal issue @find_suspects")
                 return False
-            debate_watering(0.75)
-            starting_suspects.append([get_pos_x(), get_pos_y()])
-        elif not can_harvest():
+
+        if not can_harvest():
             debate_watering(0.75)
             starting_suspects.append([get_pos_x(), get_pos_y()])
         move(next_move)
@@ -29,7 +24,10 @@ def find_suspects():
 
 
 def water_dead(suspects):
+    water_counter = 0
     while len(suspects) > 0:
+        water_counter += 1
+        quick_print("- suspects as defined by water_dead at water counter #:", water_counter, suspects)
         local_sus = suspects.pop(0)
         navigate_smart(local_sus)
 
@@ -47,7 +45,10 @@ def water_dead(suspects):
 
 
 def fert_dead(suspects):
+    fert_counter = 0
     while len(suspects) > 0:
+        fert_counter += 1
+        quick_print("- suspects as defined by fert_dead at fert counter #:", fert_counter, suspects)
         current_target = suspects.pop(0)
         navigate_smart(current_target)
         while not can_harvest():
@@ -82,7 +83,8 @@ def pumpkin_smart(runs_to_do, run_counter=0):
         # now we take note of all pumpkins that died in the first planting run
         # and also water them after replanting
         suspects = find_suspects()
-        # now we replant dead pumpkins until none remain.
+        quick_print("- suspects as defined by find_suspects at run #:", run_counter, suspects)
+        # now we replant dead pumpkins and water/fertilizer them until we're done.
         if len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:
                 if not fert_dead(suspects):
@@ -95,6 +97,7 @@ def pumpkin_smart(runs_to_do, run_counter=0):
         old_pumpkins = num_items(Items.Pumpkin)
         while not can_harvest():  # harvest last suspect
             if get_entity_type() != Entities.Pumpkin:
+                quick_print("- Last suspect died while last check thingy")
                 if not plant(Entities.Pumpkin):
                     print(
                         "° Couldn't plant, fatal issue @pumpkin_smart's final harvest.")
@@ -110,10 +113,9 @@ def pumpkin_smart(runs_to_do, run_counter=0):
         if actual_yield != expected_yield:
             print("° Expected yield was: ", expected_yield, " pumpkins")
             print("° We have farmed ", actual_yield, " pumpkins.")
-            print("° We farmed ", expected_yield -
-                  actual_yield, " less pumpkins than expected")
-            print("° Seeds left:", num_items(
-                Items.Pumpkin_Seed), "run #:", run_counter)
+            print("° We farmed ", expected_yield - actual_yield, " less pumpkins than expected")
+            print("° Seeds left:", num_items(Items.Pumpkin_Seed), "run #:", run_counter)
+            print("° Fertilizer unlocked?", 1 == num_unlocked(Unlocks.Fertilizer))
             return False
     return True
 

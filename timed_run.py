@@ -1,6 +1,11 @@
+from resource_management import grind_by_order
+from navigation import precalc_world
+from unlock_order import get_me_best_route
+
+
 timed_reset()
 START_TIME = get_time()
-quick_print("$", "Start time is", START_TIME)
+quick_print("~", "Start time is", START_TIME)
 
 # Output keys:
 # ° means error
@@ -42,8 +47,12 @@ def log_this_unlock(current_unlock):
         attempts += 1
         if get_me_unlock(current_unlock):
             took_this_long = get_time() - started_unlocking
-            quick_print("~", current_milestone_chased, "ended @", get_time() - START_TIME,
-                        "and took", took_this_long, "attempts:", attempts)
+            quick_print(
+                "~", current_milestone_chased, num_unlocked(current_unlock),
+                "ended @", get_time() - START_TIME,
+                "and took", took_this_long,
+                "attempts:", attempts
+            )
             report_extra_resources()
             return True
         else:
@@ -74,6 +83,7 @@ for current_milestone_chased in GAME_PLAN:
         precalc = precalc_world()  # I don't think we should need this before
         # we get to at least 3x3 farm size.
 
-quick_print("$", "End time is", time_stamp())
+quick_print("~", "End time is", time_stamp())
 report_extra_resources()
+quick_print("~ End of Log")
 timed_reset()
