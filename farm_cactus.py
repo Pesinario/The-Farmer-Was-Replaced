@@ -81,11 +81,11 @@ def plant_cacti_grouped(length_of_farm):
             my_y += 1
 
 
-def ensure_cactus_seeds():
+def ensure_cactus_seeds(caller):
     if num_items(Items.Cactus_Seed) < get_world_size()**2:
         if not trade(Items.Cactus_Seed,
                      get_world_size()**2 - num_items(Items.Cactus_Seed)):
-            print("° seed issue @ cactus_bubble")
+            print("° seed issue", caller)
             return False
     return True
 
@@ -109,7 +109,7 @@ def cactus_bubble(cactus_target):  # This farming method is deprecated,
     is_first = True
     while True:  # Main script loop
         navigate_smart([0, 0])
-        if not ensure_cactus_seeds():
+        if not ensure_cactus_seeds("@cactus_bubble"):
             return False
         if is_first:  # We can't assume the ground is tilled.
             till_and_plant_cacti()
@@ -244,7 +244,7 @@ def cactus_shaker(cactus_target):
     is_first = True
     while True:  # Main script loop
         navigate_smart([0, 0])
-        if not ensure_cactus_seeds():
+        if not ensure_cactus_seeds("@cactus_shaker"):
             return False
         if is_first:  # We can't assume the ground is tilled.
             till_and_plant_cacti()

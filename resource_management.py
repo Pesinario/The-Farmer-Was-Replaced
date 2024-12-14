@@ -182,6 +182,8 @@ def grind_cacti(target_amount):
     ensure_power()
     expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
     runs_needed = target_amount // expected_yield
+    if runs_needed == 0:
+        runs_needed = 1
     if acquire_seeds(Items.Cactus_Seed, runs_needed * get_world_size()**2):
         return cactus_shaker(target_amount)
     else:
