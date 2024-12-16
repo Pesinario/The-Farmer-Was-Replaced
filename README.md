@@ -15,8 +15,7 @@ It is a programming game where you use a **subset** of Python to automate farmin
 - Inlined statements (e.g., `else: return False`)
 
 ## About my repository (and its branches)
-- The `stable` branch has pretty much **all** of the code I made that is in use (and some older, unused code) for the game in legacy version `jul-2024`, accessible through the steam beta feature.
-  - I have plans to rename `stable` to `jul-2024` for archiving purposes after reaching the goals (detailed below), and continue the project on the latest release of the game.
+- The `jul-2024` branch has pretty much **all** of the code I made that is in use (and some older, unused code) for the game in legacy version `jul-2024`, accessible through the steam beta feature.
 - The `legacy` branch represents the state of the code slightly after successfully completing my first timed run, and only exists to watch how far the project has come.
 - The `dev` branch is where the more cutting edge features live, but they _may_ not be very stable, and no guarantees are given, it gets merged into `stable` every now and then.
 
@@ -79,7 +78,6 @@ Anything located in the "tools" subdirectory will require you have Python instal
 Latest version (1.6) slightly hardcoded the end of the run, and incorporated seed pre-buying (Also top 50!)
 
 ## Known issues and future plans
-- The maze method is not 100% stable, it *sometimes* crashes a timed run attempt
+- The maze method is not 100% stable, it *sometimes* crashes a timed run attempt.
 - The (pre-fertilizer?) pumpkin farming has a bug I can’t seem to diagnose. I’d appreciate any help, as I’ve tried various approaches without success.
-- The cactus farming has seed issues, but it is **very** likely that is due to the aforementioned pumpkin farming issues.
 - Logs are usually quite verbose, especially on the `dev` branch.
