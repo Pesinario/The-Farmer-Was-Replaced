@@ -164,19 +164,13 @@ def maze_branch_based(runs_target):
         queue = list(history)
         my_nodes = set()
         while len(queue) > 0:
-            curr_pos = queue[0]
-            count = 0
-            for pos in queue:
-                if pos == curr_pos:
-                    count += 1
-                    if count > 2:
-                        my_nodes.add(curr_pos)
-            # here we already looked through the whole list
-            while True:
-                if curr_pos in queue:
-                    queue.remove(curr_pos)
-                else:
-                    break
+            curr_pos = queue.pop()
+            count = 1
+            while curr_pos in queue:
+                count += 1
+                queue.remove(curr_pos)
+            if count > 2:
+                my_nodes.add(curr_pos)
         return my_nodes
 
 
@@ -418,6 +412,10 @@ def maze_branch_based(runs_target):
             find_treasure_in_branch(branches[treasure_branch_index], 0, 1)
             return True
 
+    quick_print(
+        "maze_branch_based called for", runs_target, "runs",
+        "with", num_items(Items.Fertilizer), "fertilizer available"
+        )
     # Finally: We solve mazes until we reach our maze count goal.
     runs_done = 0
     if runs_target > 299: # Just in case
