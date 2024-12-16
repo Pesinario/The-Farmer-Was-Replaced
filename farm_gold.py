@@ -65,7 +65,7 @@ def do_simple_maze_runs(runs_target):
 def list_visited():
     # First, we do a simple right hand rule run of the maze, but we keep track
     # of the moves we made and we don't stop if we found treasure.
-    MAX_SEARCH_LENGTH = (get_world_size() ** 2)
+    MAX_SEARCH_LENGTH = get_world_size() ** 2
     STARTED_AT = (get_pos_x(), get_pos_y())
     dir_list = (East, South, West, North, # I think repeating this
                 East, South, West, North) # will make my logic easier.
@@ -139,7 +139,7 @@ def climb_down_branch(climb_this_branch):
 
 
 def find_treasure_in_branch(branch, curr_index, change):
-    quick_print("@find_tresure_in_branch was called on branch", branch)
+    quick_print("@find_treasure_in_branch was called on branch", branch)
     quick_print("with index:", curr_index, "and change:", change)
     while get_entity_type() != Entities.Treasure:
         navigate_dumb(branch[curr_index][0], branch[curr_index][1])
@@ -155,7 +155,7 @@ def maze_branch_based(runs_target):
     # Then, we try record maze data
     output = list_visited()
     if output == False:
-        quick_print("° Error learning the maze @maze_resuing.")
+        quick_print("° Error learning the maze @maze_reusing.")
         return False
     history, treasure_location = output
 
@@ -193,7 +193,7 @@ def maze_branch_based(runs_target):
                 if pos in nodes: # We either backtracked or about to split into different branches.
                     current_branch.append(pos)
                     work_branches.append(prune_current(current_branch)) # we prune for the
-                    # scenario that we bracktracked.
+                    # scenario that we backtracked.
                     # This is now the NEXT working branch
                     current_branch = []
                     current_branch.append(pos)
@@ -353,19 +353,16 @@ def maze_branch_based(runs_target):
         # now we are at the latest common ancestor between us and the treasure
         quick_print("We are at most common ancestor",(get_pos_x(),get_pos_y()))
 
-        index_of_ancestry = 0
-        for ancestor in treasure_ancestors:
-            if ancestor == my_coords:
-                break
-            index_of_ancestry += 1
-        # index of ancestry should represent the index of the LCA in treasure_ancestors
+        while treasure_ancestors[-1] != my_coords:
+            treasure_ancestors.pop()
+
         while len(treasure_ancestors) > 0:
             ancestor = treasure_ancestors.pop()
             quick_print("curr ancestor", ancestor)
             for child in node_to_children[ancestor]:
                 quick_print("curr child", child, branches[child])
                 if branches[child][-1] in treasure_ancestors:
-                    quick_print(branches[child][-1], "in treasure ancestors")
+                    quick_print(branches[child][-1], "in treasure_ancestors")
                     climb_down_branch(branches[child])
                     break
                 quick_print("child not in ancestors")
@@ -393,7 +390,9 @@ def maze_branch_based(runs_target):
                 change = -1
             else:
                 change = 1
-            quick_print("my_pos_index", my_pos_index, "treasure_index", treasure_index, "change", change)
+            quick_print("my_pos_index", my_pos_index,
+                        "treasure_index", treasure_index,
+                        "change", change)
             find_treasure_in_branch(my_branch, my_pos_index, change)
             return True
         else:
@@ -419,14 +418,20 @@ def maze_branch_based(runs_target):
     # Finally: We solve mazes until we reach our maze count goal.
     runs_done = 0
     if runs_target > 299: # Just in case
-        quick_print("° Asked for more runs than fisically possible.")
+        quick_print("° Asked for more runs than physically possible.")
         runs_target = 299
     while runs_done < runs_target:
         go_to_treasure(treasure_location)
         treasure_location = measure()
         while get_entity_type() == Entities.Treasure:
-            if not use_item(Items.Fertilizer):
-                quick_print("° Error @maze_branch_based, ran out of fertilizer in run:", runs_done + 1)
+            # We don't actually use fertilizer if it doesn't work, huh
+            if num_items(Items.Fertilizer) < 1:
+                quick_print(
+                    "° Error @maze_branch_based,",
+                    "ran out of fertilizer in run #", runs_done + 1)
+                harvest()
+                return False
+            use_item(Items.Fertilizer)
         runs_done += 1
     go_to_treasure(treasure_location)
     harvest()
