@@ -1,8 +1,16 @@
 from resource_management import grind_method
 from navigation import precalc_world
 
-ORDER_OF_GRIND = [Items.Egg, Items.Cactus, Items.Gold, Items.Pumpkin,
-                  Items.Pumpkin, Items.Power, Items.Carrot, Items.Wood, Items.Hay]
+ORDER_OF_GRIND = [
+    Items.Egg,
+    Items.Cactus,
+    Items.Gold,
+    Items.Pumpkin,
+    Items.Pumpkin,
+    Items.Power,
+    Items.Carrot,
+    Items.Wood,
+    Items.Hay]
 START_TIME = get_time()
 clear()
 # set_farm_size(7)
@@ -12,7 +20,7 @@ precalc = precalc_world()
 
 
 # To use or test any of the grinding functions, remove the "#"
-# Some of them may assume you have the requirements to run them (seeds or fertilizer)
+# Some of them may assume you have the requirements to run them (seeds or fert)
 WANTED_AMOUNT = 100000  # This is how much MORE than you currently have you want
 default_poly = Items.Carrot
 grind_target = Items.Gold

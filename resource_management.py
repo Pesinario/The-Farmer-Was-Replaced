@@ -51,7 +51,9 @@ def grind_method(what, target_amount, boost=True, is_test=False):
 
     if report and not is_test:  # pylint: disable=[E0606]
         quick_print("+ Finished grinding: ", what, "up to:", target_amount,
-                    "boost active:", boost, "id:", random_id, "timestamp:", time_stamp())
+                    "boost active:", boost,
+                    "id:", random_id,
+                    "timestamp:", time_stamp())
 
     return report
 
@@ -119,7 +121,8 @@ def grind_pumpkins(target_amount):
     acquire_seeds(Items.Pumpkin_Seed,
                   needed_runs * cost_per_run + cost_per_run)
     quick_print('$ I have:', num_items(Items.Pumpkin_Seed), "For: ",
-                needed_runs, "Runs at expand size", num_unlocked(Unlocks.Expand))
+                needed_runs, "Runs at expand size",
+                num_unlocked(Unlocks.Expand))
     if not pumpkin_smart(needed_runs, pumpkin_run_tracker):
         quick_print('° Error @grind_pumpkins near the end')
         return False
@@ -138,7 +141,8 @@ def grind_gold(target_amount):
     gold_per_maze = num_unlocked(Unlocks.Mazes) * WORLD_TILE_COUNT
     remaining_gold_to_farm = target_amount - num_items(Items.Gold)
     mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
-    expected_fert_usage = mazes_for_goal + 50 # 50 is buffer for when we enter the maze
+    # 50 is buffer for when we enter the maze
+    expected_fert_usage = mazes_for_goal + 50
     # At this point, we only need the pumpkins for fertilizer,
     # so we can spend all the pumpkins.
     trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10)
@@ -148,18 +152,17 @@ def grind_gold(target_amount):
             "+ About to grind",
             (expected_fert_usage - num_items(Items.Fertilizer)) * 10,
             "pumpkins"
-            )
+        )
         grind_method(
             Items.Pumpkin,
             (expected_fert_usage - num_items(Items.Fertilizer)) * 10
-            )
+        )
     else:
         quick_print("- Had enough fertilizer already")
     if maze_branch_based(mazes_for_goal):
         return True
     else:
         return False
-
 
 
 def grind_cacti(target_amount):
@@ -211,7 +214,8 @@ def acquire_seeds(type_of_seed, how_many, grind=True):
         for material in requirements:
             requirements[material] = requirements[material] * seed_diff
         quick_print("- Couldn't afford", seed_diff, type_of_seed,
-                    "Starting to grind up to", requirements, "@ acquire_seeds()")
+                    "Starting to grind up to", requirements,
+                    "@ acquire_seeds()")
         if type_of_seed == Items.Sunflower_Seed:
             quick_print(
                 "° Not enough carrots to farm power even once.",

@@ -13,7 +13,8 @@ def move_helper(direction, duration):
 
 
 def navigate_dumb(target_x, target_y):  # This has no wrapping but also doesn't use lists
-    quick_print("navigate_dumb called to", (target_x,target_y), "from", (get_pos_x(), get_pos_y()))
+    quick_print("navigate_dumb called to", (target_x, target_y),
+                "from", (get_pos_x(), get_pos_y()))
 
     must_x = target_x - get_pos_x()
     must_y = target_y - get_pos_y()

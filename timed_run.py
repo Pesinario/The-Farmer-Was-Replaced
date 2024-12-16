@@ -9,9 +9,9 @@ quick_print("~", "Start time is", START_TIME)
 
 # Output keys:
 # ° means error
-# $ means it could be possible to cut corners here
+# $ means possible to cut corners, maybe
 # ~ means milestone
-# + means grinding Something
+# + means grinding something
 # - means info
 
 
@@ -56,7 +56,8 @@ def log_this_unlock(current_unlock):
             report_extra_resources()
             return True
         else:
-            print("° We fucked up somewhere")
+            print("° Somewhere along the way, we made a critical mistake",
+                  "and cannot afford the upgrade.")
 
 
 KINDS_OF_UNLOCKS = [Unlocks.Speed, Unlocks.Expand, Unlocks.Plant,
