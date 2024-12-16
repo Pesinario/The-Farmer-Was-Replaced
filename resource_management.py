@@ -141,8 +141,8 @@ def grind_gold(target_amount):
     gold_per_maze = num_unlocked(Unlocks.Mazes) * WORLD_TILE_COUNT
     remaining_gold_to_farm = target_amount - num_items(Items.Gold)
     mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
-    # 50 is buffer for when we enter the maze
-    expected_fert_usage = mazes_for_goal + 50
+    # a hefty 100 buffer for mazes
+    expected_fert_usage = mazes_for_goal + 100
     # At this point, we only need the pumpkins for fertilizer,
     # so we can spend all the pumpkins.
     trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10)
@@ -151,7 +151,7 @@ def grind_gold(target_amount):
         quick_print(
             "+ About to grind",
             (expected_fert_usage - num_items(Items.Fertilizer)) * 10,
-            "pumpkins"
+            "pumpkins for fertilizer"
         )
         grind_method(
             Items.Pumpkin,
@@ -160,6 +160,7 @@ def grind_gold(target_amount):
     else:
         quick_print("- Had enough fertilizer already")
     if maze_branch_based(mazes_for_goal):
+        quick_print("Fertilizer leftover:", num_items(Items.Fertilizer))
         return True
     else:
         return False
@@ -201,7 +202,7 @@ def ensure_power(how_much=None):
 def acquire_seeds(type_of_seed, how_many, grind=True):
     quick_print("- acquire_seeds got a request of", how_many, type_of_seed)
     seed_diff = how_many - num_items(type_of_seed)
-    if seed_diff < 0:
+    if seed_diff <= 0:
         quick_print("- we had more than", how_many, type_of_seed, "already.")
         return True
 
@@ -229,7 +230,7 @@ def acquire_seeds(type_of_seed, how_many, grind=True):
             print("° Order was:", how_many, type_of_seed)
             print("° Resource dump:")
             for resource in ORDER_OF_GRIND:
-                quick_print("$ ", num_items(resource))
+                quick_print("$ ", resource, num_items(resource))
             print("$ Requirements was:", requirements)
             return False
     else:

@@ -74,8 +74,8 @@ Anything located in the "tools" subdirectory will require you have Python instal
 | v1.32   | 0:39:27.286 |
 | v1.4    | 0:37:17.038 |
 | v1.5    | 0:34:10.629 |
-
-Latest version (1.5) added a new maze solving method.
+| v1.6    | 0:30:59.302 |
+Latest version (1.6) slightly hardcoded the end of the run, and incorporated seed pre-buying (Also top 50!)
 
 Next version will attempt to only enter a maze once per run.
 
@@ -83,11 +83,6 @@ Next version will attempt to only enter a maze once per run.
 
 ## Known issues and future plans
 - The maze method is not 100% stable, it *sometimes* crashes a timed run attempt
-- The route is still a placeholder. It lacks the following:
-  - Seed pre-buying (The cost of seeds increases 1 to 1 with yield per plant)
-  - Only entering a maze once (why?):
-    - Both the old and new methods wipe the tilled soil (as a side effect of entering a maze)
-    - The new, branch-based method has a somewhat-fixed but sizable performance hit when learning the maze
 - The (pre-fertilizer?) pumpkin farming has a bug I can’t seem to diagnose. I’d appreciate any help, as I’ve tried various approaches without success.
 - The cactus farming has seed issues, but it is **very** likely that is due to the aforementioned pumpkin farming issues.
 - Logs are usually quite verbose, especially on the `dev` branch.
