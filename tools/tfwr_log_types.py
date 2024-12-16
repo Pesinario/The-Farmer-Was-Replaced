@@ -32,7 +32,7 @@ class TheFarmerWasReplacedLog():
     def save_log(self, what: list[str], extension=".log", write_latest=True) -> None:
         """ Saves the log, potentially overwriting it."""
 
-        if isinstance(self, TheFarmerWasReplacedLog):
+        if type(self) == TheFarmerWasReplacedLog:  # pylint:disable=C0123
             raise NotImplementedError("Should never save the base class")
 
         log_dir = os.path.dirname(f"{self.save_to}{extension}")
