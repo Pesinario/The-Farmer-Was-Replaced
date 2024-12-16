@@ -76,11 +76,7 @@ def route_stolen_from_josh_from_the_discord():
     stolen.append(Unlocks.Mazes)
     stolen.append(Unlocks.Mazes)
     stolen.append(Unlocks.Mazes)
-    stolen.append(Unlocks.Cactus)
-    stolen.append(Unlocks.Cactus)
-    stolen.append(Unlocks.Dinosaurs)
-    stolen.append(Unlocks.Dinosaurs)
-    stolen.append(Unlocks.Leaderboard)
+    stolen.append(Unlocks.Mazes)
     return stolen
 
 

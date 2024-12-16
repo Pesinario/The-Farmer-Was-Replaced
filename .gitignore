@@ -1,5 +1,12 @@
-/save.json
+*.txt
+*.json
+/**/*notes*
+
 /__builtins__.py
-/notes.txt
 /f[0-9]*
-/python*
+
+__pycache__
+/stashed
+
+logs/*
+!logs/**/*latest_*.md

@@ -1,4 +1,4 @@
-from resource_management import grind_by_order
+from resource_management import grind_by_order, grind_method, ensure_power
 from navigation import precalc_world
 from unlock_order import get_me_best_route
 
@@ -9,9 +9,9 @@ quick_print("~", "Start time is", START_TIME)
 
 # Output keys:
 # ° means error
-# $ means it could be possible to cut corners here
+# $ means possible to cut corners, maybe
 # ~ means milestone
-# + means grinding Something
+# + means grinding something
 # - means info
 
 
@@ -36,6 +36,31 @@ def get_me_unlock(what_unlock):
     return unlock(what_unlock)
 
 
+def do_final():
+    # This is some hardcoded stuff that we call after unlocking mazes.
+    # It has room for improvement.
+    ensure_power(1500)
+    quick_print("~ Entered mazes stage at:", time_stamp())
+    grind_method(Items.Gold, 50000)
+    quick_print("~ Exited mazes stage at:", time_stamp())
+
+    # ensure_power(1000)
+    unlock(Unlocks.Cactus)
+    if not trade(Items.Cactus_Seed, 3050):
+        print("Couldn't pre-buy cactus seeds")
+    unlock(Unlocks.Cactus)
+    grind_method(Items.Cactus, 12280)
+
+    # ensure_power(500)
+    unlock(Unlocks.Dinosaurs)
+    if not trade(Items.Egg, 314):
+        print("Couldn't pre-buy eggs")
+    unlock(Unlocks.Dinosaurs)
+    # unlock(Unlocks.Dinosaurs)
+    grind_method(Items.Bones, 2000)
+
+    unlock(Unlocks.Leaderboard)
+
 # adds to the dictionary the unlock and how long it took
 def log_this_unlock(current_unlock):
     successfully_unlocked = False
@@ -56,7 +81,8 @@ def log_this_unlock(current_unlock):
             report_extra_resources()
             return True
         else:
-            print("° We fucked up somewhere")
+            print("° Somewhere along the way, we made a critical mistake",
+                  "and cannot afford the upgrade.")
 
 
 KINDS_OF_UNLOCKS = [Unlocks.Speed, Unlocks.Expand, Unlocks.Plant,
@@ -82,7 +108,7 @@ for current_milestone_chased in GAME_PLAN:
     if current_milestone_chased == Unlocks.Expand:
         precalc = precalc_world()  # I don't think we should need this before
         # we get to at least 3x3 farm size.
-
+do_final()
 quick_print("~", "End time is", time_stamp())
 report_extra_resources()
 quick_print("~ End of Log")
