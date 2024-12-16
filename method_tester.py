@@ -12,9 +12,10 @@ precalc = precalc_world()
 
 
 # To use or test any of the grinding functions, remove the "#"
+# Some of them may assume you have the requirements to run them (seeds or fertilizer)
 WANTED_AMOUNT = 100000  # This is how much MORE than you currently have you want
 default_poly = Items.Carrot
-grind_target = Items.Pumpkin
+grind_target = Items.Gold
 
 # The third parameter in grind_method is whether or not to get power first.
 # The fourth parameter in grind_method should be True, as this is a test.
@@ -39,14 +40,15 @@ grind_method(grind_target, num_items(grind_target) + WANTED_AMOUNT, True, True)
 # poly_farm(default_poly, num_items(default_poly) + WANTED_AMOUNT)
 
 # Pumpkins:
-# pumpkin_smart(10) # This should really be called from grind_method() instead..
+# pumpkin_smart(10)
 
 # Power:
 # old_method_sunflower(num_items(Items.Power) + WANTED_AMOUNT)
 # get_power(num_items(Items.Power) + WANTED_AMOUNT)
 
 # Gold:
-# do_simple_maze_runs(10) # This should really be called from grind_method() instead..
+# do_simple_maze_runs(10)
+# maze_branch_based(100)
 
 # Cacti:
 # cactus_bubble(num_items(Items.Cactus) + WANTED_AMOUNT)
