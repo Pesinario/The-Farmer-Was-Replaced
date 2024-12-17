@@ -2,10 +2,7 @@ import os
 
 
 def find_logs_dir(start_from="/") -> str:
-    """
-    Returns the path to the logs/TimedRunV1 directory.
-    By default it will start from root, which will take very long.
-    """
+    """ Returns the path to the logs/TimedRunV1 directory. """
 
     def is_recycle_bin(root) -> bool:
         if os.name == 'nt':  # Windows
@@ -20,16 +17,27 @@ def find_logs_dir(start_from="/") -> str:
                 return True
         return False
 
+    if start_from == "/":
+        up_two_dirs = os.path.abspath(os.path.join(os.getcwd(), "../.."))
+        for root, _, _ in os.walk(up_two_dirs):  # Start from two dirs up
+            if is_recycle_bin(root):  # Don't bother checking deleted logs
+                continue
+            if os.path.basename(root) == 'TimedRunV1':
+                if 'logs' in os.path.basename(os.path.dirname(root)):
+                    return root  # Return early if we found the logs already.
+
     print("\033[31m",
-          "Finding your logs directory, may take a while.",
+          "Finding your logs directory starting from root may take a while.",
           "\033[0m")
 
     for root, _, _ in os.walk(start_from):  # Start from root
-        if is_recycle_bin(root):  # Don't return deleted log folders
+        if is_recycle_bin(root):  # Don't bother checking deleted logs
             continue
         if os.path.basename(root) == 'TimedRunV1':
             if 'logs' in os.path.basename(os.path.dirname(root)):
                 return root  # Return the path to the 'logs/TimedRunV1' directory
+
+    # If we got here, we failed to find the logs.
     raise FileNotFoundError("Was unable to find your logs directory.")
 
 
@@ -67,9 +75,9 @@ def find_best_time(paths_to_logs) -> tuple[float, str]:
     return (curr_best, curr_best_at)
 
 
-# You should place your own logs directory instead of find_logs_dir()
-# if you want to make this script run a LOT faster. otherwise the script
-# will search the entire tree of your OS
+# You should replace find_logs_dir() with your own log directory if it's not
+# within two directories of the current working environment of this script,
+# otherwise it will search your whole system
 paths_to_runs = find_timed_runs(find_logs_dir())
 
 best_time, best_time_path = find_best_time(paths_to_runs)
