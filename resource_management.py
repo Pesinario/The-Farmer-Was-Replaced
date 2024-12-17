@@ -158,6 +158,7 @@ def grind_gold(target_amount):
             Items.Pumpkin,
             (expected_fert_usage - num_items(Items.Fertilizer)) * 10
         )
+        trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10)
     else:
         quick_print("- Had enough fertilizer already")
     if maze_branch_based(mazes_for_goal):
