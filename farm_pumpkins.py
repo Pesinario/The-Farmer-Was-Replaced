@@ -27,7 +27,7 @@ def water_dead(suspects):
     water_counter = 0
     while len(suspects) > 0:
         water_counter += 1
-        quick_print("- suspects as defined by water_dead at water counter #:", water_counter, suspects)
+        quick_print("suspects as defined by water_dead at water counter #:", water_counter, suspects)
         local_sus = suspects.pop(0)
         navigate_smart(local_sus)
 
@@ -48,7 +48,7 @@ def fert_dead(suspects):
     fert_counter = 0
     while len(suspects) > 0:
         fert_counter += 1
-        quick_print("- suspects as defined by fert_dead at fert counter #:", fert_counter, suspects)
+        quick_print("suspects as defined by fert_dead at fert counter #:", fert_counter, suspects)
         current_target = suspects.pop(0)
         navigate_smart(current_target)
         while not can_harvest():
@@ -83,7 +83,7 @@ def pumpkin_smart(runs_to_do, run_counter=0):
         # now we take note of all pumpkins that died in the first planting run
         # and also water them after replanting
         suspects = find_suspects()
-        quick_print("- suspects as defined by find_suspects at run #:", run_counter, suspects)
+        quick_print("suspects as defined by find_suspects at run #:", run_counter, suspects)
         # now we replant dead pumpkins and water/fertilizer them until we're done.
         if len(suspects) > 0:
             if num_unlocked(Unlocks.Fertilizer) > 0:

@@ -365,7 +365,7 @@ def maze_branch_based(runs_target):
 
 
     def try_greed(target_coords):
-        quick_print("- @try_greed got called")
+        quick_print("try_greed got called")
         my_x = get_pos_x()
         my_y = get_pos_y()
         must_x = abs(my_x - target_coords[0])

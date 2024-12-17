@@ -40,21 +40,23 @@ def do_final():
     # This is some hardcoded stuff that we call after unlocking mazes.
     # It has room for improvement.
     ensure_power(1500)
-    quick_print("~ Entered mazes stage at:", time_stamp())
-    grind_method(Items.Gold, 50000)
-    quick_print("~ Exited mazes stage at:", time_stamp())
+    quick_print("~ Started mazes at:", time_stamp())
+    while num_items(Items.Gold)< 50000:
+        grind_method(Items.Gold, 50000)
+    quick_print("~ Finished mazes stage at:", time_stamp())
 
     # ensure_power(1000)
     unlock(Unlocks.Cactus)
     if not trade(Items.Cactus_Seed, 3050):
-        quick_print("Couldn't pre-buy cactus seeds")
+        quick_print("° Couldn't pre-buy cactus seeds")
     unlock(Unlocks.Cactus)
+    quick_print("~ Started grinding cacti at:", time_stamp())
     grind_method(Items.Cactus, 12280)
-
+    quick_print("~ Finished grinding cacti at:", time_stamp())
     # ensure_power(500)
     unlock(Unlocks.Dinosaurs)
     if not trade(Items.Egg, 314):
-        quick_print("Couldn't pre-buy eggs")
+        quick_print("° Couldn't pre-buy eggs")
     unlock(Unlocks.Dinosaurs)
     # unlock(Unlocks.Dinosaurs)
     grind_method(Items.Bones, 2000)
