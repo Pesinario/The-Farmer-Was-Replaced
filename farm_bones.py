@@ -23,10 +23,6 @@ def ultra_dumb_dyno(bones_target):  # This farming method is deprecated
 # Still nowhere near optimal, but much better.
 def dyno_slightly_smarter(bones_target):
     while num_items(Items.Bones) < bones_target:
-        if num_items(Items.Egg) == 0:
-            quick_print("° Egg issue @ dyno_slightly_smarter()")
-            return False
-
         for next_move in precalc:
             if get_entity_type() != Entities.Dinosaur:
                 use_item(Items.Egg)
@@ -36,25 +32,25 @@ def dyno_slightly_smarter(bones_target):
             east = measure(East)
             north = measure(North)
             south = measure(South)
+            dyno_here = here != None
+            if dyno_here and here == west:
+                count += 1
+            if dyno_here and here == north:
+                count += 1
+            if dyno_here and here == east:
+                count += 1
+            if dyno_here and here == south:
+                count += 1
 
-            if here != None and west != None and here == west:
-                count += 1
-            if here != None and north != None and here == north:
-                count += 1
-            if here != None and east != None and here == east:
-                count += 1
-            if here != None and south != None and here == south:
-                count += 1
-
-            if count > 3:
+            if count > 2: # Risky, but may work.
                 harvest()
                 use_item(Items.Egg)
 
-            if here != None and west != None and here < west:
+            if dyno_here and west != None and here < west:
                 swap(West)
             # if here != None and north != None and here < north:
             #     swap(North)
-            if here != None and east != None and here > east:
+            if dyno_here and east != None and here > east:
                 swap(East)
             # if here != None and south != None and here > south:
             #     swap(South)
