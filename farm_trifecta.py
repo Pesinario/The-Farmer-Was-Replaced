@@ -31,9 +31,9 @@ def hay_full_field(hay_target):
             move(next_move)
     return True
 
+
+
 # Wood only:
-
-
 def three_by_three_bush(wood_target):  # This farming method is deprecated
     # initial setup:
     for next_move in precalc:
@@ -55,6 +55,7 @@ def tree_and_bush(wood_target):
         for next_move in precalc:
             pos_sum = get_pos_x() + get_pos_y()
             if pos_sum % 2 == 0:
+                debate_watering(0.5, False)
                 smart_harv(True)
                 plant(Entities.Tree)
             else:
@@ -148,9 +149,9 @@ def carrots_trusting(carrot_target):
             smart_harv()
             plant(Entities.Carrots)
             move(next_move)
+
+
 # Carrots and wood/hay:
-
-
 def carrots_ensure_seeds(carrot_target):  # This farming method is deprecated
     WORLD_TILE_COUNT = get_world_size()**2
     hay_tiles_per_carrot_tile = get_cost(Items.Carrot_Seed)[Items.Hay] / (
