@@ -23,7 +23,7 @@ The repository also has some of the tools I made to make my life easier when try
 
 ### Please keep in mind:
 - The quite limiting nature of what the game will let you execute inside of it.
-- Some readability and best practices were sacrificed to optimize for the game’s unique performance criteria (which might differ from conventional expectations).
+- Some readability and best practices were sacrificed to optimize for the game's unique performance criteria (which might differ from conventional expectations).
 - Effort was put into conforming with *most* of PEP8, line length *should* be 80 characters or under, for some lines, this rule was broken.
 - At the point of starting this project, I was quite inexperienced with git, so please excuse the mistakes that took place here.
 - The goal of this project is **not** to get a *great* time on the leaderboard.
@@ -31,7 +31,7 @@ The repository also has some of the tools I made to make my life easier when try
   - To learn how to use git properly.
   - To write (pseudo) Python code that is readable and modular.
   - To hopefully be useful to someone, someday.
-  - To get a *decent* time (somewhere around 30 minutes has always been the target).
+  - ~~To get a *decent* time (somewhere around 30 minutes has always been the target).~~ Best time is a 29:33.609 !
 
 If you have any suggestions on how I could improve towards my goals, please contact me, or make a pull request!
 ### Please interact with this repository! You could:
@@ -76,10 +76,11 @@ Anything located in the "tools" subdirectory will require you have Python instal
 | v1.6    | 0:30:59.302 |
 | v1.61   | 0:30:43.208 |
 | v1.62   | 0:30:00.776 |
+| v1.7    | 0:29:33.609 |
 
-Latest version (1.62) Changed all of the remaining print() statements to quick_print() statements (And apparently saved over 42 seconds with it, that pumpkin bug was killing the times)
+Latest (and probably last) version (1.7) was a collection of small refinements of pre-existing features. The goal has been shattered!
 
 ## Known issues and future plans
 - ~~The maze method is not 100% stable, it *sometimes* crashes a timed run attempt.~~ Fixed I think?
-- The (pre-fertilizer?) pumpkin farming has a bug I can’t seem to diagnose. I’d appreciate any help, as I’ve tried various approaches without success.
-- Logs are usually quite verbose, especially on the `dev` branch.
+- The (pre-fertilizer?) pumpkin farming has a bug I can't seem to diagnose. I'd appreciate any help, as I've tried various approaches without success.
+- Logs are usually quite verbose, especially on the `dev` branch. Using tfwr_watcher's markdown parsing feature is highly recommended.
