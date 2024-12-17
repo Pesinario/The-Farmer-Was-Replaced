@@ -58,8 +58,9 @@ def grind_method(what, target_amount, boost=True, is_test=False):
     return report
 
 
-def grind_trifecta(what, target_amount):  # TODO: Be slightly smarter about how
-    # we farm the trifecta.
+def grind_trifecta(what, target_amount):
+    # TODO: Be slightly smarter about how we farm the trifecta.
+
     if num_unlocked(Unlocks.Polyculture) != 0:
         poly_farm(what, target_amount)
 
@@ -193,9 +194,15 @@ def grind_bones(target_amount):
 
 
 def ensure_power(how_much=None):
-    # TODO: make some clever logic here
+    # The logic here has room for improvement
     if how_much == None:
-        how_much = 200
+        expand = num_unlocked(Unlocks.Expand)
+        if expand > 6: # Meaning we are at an 8x8 farm size
+            how_much = 200
+        elif expand == 3:
+            how_much = 50
+        else:
+            how_much = 100
 
     if how_much > num_items(Items.Power):
         grind_method(Items.Power, how_much - num_items(Items.Power))
