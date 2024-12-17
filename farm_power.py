@@ -53,7 +53,7 @@ def sunflower_no_replanting(should_setup):
             petal_siblings.append([get_pos_x(), get_pos_y()])
             my_record[petals] = petal_siblings
         elif petals == None:
-            print("° Some kind of error @ Sunflower Master")
+            quick_print("° Some kind of error @ Sunflower Master")
         else:
             my_record[petals] = [[get_pos_x(), get_pos_y()]]
         move(next_move)
@@ -76,7 +76,7 @@ def get_power(power_target=0, initial=True):
     acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT * (runs_to_fulfil + 1))
     for _ in range(runs_to_fulfil + 1):
         if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
-            print("° Seed issue @ get_power")
+            quick_print("° Seed issue @ get_power")
             return False
         if initial:
             sunflower_no_replanting(True)
@@ -85,10 +85,10 @@ def get_power(power_target=0, initial=True):
             sunflower_no_replanting(False)
         # reset_sunflowers()
     if num_items(Items.Power) < power_target + 40:
-        print("° We farmed fewer sunflowers than we needed to.")
+        quick_print("° We farmed fewer sunflowers than we needed to.")
         return False
     return True
 
 
 while True:
-    print("° This file should be run from method_tester.py")
+    quick_print("° This file should be run from method_tester.py")

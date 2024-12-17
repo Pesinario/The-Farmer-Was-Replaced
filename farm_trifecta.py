@@ -13,7 +13,7 @@ def harv_hay_dumb(hay_target):
     while num_items(Items.Hay) < hay_target:
         if not can_harvest():
             if get_entity_type() == Entities.Grass:
-                print("° We out speed grass! confirmed")
+                quick_print("° We out speed grass! confirmed")
         harvest()
         move(North)
     return True
@@ -142,7 +142,7 @@ def carrots_trusting(carrot_target):
         if num_items(Items.Carrot) > carrot_target:
             return True
         elif num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
-            print("° Seed issue @ carrots_trusting")
+            quick_print("° Seed issue @ carrots_trusting")
             return False
         for next_move in precalc:
             smart_harv()
@@ -279,4 +279,4 @@ def poly_farm(priority_as_item, target_amount, exclusive=True):
 
 
 while True:
-    print("° This file should be run from method_tester.py")
+    quick_print("° This file should be run from method_tester.py")

@@ -8,9 +8,9 @@ def results_expected():
     new_cactus = num_items(Items.Cactus)
     actual_yield = new_cactus - old_cactus
     if actual_yield != expected_yield:
-        print("° Expected yield was: ", expected_yield, " cactus")
-        print("° We have farmed ", actual_yield, " cactus.")
-        print("° We farmed ", expected_yield -
+        quick_print("° Expected yield was: ", expected_yield, " cactus")
+        quick_print("° We have farmed ", actual_yield, " cactus.")
+        quick_print("° We farmed ", expected_yield -
               actual_yield, " less cactus than expected")
         return False
     return True
@@ -25,17 +25,17 @@ def check_work():  # This is currently not used, but is handy for debugging.
 
         # Check along the X axis, but not if we're on the edges
         if pos_x != 0 and cur_measure < measure(West):
-            print("° ERROR during cactus sorting (horizontal)")
+            quick_print("° ERROR during cactus sorting (horizontal)")
             return False
         if pos_x != upper_bound and cur_measure > measure(East):
-            print("° ERROR during cactus sorting (horizontal)")
+            quick_print("° ERROR during cactus sorting (horizontal)")
             return False
         # Check along the X axis, but not if we're on the edges
         if pos_y != 0 and cur_measure < measure(South):
-            print("° ERROR during cactus sorting (vertical)")
+            quick_print("° ERROR during cactus sorting (vertical)")
             return False
         if pos_y != upper_bound and cur_measure > measure(North):
-            print("° ERROR during cactus sorting (vertical)")
+            quick_print("° ERROR during cactus sorting (vertical)")
             return False
         # Continue checking
         move(next_move)
@@ -85,7 +85,7 @@ def ensure_cactus_seeds(caller):
     if num_items(Items.Cactus_Seed) < get_world_size()**2:
         if not trade(Items.Cactus_Seed,
                      get_world_size()**2 - num_items(Items.Cactus_Seed)):
-            print("° seed issue", caller)
+            quick_print("° seed issue", caller)
             return False
     return True
 
@@ -268,4 +268,4 @@ def cactus_shaker(cactus_target):
 
 
 while True:
-    print("° This file should be run from method_tester.py")
+    quick_print("° This file should be run from method_tester.py")

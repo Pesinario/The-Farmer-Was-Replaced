@@ -29,7 +29,7 @@ def debate_watering(thresh=0.75, buy_new=True):
         if not use_item(Items.Water_Tank) and buy_new:
             can_buy = min(num_items(Items.Wood) // 5, 10)
             if not trade(Items.Empty_Tank, can_buy):
-                print("- Too broke to buy tanks")
+                quick_print("- Too broke to buy tanks")
 
 
 def try_fert():
@@ -46,4 +46,4 @@ def try_fert():
 
 
 while True:
-    print("° This file should never be run by itself")
+    quick_print("° This file should never be run by itself")

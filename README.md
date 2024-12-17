@@ -75,8 +75,9 @@ Anything located in the "tools" subdirectory will require you have Python instal
 | v1.5    | 0:34:10.629 |
 | v1.6    | 0:30:59.302 |
 | v1.61   | 0:30:43.208 |
+| v1.62   | 0:30:00.776 |
 
-Latest version (1.61) Added some greedy behavior to the active maze farming method
+Latest version (1.62) Changed all of the remaining print() statements to quick_print() statements (And apparently saved over 42 seconds with it, that pumpkin bug was killing the times)
 
 ## Known issues and future plans
 - The maze method is not 100% stable, it *sometimes* crashes a timed run attempt.

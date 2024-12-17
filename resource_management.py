@@ -91,7 +91,7 @@ def grind_trifecta(what, target_amount):  # TODO: Be slightly smarter about how
         else:
             if not carrots_trusting(target_amount):
                 while True:
-                    print("° Fix this correctly.")
+                    quick_print("° Fix this correctly.")
         return num_items(what) > target_amount
 
 
@@ -227,13 +227,13 @@ def acquire_seeds(type_of_seed, how_many, grind=True):
         else:
             grind_by_order(requirements)
         if not trade(type_of_seed, seed_diff):
-            print("° Something went really wrong with seed acquisition, ",
+            quick_print("° Something went really wrong with seed acquisition, ",
                   "even after trying to grind them.")
-            print("° Order was:", how_many, type_of_seed)
-            print("° Resource dump:")
+            quick_print("° Order was:", how_many, type_of_seed)
+            quick_print("° Resource dump:")
             for resource in ORDER_OF_GRIND:
                 quick_print("$ ", resource, num_items(resource))
-            print("$ Requirements was:", requirements)
+            quick_print("$ Requirements was:", requirements)
             return False
     else:
         quick_print("- was able to buy", how_many,
@@ -253,4 +253,4 @@ def grind_by_order(grind_what):
 
 
 while True:
-    print("° This file should never be run by itself")
+    quick_print("° This file should never be run by itself")

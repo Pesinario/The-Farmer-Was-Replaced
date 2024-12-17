@@ -11,7 +11,7 @@ def ultra_dumb_dyno(bones_target):  # This farming method is deprecated
                 smart_harv(False)
                 walk_the_grid()
             if not acquire_seeds(Items.Egg, WORLD_TILE_COUNT):
-                print("° We're broke! This was a terrible idea!")
+                quick_print("° We're broke! This was a terrible idea!")
         for _ in range(WORLD_TILE_COUNT):
             smart_harv(False)
             use_item(Items.Egg)
@@ -63,4 +63,4 @@ def dyno_slightly_smarter(bones_target):
 
 
 while True:
-    print("° This file should be run from method_tester.py")
+    quick_print("° This file should be run from method_tester.py")

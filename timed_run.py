@@ -47,14 +47,14 @@ def do_final():
     # ensure_power(1000)
     unlock(Unlocks.Cactus)
     if not trade(Items.Cactus_Seed, 3050):
-        print("Couldn't pre-buy cactus seeds")
+        quick_print("Couldn't pre-buy cactus seeds")
     unlock(Unlocks.Cactus)
     grind_method(Items.Cactus, 12280)
 
     # ensure_power(500)
     unlock(Unlocks.Dinosaurs)
     if not trade(Items.Egg, 314):
-        print("Couldn't pre-buy eggs")
+        quick_print("Couldn't pre-buy eggs")
     unlock(Unlocks.Dinosaurs)
     # unlock(Unlocks.Dinosaurs)
     grind_method(Items.Bones, 2000)
@@ -81,7 +81,7 @@ def log_this_unlock(current_unlock):
             report_extra_resources()
             return True
         else:
-            print("° Somewhere along the way, we made a critical mistake",
+            quick_print("° Somewhere along the way, we made a critical mistake",
                   "and cannot afford the upgrade.")
 
 
@@ -104,7 +104,7 @@ for current_milestone_chased in GAME_PLAN:
         log_this_unlock(current_milestone_chased)
     else:
         while True:
-            print("°", current_milestone_chased)
+            quick_print("°", current_milestone_chased)
     if current_milestone_chased == Unlocks.Expand:
         precalc = precalc_world()  # I don't think we should need this before
         # we get to at least 3x3 farm size.

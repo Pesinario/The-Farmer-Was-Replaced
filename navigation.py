@@ -87,4 +87,4 @@ def precalc_world():
 precalc = []
 
 while True:
-    print("° This file should never be run by itself")
+    quick_print("° This file should never be run by itself")
