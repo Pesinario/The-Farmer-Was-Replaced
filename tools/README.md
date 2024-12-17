@@ -5,6 +5,8 @@
 - tfwr_watcher - A script that monitors the contents of the "output.txt". It then makes a copy of its contents and sends it to tfwr_log_types for sorting, and (by default, customizable) executes default behaviors (like saving, or parsing into markdown)
 - tfwr_log_types - Contains classes representing types of logs, and `get_log` a function that decides what type of log a given "output.txt" read should be and returns the corresponding object. This is where you can implement your own log types if you so desire. Otherwise, you can conform to one of the bundled formats or keep saving logs as the default `Unknown` type
 
+### Tools for using said tools:
+- v1_best_finder - This script will print the best time it found in your TimedRunV1 folder, along with the path to it (You can ctrl+click it from vscode to open it)
 
 The Timed Run V1 format is as follows:
 - `° means error`
