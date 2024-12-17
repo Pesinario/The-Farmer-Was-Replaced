@@ -363,10 +363,45 @@ def maze_branch_based(runs_target):
                 quick_print("child not in ancestors")
         # now we are at the start of the branch that contains treasure.
 
+
+    def try_greed(target_coords):
+        quick_print("- @try_greed got called")
+        my_x = get_pos_x()
+        my_y = get_pos_y()
+        must_x = abs(my_x - target_coords[0])
+        must_y = abs(my_y - target_coords[1])
+
+        if my_x > target_coords[0]:
+            horizontal = West
+        else:
+            horizontal = East
+
+        if my_y > target_coords[1]:
+            vertical = South
+        else:
+            vertical = North
+
+        did_a_move = True
+        while did_a_move:
+            did_a_move = False
+            if must_x > 0:
+                if move(horizontal):
+                    must_x -= 1
+                    did_a_move = True
+            if must_y > 0:
+                if move(vertical):
+                    must_y -= 1
+                    did_a_move = True
+
+
     def go_to_treasure(treasure_coords):
         # TODO: Consider going greedy and attempting to just walk straight to the treasure
         quick_print("@go_to_treasure was called with treasure_coords",
                     treasure_coords)
+
+        if runs_done > 50: # Not sure if this is a net improvement on the times or not.
+            try_greed(treasure_coords)
+
         my_coords = (get_pos_x(), get_pos_y())
         treasure_branch_index = pos_to_branch[treasure_coords]
         current_branch_index = pos_to_branch[(get_pos_x(), get_pos_y())]

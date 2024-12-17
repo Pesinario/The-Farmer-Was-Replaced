@@ -74,8 +74,9 @@ Anything located in the "tools" subdirectory will require you have Python instal
 | v1.4    | 0:37:17.038 |
 | v1.5    | 0:34:10.629 |
 | v1.6    | 0:30:59.302 |
+| v1.61   | 0:30:43.208 |
 
-Latest version (1.6) slightly hardcoded the end of the run, and incorporated seed pre-buying (Also top 50!)
+Latest version (1.61) Added some greedy behavior to the active maze farming method
 
 ## Known issues and future plans
 - The maze method is not 100% stable, it *sometimes* crashes a timed run attempt.
