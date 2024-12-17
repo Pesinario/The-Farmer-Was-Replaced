@@ -27,7 +27,28 @@ def report_extra_resources():
     quick_print("$ Extra resources:", my_extras)
 
 
+SEED_SAVINGS = {
+    Unlocks.Carrots: Items.Carrot_Seed,
+    Unlocks.Pumpkins: Items.Pumpkin_Seed
+}
+
+
 def get_me_unlock(what_unlock):
+    if what_unlock in SEED_SAVINGS and num_unlocked(what_unlock) > 0:
+        seed = SEED_SAVINGS[what_unlock]
+        requirements = get_cost(seed)
+
+        can_afford = 10000
+        for material in requirements:
+            can_afford = min(can_afford,
+                             num_items(material) // requirements[material])
+
+        if not trade(seed, can_afford):
+            quick_print("° Something went wrong with trying to pre-buy seeds")
+        else:
+            quick_print("- Pre bought", can_afford, seed,
+                        "before unlocking", what_unlock)
+
     all_costs = get_cost(what_unlock)
     quick_print("+", what_unlock, num_unlocked(what_unlock) +
                 1, "requires:", all_costs)
@@ -110,8 +131,9 @@ for current_milestone_chased in GAME_PLAN:
     if current_milestone_chased == Unlocks.Expand:
         precalc = precalc_world()  # I don't think we should need this before
         # we get to at least 3x3 farm size.
+
 do_final()
-quick_print("~", "End time is", time_stamp())
-report_extra_resources()
-quick_print("~ End of Log")
 timed_reset()
+report_extra_resources()
+if num_unlocked(Unlocks.Leaderboard) != 0:
+    quick_print("~", "End time is", time_stamp())
