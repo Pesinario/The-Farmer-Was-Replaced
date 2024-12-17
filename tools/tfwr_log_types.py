@@ -206,7 +206,7 @@ class TimedRunV1(TheFarmerWasReplacedLog):
                 ls + TimedRunV1.__SYMBOLS[line[0]]["markdown_color"] + ">"
                 + TimedRunV1.__SYMBOLS[line[0]]["4char"],
                 count=1)
-            parsed_line += "</span><br>\n"
+            parsed_line += "</span><br>"
             markdown_lines.append(parsed_line)
 
         markdown_lines.append("# End of log")

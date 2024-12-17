@@ -1,4 +1,7 @@
 ## This tools directory contains:
+* An example log of the TimedRunV1 type parsed into markdown.
+
+NOTE: GitHub won't show colors, so I suggest you use a different method to look at the example log.
 ### Tools for dealing with the "output.txt" file that "The Farmer Was Replaced" generates
 - timed_run_v1_parser - Simple script that reads from "output.txt" and then outputs to console (possibly) filtered events following the v1 format of timed runs, you'll have to modify the code to choose what gets filtered or read from a saved log.
 

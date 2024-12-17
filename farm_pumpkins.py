@@ -66,7 +66,7 @@ def fert_dead(suspects):
 def pumpkin_smart(runs_to_do, run_counter=0):
     while runs_to_do > run_counter:  # Loop for everything
         run_counter += 1
-        quick_print("- This is pumpkin run N°", run_counter)
+        quick_print("This is pumpkin run N°", run_counter)
         if num_items(Items.Pumpkin_Seed) < (get_world_size()**2):
             quick_print("° Seed issue @ pumpkin_smart, run #:", run_counter)
             return False
