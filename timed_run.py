@@ -21,9 +21,17 @@ def time_stamp():
 
 def report_extra_resources():
     my_extras = {}
+    #  Materials
     for extra in ORDER_OF_GRIND:
         if num_items(extra) > 0:
             my_extras[extra] = num_items(extra)
+    #  Seeds
+    SEEDS = [Items.Carrot_Seed, Items.Pumpkin_Seed,
+             Items.Cactus_Seed, Items.Egg]
+    for extra in SEEDS:
+        if num_items(extra) > 0:
+            my_extras[extra] = num_items(extra)
+
     quick_print("$ Extra resources:", my_extras)
 
 
@@ -60,10 +68,9 @@ def get_me_unlock(what_unlock):
 def do_final():
     # This is some hardcoded stuff that we call after unlocking mazes.
     # It has room for improvement.
-    ensure_power(1500)
+    ensure_power(750)
     quick_print("~ Started mazes at:", time_stamp())
-    while num_items(Items.Gold)< 50000:
-        grind_method(Items.Gold, 50000)
+    grind_method(Items.Gold, 47000)
     quick_print("~ Finished mazes stage at:", time_stamp())
 
     # ensure_power(1000)
@@ -81,8 +88,6 @@ def do_final():
     unlock(Unlocks.Dinosaurs)
     # unlock(Unlocks.Dinosaurs)
     grind_method(Items.Bones, 2000)
-
-    unlock(Unlocks.Leaderboard)
 
 # adds to the dictionary the unlock and how long it took
 def log_this_unlock(current_unlock):
@@ -133,7 +138,7 @@ for current_milestone_chased in GAME_PLAN:
         # we get to at least 3x3 farm size.
 
 do_final()
-timed_reset()
 report_extra_resources()
-if num_unlocked(Unlocks.Leaderboard) != 0:
+if unlock(Unlocks.Leaderboard):
     quick_print("~", "End time is", time_stamp())
+timed_reset()

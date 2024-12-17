@@ -142,8 +142,8 @@ def grind_gold(target_amount):
     gold_per_maze = num_unlocked(Unlocks.Mazes) * WORLD_TILE_COUNT
     remaining_gold_to_farm = target_amount - num_items(Items.Gold)
     mazes_for_goal = (remaining_gold_to_farm // gold_per_maze) + 1
-    # a hefty 100 buffer for mazes
-    expected_fert_usage = mazes_for_goal + 100
+    # 25 fertilizer is the buffer for entering the mazeks
+    expected_fert_usage = mazes_for_goal + 25
     # At this point, we only need the pumpkins for fertilizer,
     # so we can spend all the pumpkins.
     trade(Items.Fertilizer, num_items(Items.Pumpkin) // 10)

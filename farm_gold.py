@@ -357,7 +357,9 @@ def maze_branch_based(runs_target):
                     climb_down_branch(branches[child])
                     break
                 quick_print("child not in ancestors")
-        # now we are at the start of the branch that contains treasure.
+        # now we should be at the start of the branch that contains treasure
+        quick_print("get_to_ancestor_smarter ended with us at:",
+                    get_pos_x(), get_pos_y())
 
 
     def try_greed(target_coords):
