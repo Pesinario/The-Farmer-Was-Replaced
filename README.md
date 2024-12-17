@@ -80,6 +80,6 @@ Anything located in the "tools" subdirectory will require you have Python instal
 Latest version (1.62) Changed all of the remaining print() statements to quick_print() statements (And apparently saved over 42 seconds with it, that pumpkin bug was killing the times)
 
 ## Known issues and future plans
-- The maze method is not 100% stable, it *sometimes* crashes a timed run attempt.
+- ~~The maze method is not 100% stable, it *sometimes* crashes a timed run attempt.~~ Fixed I think?
 - The (pre-fertilizer?) pumpkin farming has a bug I can’t seem to diagnose. I’d appreciate any help, as I’ve tried various approaches without success.
 - Logs are usually quite verbose, especially on the `dev` branch.

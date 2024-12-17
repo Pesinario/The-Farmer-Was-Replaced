@@ -12,6 +12,17 @@ def move_helper(direction, duration):
         move(direction)
 
 
+def navigate_dumber(target, current):
+    # This is for when we have to step once during the maze solving
+    if target[0] < current[0]:
+        move(West)
+    elif target[0] > current[0]:
+        move(East)
+    elif target[1] < current[1]:
+        move(South)
+    elif target[1] > current[1]:
+        move(North)
+
 def navigate_dumb(target_x, target_y):  # This has no wrapping but also doesn't use lists
     quick_print("navigate_dumb called to", (target_x, target_y),
                 "from", (get_pos_x(), get_pos_y()))

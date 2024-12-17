@@ -1,4 +1,4 @@
-from navigation import navigate_smart, navigate_dumb
+from navigation import navigate_smart, navigate_dumber
 
 
 def enter_a_maze():
@@ -104,45 +104,41 @@ def list_visited():
     return positions_visited, treasure_loc
 
 
-def climb_up_branch(climb_this_branch, my_pos_index=None):
+def climb_up_branch(branch, next_index=None):
     # gets me to the start of the branch
-    quick_print("climb_up_branch called with", climb_this_branch)
+    quick_print("climb_up_branch called with", branch)
 
-    if my_pos_index == None:
+    if next_index == None:
         my_coords = (get_pos_x(), get_pos_y())
         index = 0
-        for pos in climb_this_branch:
+        for pos in branch:
             if pos == my_coords:
-                my_pos_index = index
+                next_index = index
                 break
             index += 1
 
-    while my_pos_index > 0:
-        my_pos_index -= 1
-        navigate_dumb(
-            climb_this_branch[my_pos_index][0],
-            climb_this_branch[my_pos_index][1]
-        )
+    while next_index > 0:
+        next_index -= 1
+        navigate_dumber(branch[next_index], branch[next_index + 1])
 
 
-def climb_down_branch(climb_this_branch):
+def climb_down_branch(branch):
     # get me to the end of the branch
-    quick_print("climb_down_branch called with", climb_this_branch)
-    my_pos_index = 0
-    branch_stop = len(climb_this_branch) - 1
-    while my_pos_index < branch_stop:
-        my_pos_index += 1
-        navigate_dumb(
-            climb_this_branch[my_pos_index][0],
-            climb_this_branch[my_pos_index][1]
-        )
+    quick_print("climb_down_branch called with", branch)
+    next_index = 0
+    branch_stop = len(branch) - 1
+    while next_index < branch_stop:
+        next_index += 1
+        navigate_dumber(branch[next_index], branch[next_index - 1])
 
 
 def find_treasure_in_branch(branch, curr_index, change):
-    quick_print("@find_treasure_in_branch was called on branch", branch)
+    quick_print("find_treasure_in_branch was called on branch", branch)
     quick_print("with index:", curr_index, "and change:", change)
+    quick_print("Expected position is: ", branch[curr_index])
+    quick_print("Real position is:", get_pos_x(), get_pos_y())
     while get_entity_type() != Entities.Treasure:
-        navigate_dumb(branch[curr_index][0], branch[curr_index][1])
+        navigate_dumber(branch[curr_index + change], branch[curr_index])
         curr_index += change
 
 
@@ -365,9 +361,9 @@ def maze_branch_based(runs_target):
 
 
     def try_greed(target_coords):
-        quick_print("try_greed got called")
         my_x = get_pos_x()
         my_y = get_pos_y()
+        quick_print("try_greed got called at", my_x, my_y)
         must_x = abs(my_x - target_coords[0])
         must_y = abs(my_y - target_coords[1])
 
@@ -392,10 +388,10 @@ def maze_branch_based(runs_target):
                 if move(vertical):
                     must_y -= 1
                     did_a_move = True
+        quick_print("try_greed stopped at", get_pos_x(), get_pos_y())
 
 
     def go_to_treasure(treasure_coords):
-        # TODO: Consider going greedy and attempting to just walk straight to the treasure
         quick_print("@go_to_treasure was called with treasure_coords",
                     treasure_coords)
 
@@ -463,6 +459,7 @@ def maze_branch_based(runs_target):
                 return False
             use_item(Items.Fertilizer)
         runs_done += 1
+        quick_print("Finished maze run #", runs_done)
     go_to_treasure(treasure_location)
     harvest()
     quick_print("- We did", runs_done, "@maze_branch_based")
