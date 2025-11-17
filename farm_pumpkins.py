@@ -1,4 +1,4 @@
-from utils import debate_watering, try_fert
+from utils import try_water, try_fert
 from navigation import navigate_smart, precalc
 
 
@@ -17,7 +17,7 @@ def find_suspects():
                 return False
 
         if not can_harvest():
-            debate_watering(0.75)
+            try_water(0.75)
             starting_suspects.append([get_pos_x(), get_pos_y()])
         move(next_move)
     return starting_suspects
@@ -39,7 +39,7 @@ def water_dead(suspects):
                 quick_print("° Couldn't plant, fatal issue @ water_dead")
                 return False
             while get_water() <= 0.75:
-                debate_watering(0.75)
+                try_water(0.75)
             suspects.append(local_sus)
     return True
 
@@ -66,10 +66,10 @@ def fert_dead(suspects):
 def pumpkin_smart(runs_to_do, run_counter=0):
     while runs_to_do > run_counter:  # Loop for everything
         run_counter += 1
-        quick_print("This is pumpkin run N°", run_counter)
-        if num_items(Items.Pumpkin_Seed) < (get_world_size()**2):
-            quick_print("° Seed issue @ pumpkin_smart, run #:", run_counter)
-            return False
+        #quick_print("This is pumpkin run N°", run_counter)
+        #if num_items(Items.Pumpkin_Seed) < (get_world_size()**2):
+        #    quick_print("° Seed issue @ pumpkin_smart, run #:", run_counter)
+        #    return False
 
         # first planting and watering once run:
         for next_move in precalc:
@@ -77,7 +77,7 @@ def pumpkin_smart(runs_to_do, run_counter=0):
             if get_ground_type() != Grounds.Soil:
                 till()
             plant(Entities.Pumpkin)  # Don't need to check on this one
-            debate_watering(0.25)
+            try_water(0.25)
             move(next_move)
 
         # now we take note of all pumpkins that died in the first planting run
@@ -93,8 +93,10 @@ def pumpkin_smart(runs_to_do, run_counter=0):
                 if not water_dead(suspects):
                     quick_print(
                         "° Error replanting with fertilizer not yet unlocked")
+
         # end of run
         old_pumpkins = num_items(Items.Pumpkin)
+        old_weird = num_items(Items.Weird_Substance)
         while not can_harvest():  # harvest last suspect
             if get_entity_type() != Entities.Pumpkin:
                 quick_print("- Last suspect died while last check thingy")
@@ -102,23 +104,28 @@ def pumpkin_smart(runs_to_do, run_counter=0):
                     quick_print(
                         "° Couldn't plant, fatal issue @pumpkin_smart's final harvest.")
                     return False
-            debate_watering(0.75)
+            try_water(0.75)
             try_fert()
         harvest()
         new_pumpkins = num_items(Items.Pumpkin)
-        expected_yield = (
-            (get_world_size() ** 3) * num_unlocked(Unlocks.Pumpkins)
-        )
-        actual_yield = new_pumpkins - old_pumpkins
-        if actual_yield != expected_yield:
+        new_weird = num_items(Items.Weird_Substance)
+        pumpkin_yield = new_pumpkins - old_pumpkins
+        weird_yield = new_weird - old_weird
+
+        if get_world_size() > 6:
+            expected_yield = 6 * get_world_size() ** 2
+        else:
+            expected_yield = get_world_size() ** 3
+        expected_yield *= 2 ** (num_unlocked(Unlocks.Pumpkins) - 1)  # Upgrades
+
+        if weird_yield + pumpkin_yield != expected_yield:
             quick_print("° Expected yield was: ", expected_yield, " pumpkins")
-            quick_print("° We have farmed ", actual_yield, " pumpkins.")
-            quick_print("° We farmed ", expected_yield - actual_yield, " less pumpkins than expected")
-            quick_print("° Seeds left:", num_items(Items.Pumpkin_Seed), "run #:", run_counter)
+            quick_print("° We have farmed ", pumpkin_yield, " pumpkins and ", weird_yield, "weird substance")
             quick_print("° Fertilizer unlocked?", 1 == num_unlocked(Unlocks.Fertilizer))
             return False
     return True
 
 
-while True:
-    quick_print("° This file should be run from method_tester.py")
+if __name__ == "__main__":
+    while True:
+        print("° This file should be run from method_tester.py")

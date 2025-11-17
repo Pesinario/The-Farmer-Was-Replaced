@@ -8,10 +8,7 @@ def enter_a_maze():
         if get_entity_type() != Entities.Bush:
             harvest()
             plant(Entities.Bush)
-        if num_items(Items.Fertilizer) < 25:  # Keep some for pumpkins
-            return False
-        else:
-            use_item(Items.Fertilizer)
+        use_item(Items.Weird_Substance, get_world_size() * (2 ** (num_unlocked(Unlocks.Mazes) - 1))) # Max size maze always
     return True
 
 
@@ -441,7 +438,7 @@ def maze_branch_based(runs_target):
 
     quick_print(
         "maze_branch_based called for", runs_target, "runs",
-        "with", num_items(Items.Fertilizer), "fertilizer available"
+        "with", num_items(Items.Weird_Substance), "Weird_Substance available"
     )
     # Finally: We solve mazes until we reach our maze count goal.
     runs_done = 0
@@ -452,14 +449,13 @@ def maze_branch_based(runs_target):
         go_to_treasure(treasure_location)
         treasure_location = measure()
         while get_entity_type() == Entities.Treasure:
-            # We don't actually use fertilizer if it doesn't work, huh
-            if num_items(Items.Fertilizer) < 1:
+            if num_items(Items.Weird_Substance) < 1:
                 quick_print(
                     "° Error @maze_branch_based,",
-                    "ran out of fertilizer in run #", runs_done + 1)
+                    "ran out of Weird_Substance in run #", runs_done + 1)
                 harvest()
                 return False
-            use_item(Items.Fertilizer)
+            use_item(Items.Weird_Substance, get_world_size() * (2 ** (num_unlocked(Unlocks.Mazes) - 1)))
         runs_done += 1
         quick_print("Finished maze run #", runs_done)
     go_to_treasure(treasure_location)
@@ -468,5 +464,6 @@ def maze_branch_based(runs_target):
     return True
 
 
-while True:
-    quick_print("° This file should be run from method_tester.py")
+if __name__ == "__main__":
+    while True:
+        print("° This file should be run from method_tester.py")

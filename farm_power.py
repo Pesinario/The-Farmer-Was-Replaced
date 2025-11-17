@@ -1,94 +1,58 @@
-from utils import debate_watering, till_this_many_tiles, wait_harv, smart_harv
-from navigation import walk_the_grid, navigate_smart, precalc
-from resource_management import acquire_seeds
+from utils import try_water, wait_harv
+from navigation import navigate_smart, precalc
 
 
-def reset_sunflowers():
-    navigate_smart([0, 0])
-    plant(Entities.Sunflower)
-    harvest()
-
-
-def old_method_sunflower(power_target):  # This method is deprecated
-    WORLD_TILE_COUNT = get_world_size()**2
-    till_this_many_tiles(WORLD_TILE_COUNT)
-    while True:
-        biggest = 0
-        acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT)
-        for _ in range(WORLD_TILE_COUNT):
-            plant(Entities.Sunflower)
-            debate_watering(0.75)
-            a = measure()
-            if a == None:
-                a = 0
-            if a > biggest:
-                biggest = a
-            walk_the_grid()
-        offset_biggest = biggest - 3
-
-        while biggest > offset_biggest:  # harvest
-            for _ in range(WORLD_TILE_COUNT):
-                if measure() == biggest:
-                    smart_harv()
-                walk_the_grid()
-            biggest = biggest - 1
-        reset_sunflowers()
-        if num_items(Items.Power) > power_target:
-            return True
-
-
-def sunflower_no_replanting(should_setup):
+def sunflower_no_replanting(should_till):
     my_record = {}
 
     for next_move in precalc:  # Initial setting up
-        if should_setup:
+        if should_till:
             harvest()
             if get_ground_type() != Grounds.Soil:
                 till()
-        debate_watering(0.5)
+        try_water(0.5)
         plant(Entities.Sunflower)
         petals = measure()
-        if petals in my_record:
+        if petals in my_record:  # If other sunflowers have the same number of petals
             petal_siblings = my_record.pop(petals)
             petal_siblings.append([get_pos_x(), get_pos_y()])
             my_record[petals] = petal_siblings
         elif petals == None:
             quick_print("° Some kind of error @ Sunflower Master")
-        else:
+        else:  # First sunflower with that number of petals
             my_record[petals] = [[get_pos_x(), get_pos_y()]]
         move(next_move)
 
     for i in range(9):  # harvest
-        offset_petal = 15 - i
-        if offset_petal in my_record:
-            siblings = my_record[offset_petal]
+        hunting_size = 15 - i
+        if hunting_size in my_record:
+            siblings = my_record[hunting_size]
             for sunflower in siblings:
                 navigate_smart(sunflower)
                 wait_harv()
 
 
-def get_power(power_target=0, initial=True):
+def get_power(power_target=0, need_tilling=True):
     WORLD_TILE_COUNT = get_world_size()**2
-    EXPECTED_POWER = {2: 18.31, 3: 46.97, 4: 73.63, 5: 126.14,
-                      6: 191.86, 7: 281.47, 8: 397.77, 9: 544.71}
-    expected_yield = EXPECTED_POWER[num_unlocked(Unlocks.Expand)]
+    expected_yield = WORLD_TILE_COUNT * 10 + (WORLD_TILE_COUNT - 10) * 5
     runs_to_fulfil = (power_target + 50) // expected_yield
-    acquire_seeds(Items.Sunflower_Seed, WORLD_TILE_COUNT * (runs_to_fulfil + 1))
+
     for _ in range(runs_to_fulfil + 1):
-        if num_items(Items.Sunflower_Seed) < WORLD_TILE_COUNT:
+        if WORLD_TILE_COUNT * get_cost(Entities.Sunflower)[Items.Carrot] > num_items(Items.Carrot):
             quick_print("° Seed issue @ get_power")
             return False
-        if initial:
+        if need_tilling:
+            change_hat(Hats.Sunflower_Hat)  # ;)
             sunflower_no_replanting(True)
-            initial = False
+            need_tilling = False
         else:
             sunflower_no_replanting(False)
-        # reset_sunflowers()
     if num_items(Items.Power) < power_target + 40:
         quick_print("° We farmed fewer sunflowers than we needed to.")
         return False
     return True
 
 
-while True:
-    quick_print("° This file should be run from method_tester.py")
+if __name__ == "__main__":
+    while True:
+        print("° This file should be run from method_tester.py")

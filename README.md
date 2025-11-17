@@ -15,6 +15,7 @@ It is a programming game where you use a **subset** of Python to automate farmin
 - Inlined statements (e.g., `else: return False`)
 
 ## About my repository (and its branches)
+- The `1.0` branch has the reworked code for the 1.0 release of The Farmer Was Replaced
 - The `jul-2024` branch has pretty much **all** of the code I made that is in use (and some older, unused code) for the game in legacy version `jul-2024`, accessible through the steam beta feature.
 - The `legacy` branch represents the state of the code slightly after successfully completing my first timed run, and only exists to watch how far the project has come.
 - The `dev` branch is where the more cutting edge features live, but they _may_ not be very stable, and no guarantees are given, it gets merged into `stable` every now and then.

@@ -1,12 +1,12 @@
-from utils import debate_watering, wait_harv, smart_harv, till_this_many_tiles
-from navigation import walk_the_grid, precalc
+from utils import try_water, wait_harv, smart_harv
+from navigation import precalc
 
 
 # Hay only:
-def harv_hay_dumb(hay_target):
+def hay_vertical(hay_target = num_items(Items.Hay) + 500000):
     for _ in range(get_world_size()):
         harvest()
-        if get_ground_type() != Grounds.Turf:
+        if get_ground_type() != Grounds.Grassland:
             till()
         move(North)
 
@@ -18,11 +18,10 @@ def harv_hay_dumb(hay_target):
         move(North)
     return True
 
-
 def hay_full_field(hay_target):
     for next_move in precalc:  # Initial setting up
         harvest()
-        if get_ground_type() != Grounds.Turf:
+        if get_ground_type() != Grounds.Grassland:
             till()
         move(next_move)
     while num_items(Items.Hay) < hay_target:
@@ -32,30 +31,13 @@ def hay_full_field(hay_target):
     return True
 
 
-
-# Wood only:
-def three_by_three_bush(wood_target):  # This farming method is deprecated
-    # initial setup:
-    for next_move in precalc:
-        harvest()
-        plant(Entities.Bush)
-        move(next_move)
-
-    while True:
-        if num_items(Items.Wood) > wood_target:
-            return True
-        for next_move in precalc:
-            wait_harv()
-            plant(Entities.Bush)
-            move(next_move)
-
-
+# Wood only
 def tree_and_bush(wood_target):
     while True:
         for next_move in precalc:
             pos_sum = get_pos_x() + get_pos_y()
             if pos_sum % 2 == 0:
-                debate_watering(0.5, False)
+                try_water(0.5)
                 smart_harv(True)
                 plant(Entities.Tree)
             else:
@@ -90,7 +72,6 @@ def one_by_three_bush_hay_wait(wood_target):
             wait_harv()
         plant(Entities.Bush)
         move(South)  # 2 -> 0
-
 
 def three_by_three_with_hay(wood_target):
     # this takes 73.56 seconds compared to the 61.22 seconds from three_by_three_bush()
@@ -130,55 +111,27 @@ def three_by_three_with_hay(wood_target):
 
 # Carrots only:
 def carrots_trusting(carrot_target):
-    WORLD_TILE_COUNT = get_world_size()**2
 
-    for next_move in precalc:  # Initial setting up
+    # Initial setup
+    for next_move in precalc:
         smart_harv(False)
         if get_ground_type() != Grounds.Soil:
             till()
-        plant(Entities.Carrots)
+        plant(Entities.Carrot)
         move(next_move)
+    change_hat(Hats.Carrot_Hat)  # ;)
 
-    while True:  # Main loop
-        if num_items(Items.Carrot) > carrot_target:
-            return True
-        elif num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
-            quick_print("° Seed issue @ carrots_trusting")
-            return False
+    while num_items(Items.Carrot) < carrot_target:  # Main loop
         for next_move in precalc:
             smart_harv()
-            plant(Entities.Carrots)
+            if not plant(Entities.Carrot):
+                quick_print("° Not enough wood/hay for carrot seeds @ carrots_trusting")
+                return False
             move(next_move)
-
-
-# Carrots and wood/hay:
-def carrots_ensure_seeds(carrot_target):  # This farming method is deprecated
-    WORLD_TILE_COUNT = get_world_size()**2
-    hay_tiles_per_carrot_tile = get_cost(Items.Carrot_Seed)[Items.Hay] / (
-        num_unlocked(Unlocks.Grass) + 1)
-    is_tilled = WORLD_TILE_COUNT / (1 + hay_tiles_per_carrot_tile) // 1
-
-    till_this_many_tiles(is_tilled, False)
-    not_tilled = WORLD_TILE_COUNT - is_tilled
-    for _ in range(not_tilled):
-        harvest()
-        if get_ground_type() == Grounds.Soil:
-            till()
-        walk_the_grid()
-    while True:
-        trade(Items.Carrot_Seed, is_tilled)  # we do NOT use acquire_seeds()
-        # because this farming method should farm its own wood and hay
-        for next_move in precalc:
-            smart_harv(False)
-            if get_ground_type() == Grounds.Soil:
-                if not plant(Entities.Carrots):
-                    plant(Entities.Bush)
-            move(next_move)
-        if num_items(Items.Carrot) > carrot_target:
-            return True
-
+    return True
 
 def carrot_three_by_three(carrot_target):
+    # This function does some hay farming while waiting for carrots to grow back
     CONST_WAIT_FOR_CARROTS = 3
 
     def h_p_and_m(direction, should_till=False):
@@ -186,7 +139,9 @@ def carrot_three_by_three(carrot_target):
         if should_till:
             if get_ground_type() != Grounds.Soil:
                 till()
-        plant(Entities.Carrots)
+        if not plant(Entities.Carrot):
+            quick_print("° Not enough wood/hay for carrot seeds @ carrot_three_by_three")
+            return False
         move(direction)
 
     def hay_and_continue():
@@ -206,13 +161,7 @@ def carrot_three_by_three(carrot_target):
     h_p_and_m(South, True)
     hay_and_continue()
 
-    while True:
-        if num_items(Items.Carrot) > carrot_target:
-            return True
-        elif num_items(Items.Carrot_Seed) < 7:
-            quick_print("Seed issue @ carrot_three_by_three()")
-            return False
-
+    while num_items(Items.Carrot) < carrot_target:
         for _ in range(2):
             h_p_and_m(South)
             h_p_and_m(South)
@@ -223,6 +172,15 @@ def carrot_three_by_three(carrot_target):
 
 # Poly farm almost always gets all three
 def poly_farm(priority_as_item, target_amount, exclusive=True):
+
+    WORLD_TILE_COUNT = get_world_size()**2
+    item_to_ent = {Items.Hay: Entities.Grass,
+                   Items.Carrot: Entities.Carrot,
+                   Items.Wood: Entities.Tree}
+    priority_as_entity = item_to_ent[priority_as_item]
+    companion_requests = {}
+    change_hat(Hats.Traffic_Cone)  # ;)
+
     def poly_grind_seed():
         quick_print("- grinding carrot seed requirements @poly_farm")
         for next_move in precalc:
@@ -231,53 +189,55 @@ def poly_farm(priority_as_item, target_amount, exclusive=True):
             current_pos = get_pos_x() + get_pos_y()
             if current_pos % 2 == 0:
                 plant(Entities.Tree)
-                debate_watering(0.75, False)
-                debate_watering(0.75, False)
-                debate_watering(0.75, False)
+                try_water(0.75)
+                try_water(0.75)
+                try_water(0.75)
             else:
                 plant(Entities.Grass)
             move(next_move)
 
-    # Initial setup:
-    WORLD_TILE_COUNT = get_world_size()**2
-    item_to_ent = {Items.Hay: Entities.Grass,
-                   Items.Carrot: Entities.Carrots,
-                   Items.Wood: Entities.Tree}
-    priority_as_entity = item_to_ent[priority_as_item]
-    companion_requests = {}
-    for next_move in precalc:
+    def comp_helper():
+        new_comp = get_companion()
+        if new_comp != None:
+            companion_requests[(new_comp[1][0], new_comp[1][1])] = new_comp[0]
+
+    for next_move in precalc:  # Initial setup:
         harvest()
         if get_ground_type() != Grounds.Soil:
             till()
         plant(priority_as_entity)
+        comp_helper()
         move(next_move)
 
     while True:  # Main loop
-        if num_items(Items.Carrot_Seed) < WORLD_TILE_COUNT:
-            if not trade(Items.Carrot_Seed, WORLD_TILE_COUNT):
-                poly_grind_seed()
-                if not trade(Items.Carrot_Seed, WORLD_TILE_COUNT):
-                    quick_print("° Something went wrong @poly_grind_seed")
+        needed_hay = get_cost(Entities.Carrot)[Items.Hay] *  WORLD_TILE_COUNT
+        needed_wood = get_cost(Entities.Carrot)[Items.Wood] * WORLD_TILE_COUNT
+        if priority_as_item == Items.Carrot and (
+            num_items(Items.Hay) < needed_hay or num_items(Items.Wood) < needed_wood
+            ):
+            poly_grind_seed()
 
         for next_move in precalc:  # Visit every tile once
             current_pos = (get_pos_x(), get_pos_y())
             smart_harv()
-            debate_watering(0.75, False)
+            try_water(0.75)
+
+            # What to plant
             if current_pos in companion_requests:
                 plant(companion_requests.pop(current_pos))
             else:
                 plant(priority_as_entity)
 
-            if get_entity_type() != priority_as_entity and exclusive:
-                move(next_move)
-                continue
-            new_comp = get_companion()
-            companion_requests[(new_comp[1], new_comp[2])] = new_comp[0]
+            # Do we add requests?
+            if get_entity_type() == priority_as_entity or not exclusive:
+                comp_helper()
+
             move(next_move)
 
         if num_items(priority_as_item) > target_amount:
             return True
 
 
-while True:
-    quick_print("° This file should be run from method_tester.py")
+if __name__ == "__main__":
+    while True:
+        print("° This file should be run from method_tester.py")

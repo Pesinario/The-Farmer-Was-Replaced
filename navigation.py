@@ -1,5 +1,4 @@
-def walk_the_grid():  # This is deprecated but is still used by some also
-    # deprecated farming methods.
+def listless_walker():
     if get_pos_y() != get_world_size() - 1:
         move(North)
     else:
@@ -9,7 +8,9 @@ def walk_the_grid():  # This is deprecated but is still used by some also
 
 def move_helper(direction, duration):
     for _ in range(duration):
-        move(direction)
+        if not move(direction):
+            return False
+    return True
 
 
 def navigate_dumber(target, current):
@@ -30,13 +31,18 @@ def navigate_dumb(target_x, target_y):  # This has no wrapping but also doesn't 
     must_x = target_x - get_pos_x()
     must_y = target_y - get_pos_y()
     if must_x > 0:
-        move_helper(East, must_x)
+        if not move_helper(East, must_x):
+            return False
     else:
-        move_helper(West, must_x * -1)
+        if not move_helper(West, must_x * -1):
+            return False
     if must_y > 0:
-        move_helper(North, must_y)
+        if not move_helper(North, must_y):
+            return False
     else:
-        move_helper(South, must_y * -1)
+        if not move_helper(South, must_y * -1):
+            return False
+    return True
 
 
 def return_moves_1d(me, target):
@@ -95,7 +101,7 @@ def precalc_world():
     return moves
 
 
-precalc = []
-
-while True:
-    quick_print("° This file should never be run by itself")
+precalc = precalc_world()
+if __name__ == "__main__":
+    while True:
+        print("° This file should never be run by itself")

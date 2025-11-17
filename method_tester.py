@@ -1,22 +1,8 @@
 from resource_management import grind_method
-from navigation import precalc_world
-
-ORDER_OF_GRIND = [
-    Items.Egg,
-    Items.Cactus,
-    Items.Gold,
-    Items.Pumpkin,
-    Items.Pumpkin,
-    Items.Power,
-    Items.Carrot,
-    Items.Wood,
-    Items.Hay]
 START_TIME = get_time()
 clear()
 # set_farm_size(7)
 # set_execution_speed(10)
-
-precalc = precalc_world()
 
 
 # To use or test any of the grinding functions, remove the "#"
@@ -51,7 +37,6 @@ grind_method(grind_target, num_items(grind_target) + WANTED_AMOUNT, True, True)
 # pumpkin_smart(10)
 
 # Power:
-# old_method_sunflower(num_items(Items.Power) + WANTED_AMOUNT)
 # get_power(num_items(Items.Power) + WANTED_AMOUNT)
 
 # Gold:

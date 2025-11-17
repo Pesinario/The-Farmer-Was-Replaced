@@ -82,17 +82,16 @@ def plant_cacti_grouped(length_of_farm):
 
 
 def ensure_cactus_seeds(caller):
-    if num_items(Items.Cactus_Seed) < get_world_size()**2:
-        if not trade(Items.Cactus_Seed,
-                     get_world_size()**2 - num_items(Items.Cactus_Seed)):
-            quick_print("° seed issue", caller)
-            return False
+    if num_items(Items.Pumpkin) < get_cost(Entities.Cactus)[Items.Pumpkin] * get_world_size()**2:
+        quick_print("° seed issue", caller)
+        return False
     return True
 
 
 def cactus_bubble(cactus_target):  # This farming method is deprecated,
     # as cactus_shaker() is faster by an amazing 2%!, I know, crazy.
     length_of_farm = get_world_size()
+    change_hat(Hats.Cactus_Hat)  # ;)
 
     def bubble_sort_one_line(dir_bw, dir_fw):
         did_swaps = 0
@@ -141,6 +140,7 @@ def cactus_bubble(cactus_target):  # This farming method is deprecated,
 
 def cactus_shaker(cactus_target):
     length_of_farm = get_world_size()
+    change_hat(Hats.Cactus_Hat)  # ;)
 
     # Nested function for better readability
     def martini(dir_bw, dir_fw):  # Get it? It's cocktail sort!
@@ -267,5 +267,6 @@ def cactus_shaker(cactus_target):
             return True
 
 
-while True:
-    quick_print("° This file should be run from method_tester.py")
+if __name__ == "__main__":
+    while True:
+        print("° This file should be run from method_tester.py")
