@@ -3,7 +3,7 @@ from farm_bones import snake_basic
 from farm_cactus import cactus_shaker
 from farm_gold import do_simple_maze_runs, maze_branch_based
 from farm_power import get_power
-from farm_pumpkins import pumpkin_smart
+from farm_pumpkins import pumpkin_smart, pumpkin_multi
 from farm_trifecta import hay_vertical, hay_full_field
 from farm_trifecta import tree_and_bush
 from farm_trifecta import one_by_three_bush_hay_wait, three_by_three_with_hay
@@ -109,6 +109,11 @@ def grind_trifecta(what, target_amount):
 
 
 def grind_pumpkins(target_amount):
+    if max_drones ==1:
+        method = pumpkin_smart
+    else:
+        method = pumpkin_multi
+
     MAX_RUNS_ALLOWED = 9  # To prevent buying a huge amount of extra seeds.
     # We split our seed acquisition (and grind) to a maximum of 10.
     SEEDS_99_PERCENT = {2: 17, 3: 27, 4: 40,
@@ -122,7 +127,7 @@ def grind_pumpkins(target_amount):
     pumpkin_run_tracker = 0
     while needed_runs > MAX_RUNS_ALLOWED:
         grind_method(Items.Carrot, MAX_RUNS_ALLOWED * seeds_per_run * get_cost(Entities.Pumpkin)[Items.Carrot])
-        if not pumpkin_smart(MAX_RUNS_ALLOWED, pumpkin_run_tracker):
+        if not method(MAX_RUNS_ALLOWED, pumpkin_run_tracker):
             quick_print('° Error @grind_pumpkins during run splitting')
             return False
         needed_runs -= MAX_RUNS_ALLOWED
@@ -134,7 +139,7 @@ def grind_pumpkins(target_amount):
     quick_print('$ I have:', num_items(Items.Carrot), "For: ",
                 needed_runs, "Runs at expand size",
                 num_unlocked(Unlocks.Expand))
-    if not pumpkin_smart(needed_runs, pumpkin_run_tracker):
+    if not method(needed_runs, pumpkin_run_tracker):
         quick_print('° Error @grind_pumpkins near the end')
         return False
 
