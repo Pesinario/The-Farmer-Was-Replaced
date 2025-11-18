@@ -2,8 +2,10 @@ from navigation import move_helper, navigate_smart, precalc
 
 
 def results_expected():
-    expected_yield = num_unlocked(Unlocks.Cactus) * get_world_size()**3
+    expected_yield = (2 ** (num_unlocked(Unlocks.Cactus) - 1)) * get_world_size()**4
     old_cactus = num_items(Items.Cactus)
+    while num_drones() > 1:
+        do_a_flip()  # Wait for sorting to complete
     harvest()
     new_cactus = num_items(Items.Cactus)
     actual_yield = new_cactus - old_cactus
@@ -51,10 +53,9 @@ def till_and_plant_cacti():
         move(next_move)
 
 
-def plant_cacti_grouped(length_of_farm):
-
+def decide_planting_strategy(length_of_farm):
     def plant_three_lines(dir_fw, dir_left, dir_right):
-        for _ in range(get_world_size()):
+        for _ in range(length_of_farm):
             plant(Entities.Cactus)
             swap(dir_left)
             plant(Entities.Cactus)
@@ -63,22 +64,76 @@ def plant_cacti_grouped(length_of_farm):
             move(dir_fw)
 
     def plant_single_line(dir_fw):
-        for _ in range(get_world_size()):
+        for _ in range(length_of_farm):
             plant(Entities.Cactus)
             move(dir_fw)
 
-    my_y = 0
-    while my_y < length_of_farm:  # up to y = 9 in 10x10
-        if my_y < length_of_farm - 3:  # up to y = 7 in 10x10
-            move(North)  # Place us in the middle
-            plant_three_lines(East, North, South)
-            move(North)  # Move the the most northern line planted
-            move(North)  # Move to non-planted line
-            my_y += 3
-        else:
-            plant_single_line(East)
-            move(North)
-            my_y += 1
+    def plant_cacti_alone(length_of_farm):
+        my_y = 0
+        while my_y < length_of_farm:  # up to y = 9 in 10x10
+            if my_y < length_of_farm - 3:  # up to y = 7 in 10x10
+                move(North)  # Place us in the middle
+                plant_three_lines(East, North, South)
+                move(North)  # Move the the most northern line planted
+                move(North)  # Move to non-planted line
+                my_y += 3
+            else:
+                plant_single_line(East)
+                move(North)
+                my_y += 1
+
+    def plant_cacti_multi_smart(length_of_farm):
+        drones_1d = max_drones()
+        drones_2d = 0
+        rows_remaining = length_of_farm
+        start_at_row = 0
+
+        while rows_remaining > drones_1d:
+            drones_1d -= 1
+            drones_2d += 1
+
+            def task(hat=Hats.Cactus_Hat):
+                quick_print("task defined in 2d")
+                change_hat(hat)  # ;)
+                navigate_smart((start_at_row + 1, 0))  # Ensure starting position
+                plant_three_lines(North, West, East)
+
+            if not spawn_drone(task):
+                task(Hats.Wizard_Hat)
+            rows_remaining -= 3
+            start_at_row += 3
+
+        # Now we run 1d drones for the remaining columns
+        for _ in range(rows_remaining):
+            def task(hat = Hats.Cactus_Hat):  # pylint: disable=[E0102]
+                quick_print("task defined in 1d")
+                change_hat(hat)  # ;)
+                navigate_smart((start_at_row, 0))  # Ensure starting position
+                plant_single_line(North)
+
+            if not spawn_drone(task):
+                task(Hats.Wizard_Hat)
+            start_at_row += 1
+
+
+    def plant_cacti_multi_1d(length_of_farm):
+        navigate_smart((0,0))
+        for _ in range(length_of_farm):
+            def task(hat = Hats.Cactus_Hat):
+                change_hat(hat)  # ;)
+                plant_single_line(North)
+
+            if not spawn_drone(task):
+                task(Hats.Wizard_Hat)
+            move(East)
+
+
+    if max_drones() == 1:
+        plant_cacti_alone(length_of_farm)
+    elif max_drones() >= length_of_farm:
+        plant_cacti_multi_1d(length_of_farm)
+    else:
+        plant_cacti_multi_smart(length_of_farm)
 
 
 def ensure_cactus_seeds(caller):
@@ -88,7 +143,7 @@ def ensure_cactus_seeds(caller):
     return True
 
 
-def cactus_bubble(cactus_target):  # This farming method is deprecated,
+def cactus_bubble(cactus_target, is_first=True):  # This farming method is deprecated,
     # as cactus_shaker() is faster by an amazing 2%!, I know, crazy.
     length_of_farm = get_world_size()
     change_hat(Hats.Cactus_Hat)  # ;)
@@ -105,7 +160,6 @@ def cactus_bubble(cactus_target):  # This farming method is deprecated,
             move(dir_fw)
         return did_swaps
 
-    is_first = True
     while True:  # Main script loop
         navigate_smart([0, 0])
         if not ensure_cactus_seeds("@cactus_bubble"):
@@ -115,7 +169,7 @@ def cactus_bubble(cactus_target):  # This farming method is deprecated,
             is_first = False
         else:  # Now that we can assume the ground to be tilled, we can go
             # (potentially) faster, not sure if it's actually faster or not
-            plant_cacti_grouped(length_of_farm)
+            decide_planting_strategy(length_of_farm)
 
         # sort the rows
         for x in range(length_of_farm):  # pylint: disable=[W0612]
@@ -138,7 +192,7 @@ def cactus_bubble(cactus_target):  # This farming method is deprecated,
             return True
 
 
-def cactus_shaker(cactus_target):
+def cactus_shaker(cactus_target, is_first=True):
     length_of_farm = get_world_size()
     change_hat(Hats.Cactus_Hat)  # ;)
 
@@ -241,7 +295,6 @@ def cactus_shaker(cactus_target):
             if last_tile in not_sorted:
                 not_sorted.remove(last_tile)  # We never want to go to the edge
 
-    is_first = True
     while True:  # Main script loop
         navigate_smart([0, 0])
         if not ensure_cactus_seeds("@cactus_shaker"):
@@ -251,15 +304,26 @@ def cactus_shaker(cactus_target):
             is_first = False
         else:  # Now that we can assume the ground to be tilled, we can go
             # (potentially) faster, not sure if it's actually faster or not
-            plant_cacti_grouped(length_of_farm)
+            decide_planting_strategy(length_of_farm)
 
         for row_number in range(length_of_farm):
-            navigate_smart([1, row_number])
-            martini(West, East)
+            def task(hat=Hats.Cactus_Hat):
+                change_hat(hat)  # ;)
+                navigate_smart([1, row_number])  # pylint: disable=[W0640]
+                martini(West, East)
+            if not spawn_drone(task):
+                task(Hats.Wizard_Hat)
 
-        for column_number in range(length_of_farm):
-            navigate_smart([column_number, 1])
-            martini(South, North)
+        while num_drones() > 1:
+            do_a_flip()  # Wait for row sorting
+
+        for column_number in range(length_of_farm):  # TODO: keep record of latest drone
+            def task(hat=Hats.Cactus_Hat):  # pylint: disable=[E0102]
+                change_hat(hat)  # ;)
+                navigate_smart([column_number, 1])  # pylint: disable=[W0640]
+                martini(South, North)
+            if not spawn_drone(task):
+                task(Hats.Wizard_Hat)
 
         if not results_expected():
             return False
