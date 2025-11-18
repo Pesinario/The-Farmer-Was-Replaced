@@ -109,7 +109,7 @@ def grind_trifecta(what, target_amount):
 
 
 def grind_pumpkins(target_amount):
-    if max_drones ==1:
+    if max_drones() ==1:
         method = pumpkin_smart
     else:
         method = pumpkin_multi
