@@ -22,6 +22,9 @@ ORDER_OF_GRIND = [
     Items.Hay]
 
 def grind_method(what, target_amount, boost=True, is_test=False):
+    if num_items(what) > target_amount:
+        return True
+
     random_id = random()
     if not is_test:
         quick_print("+ Now grinding:", what, "up to:", target_amount,
