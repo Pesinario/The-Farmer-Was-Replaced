@@ -1,5 +1,5 @@
 from utils import wait_harv, time_stamp
-from farm_bones import snake_basic
+from farm_bones import prepare_dinosaurs, snake_basic
 from farm_cactus import cactus_shaker
 from farm_gold import do_simple_maze_runs, maze_branch_based
 from farm_power import get_power
@@ -197,6 +197,10 @@ def grind_cacti(target_amount):
 
 def grind_bones(target_amount):  # TODO: check for cactus before starting
     ensure_power()
+    while num_items(Items.Bone) < target_amount:
+        prepare_dinosaurs()
+        snake_basic(target_amount)
+        clear()
     return snake_basic(target_amount)
 
 def ensure_power(how_much=None):
